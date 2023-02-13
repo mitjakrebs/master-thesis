@@ -1,0 +1,31 @@
+#+TITLE: Congestion-Free Network Updates: Algorithms and Complexity
+
+#+LATEX_HEADER: \usepackage{amsthm}
+
+#+LATEX_HEADER: \theoremstyle{plain}
+#+LATEX_HEADER: \newtheorem{thm}{Theorem}
+#+LATEX_HEADER: \newtheorem{corollary}[thm]{Corollary}
+#+LATEX_HEADER: \newtheorem{lem}[thm]{Lemma}
+
+#+LATEX_HEADER: \theoremstyle{definition}
+#+LATEX_HEADER: \newtheorem{defn}[thm]{Definition}
+#+LATEX_HEADER: \newtheorem{notation}[thm]{Notation}
+
+#+LATEX_HEADER: \theoremstyle{remark}
+#+LATEX_HEADER: \newtheorem{remark}[thm]{Remark}
+
+* Introduction
+
+* \(\textbf{NP}\)-Hardness for \(k=3\)
+
+\begin{defn}
+Lul.
+\end{defn}
+
+\begin{lem}
+Hehe.
+\end{lem}
+
+\begin{thm}
+The \(k\)-network flow update problem is \(\textbf{NP}\)-hard for \(k=3\).
+\end{thm}
