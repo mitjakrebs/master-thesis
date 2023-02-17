@@ -1,0 +1,46 @@
+#+TITLE: Congestion-Free Network Updates: Algorithms and Complexity
+
+I would like to try to write my thesis using [[https://orgmode.org/][Org Mode]], an Emacs major mode, which has great LaTeX support.
+
+* How to read the thesis
+
+See the [[./paper/main.pdf][=pdf= file]].
+
+* How to submit comments or feedback
+
+The [[./paper/main.tex][=tex= file]] is generated from the [[./paper/main.org][=org= file]], so please do not edit the former and feel free to edit the latter.
+
+* TODO
+
+- [ ] If we [[id:3C1989CF-493E-4F7B-A1D2-F42E84E6D4CC][redefine]] blocks, then we have to either
+
+  - prove that our definition is equivalent to the definition in [cite:@amiri2019polynomialtime], or
+
+  - redo the proofs for Lemmas 1 and 2 in [cite:@amiri2019polynomialtime].
+
+* Open problems
+
+** A better characterization of blocks
+:PROPERTIES:
+:ID:       3C1989CF-493E-4F7B-A1D2-F42E84E6D4CC
+:END:
+
+A major point of friction has been arguing about blocks, in particular if we want to transform update flow network \(G\) into update flow network \(G'\) and relate blocks in \(G\) to blocks in \(G'\) and vice versa.
+I suspect there is a beautiful characterization of blocks that would significantly reduce this friction, but I haven't found it yet.
+
+The definition of blocks in [cite:@amiri2019polynomialtime] fixes an arbitrary topological sorting \(<\), computes the set of vertices \(V(P^o\cap P^u)\) ordered w.r.t. \(<\), and then computes the set of blocks using \(<\) and \(V(P^o\cap P^u)\).
+Since the topological sorting is arbitrary, it isn't obvious--to me--from the definition alone that the set of blocks is unique.
+
+My current definition (coming soon!) computes the reachability relation \(\leq\), then computes the set of vertices \(V(P^o\cap P^u)\) ordered w.r.t. \(\leq\), and finally computes the set of blocks using \(\leq\) and \(V(P^o\cap P^u)\).
+I find the reachability relation more intuitive than an arbitrary topological sorting, but the definition is very similar to the one above, in particular because every topological sorting is a linear extension of the reachability relation.
+
+A major problem--I think--with both of the above definitions is that they are algorithmic:
+In order to verify that a set \(B\) is the set of blocks of flow update network \(G\), we basically have to prove that \(B\) is the output of the algorithm specified in the respective definition.
+I would rather have a more graph-theoretic characterization à la "A set \(B\) is the set of blocks of flow update network \(G\) if it satisfies the following two conditions ...".
+As a pointer, I'm confident that every block is a union of weak components, but I haven't managed to get anywhere with this.
+
+** The set of blocks of an update flow network is actually a multiset
+
+If we define a block as a set of vertices, that is, without storing the corresponding flow pair, then two blocks corresponding to different flow pairs may be equal.
+Hence the set of all blocks is a multiset.
+So we need to either declare it as such or redefine blocks.
