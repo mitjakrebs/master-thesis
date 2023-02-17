@@ -23,7 +23,7 @@ The [[./paper/main.tex][tex file]] is generated from the [[./paper/main.org][org
 
 ** A better characterization of blocks
 
-A major point of friction has been arguing about blocks, in particular if we want to transform update flow network $G$ into update flow network $G'$ and relate blocks in $G$ to blocks in $G'$ and vice versa.
+A major point of friction so far has been arguing about blocks, in particular if we want to transform update flow network $G$ into update flow network $G'$ and relate blocks in $G$ to blocks in $G'$ and vice versa.
 I suspect there is a beautiful characterization of blocks that would significantly reduce this friction, but I haven't found it yet.
 
 The definition of blocks in [cite:@amiri2019polynomialtime] fixes an arbitrary topological sorting $<$, computes the set of vertices $V(P^o\cap P^u)$ ordered w.r.t. $<$, and then computes the set of blocks using $<$ and $V(P^o\cap P^u)$.
@@ -34,6 +34,7 @@ I find the reachability relation more intuitive than an arbitrary topological so
 
 A major problem--I think--with both of the above definitions is that they are algorithmic:
 In order to verify that a set $B$ is the set of blocks of flow update network $G$, we basically have to prove that $B$ is the output of the algorithm specified in the respective definition.
+
 I would rather have a more graph-theoretic characterization à la "A set $B$ is the set of blocks of flow update network $G$ if it satisfies the following two conditions ...".
 As a pointer, I'm confident that every block is a union of weak components, but I haven't managed to get anywhere with this.
 
