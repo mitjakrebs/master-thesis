@@ -1,4 +1,4 @@
-% Created 2023-02-17 Fri 17:48
+% Created 2023-02-17 Fri 20:42
 % Intended LaTeX compiler: pdflatex
 \documentclass[fontsize=11pt,paper=a4]{book}
 \usepackage[utf8]{inputenc}
@@ -32,52 +32,52 @@
 \caption{Table of notations}
 \centering
 \begin{tabular}{ll}
-\hyperref[org5611292]{\(b(v,P)\)} & The \(P\)-block containing vertex \(v\)\\[0pt]
-\hyperref[org6e70c40]{\(B^P(G)\)} & The set of \(P\)-blocks\\[0pt]
-\hyperref[org2d9ed81]{\(B(G)\)} & The set of blocks\\[0pt]
-\hyperref[orge8cadd8]{\(\mathcal{B}(b)\)} & The round in which block \(b\) is updated\\[0pt]
-\hyperref[org99dba3a]{\(\mathcal{B}(v,P)\)} & The round in which block \(b(v,P)\) is updated\\[0pt]
-\hyperref[org56dcc69]{\(B_i\)} & The set of blocks updated before or in the \(i\)-th round\\[0pt]
+\hyperref[org999ae9c]{\(b(v,P)\)} & The \(P\)-block containing vertex \(v\)\\[0pt]
+\hyperref[org00a7a1f]{\(B^P(G)\)} & The set of \(P\)-blocks\\[0pt]
+\hyperref[orgf362631]{\(B(G)\)} & The set of blocks\\[0pt]
+\hyperref[orge2d4dec]{\(\mathcal{B}(b)\)} & The round in which block \(b\) is updated\\[0pt]
+\hyperref[orgb2a96fb]{\(\mathcal{B}(v,P)\)} & The round in which block \(b(v,P)\) is updated\\[0pt]
+\hyperref[orga242d7e]{\(B_i\)} & The set of blocks updated before or in the \(i\)-th round\\[0pt]
  & \\[0pt]
 \end{tabular}
 \end{table}
 
 \part{Preliminaries}
-\label{sec:org8be0682}
+\label{sec:org408641c}
 
 \begin{notation}
 For a flow pair \(P\) and a vertex \(v\in V(P)\), \(b(v,P)\) denotes the \(P\)-block containing \(v\).
-\label{org5611292}
+\label{org999ae9c}
 \end{notation}
 
 \begin{notation}
 For an update flow network \(G\) and a flow pair \(P\), \(B^P(G)\) denotes the set of \(P\)-blocks.
-\label{org6e70c40}
+\label{org00a7a1f}
 \end{notation}
 
 \begin{notation}
 For an update flow network \(G\), \(B(G)=\bigcup_{P\in\mathcal{P}}B^P(G)\)
-\label{org2d9ed81}
+\label{orgf362631}
 \end{notation}
 
 \begin{defn}
 A \emph{block sequence} \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) is an ordered partition of the set of blocks.
-\label{org85175c2}
+\label{orgced51d4}
 \end{defn}
 
 \begin{notation}
 For a block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) and a block \(b\), \(\mathcal{B}(b)\) denotes the index \(i\in[\ell]\) such that \(b\) is contained in \(\mathscr{B}_i\).
-\label{orge8cadd8}
+\label{orge2d4dec}
 \end{notation}
 
 \begin{notation}
 For a block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\), a flow pair \(P\), and a vertex \(v\in V(P)\), \(\mathcal{B}(v,P)=\mathcal{B}(b(v,P))\) denotes the index \(i\in[\ell]\) such that block \(b(v,P)\) is contained in \(\mathscr{B}_i\).
-\label{org99dba3a}
+\label{orgb2a96fb}
 \end{notation}
 
 \begin{notation}
 For a block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) and an index \(i\in[\ell]\), \(B_i=\bigcup_{j\leq i}\mathscr{B}_j\) denotes the set of blocks updated before or in the \(i\)-th round.
-\label{org56dcc69}
+\label{orga242d7e}
 \end{notation}
 
 \begin{defn}
@@ -89,7 +89,7 @@ For a flow pair \(P\), an edge \((u,v)\in E(P^o\cup P^u)\), and an index \(i\in[
 \mathrm{active} & \text{if }(u,v)\in E(P^u)\text{ and }b(u,P)\in B_i\\
 \mathrm{inactive} & \text{otherwise}.
 \end{cases}\]
-\label{org5295a66}
+\label{org1921134}
 \end{defn}
 
 \begin{lem}
@@ -113,67 +113,67 @@ Then:
    \mathrm{inactive} & i<\mathcal{B}(u,P).
    \end{cases}\]
 \end{enumerate}
-\label{org6b790d7}
+\label{org460d5ac}
 \end{lem}
 
 \begin{defn}
 A block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) is \emph{feasible} if for every edge \(e\) and every index \(i\in[\ell]\),
 \begin{equation}
 c(e)\(\ge \sum\)\textsubscript{P\(\in\)\mathcal{P}:\(\alpha\)\textsubscript{P}(e,B\textsubscript{i-1})=\mathrm{active}\text{ or }\(\alpha\)\textsubscript{P}(e,B\textsubscript{i})=\mathrm{active}}d\textsubscript{P},
-\label{org8070f03}
+\label{orgbe7f049}
 \end{equation}
 where we define \(\mathscr{B}_0=\emptyset\).
-\label{orge1a853d}
+\label{orgc2da00b}
 \end{defn}
 
 \begin{remark}
 Let \(G\) be an update flow network with unit demand equal to \(1\), that is, \(d_P=1\) for every flow pair \(P\), and let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a block sequence.
-Then, for every edge \(e\) and every index \(i\in[\ell]\), capacity constraint \ref{org8070f03} simplifies to:
+Then, for every edge \(e\) and every index \(i\in[\ell]\), capacity constraint \ref{orgbe7f049} simplifies to:
 \begin{align*}
 c(e)
 &\geq\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P\\
 &=\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}1\\
 &=\lvert\{P\in\mathcal{P}\mid\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}\}\rvert.
 \end{align*}
-\label{org31f9978}
+\label{org6136b38}
 \end{remark}
 
 \begin{corollary}
 There is a feasible block sequence iff there is a feasible update sequence.
-\label{orged5cf81}
+\label{org9e35157}
 \end{corollary}
 
 \part{\(\textbf{NP}\)-Hardness for \(k=3\)}
-\label{sec:org2cb88e8}
+\label{sec:orgb0e9300}
 
 The goal of this section is to prove the following theorem.
 
 \begin{thm}
 The \(k\)-network flow update problem is \(\textbf{NP}\)-hard for \(k=3\).
-\label{org7f47b71}
+\label{orgb42c6b4}
 \end{thm}
 
 We will prove this theorem in two steps. First, we will prove the following theorem.
 
 \begin{thm}
 The \(k\)-network flow update problem, where every edge is used by at most three flow pairs, is \(\textbf{NP}\)-hard for \(k=10\).
-\label{orgea6d1e6}
+\label{org0eb0eea}
 \end{thm}
 
-Then, we will (repeatedly) apply the following lemma to the flow update network we will have constructed in the proof of Theorem \ref{orgea6d1e6} to reduce the number of flow pairs from \(10\) to \(3\).
+Then, we will (repeatedly) apply the following lemma to the flow update network we will have constructed in the proof of Theorem \ref{org0eb0eea} to reduce the number of flow pairs from \(10\) to \(3\).
 
 \begin{lem}
 Hehe.
-\label{orgc1908b1}
+\label{org2639136}
 \end{lem}
 
 \chapter{\(\textbf{NP}\)-Hardness for the Special Case}
-\label{sec:org8eb8156}
+\label{sec:org4bc5e37}
 
-The proof of Theorem \ref{orgea6d1e6} is via reduction from \(\textsf{4-SAT}\) and is based on the \(\textbf{NP}\)-hardness proof for \(k=6\) in (Amiri, Saeed A. and Dudycz, Szymon and Parham, Mahmoud and Schmid, Stefan and Wiederrecht, Sebastian, 2019).
+The proof of Theorem \ref{org0eb0eea} is via reduction from \(\textsf{4-SAT}\) and is based on the \(\textbf{NP}\)-hardness proof for \(k=6\) in (Amiri, Saeed A. and Dudycz, Szymon and Parham, Mahmoud and Schmid, Stefan and Wiederrecht, Sebastian, 2019).
 
 \section{The Reduction}
-\label{sec:org0ef05a0}
+\label{sec:orgc990ae4}
 
 Let \(C\) be a 4CNF formula with \(n\) variables \(x_1,\dots,x_n\) and \(m\) clauses \(C_1,\dots,C_m\).
 W.l.o.g. every variable occurs both positively and negatively (otherwise, if a variable \(x_j\) occurs only positively (negatively), we can assign \(1\) (\(0\)) to \(x_j\) and remove all clauses containing literal \(x_j\) (\(\bar{x}_j\))).
@@ -185,12 +185,12 @@ Finally, we take the remaining steps necessary to ensure that \(G\) is indeed a 
 \paragraph{Clause gadgets.}
 Let \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\) be a clause.
 We construct the corresponding clause gadget \(C^i\) as follows.
-The idea is to model the syntax tree for \(C_i\) depicted in Figure \ref{fig:org407a649}.
+The idea is to model the syntax tree for \(C_i\) depicted in Figure \ref{fig:org20ebcd1}.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-14 at 15.05.37.png}
-\caption{\label{fig:org407a649}A syntax tree for clause \((l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\)}
+\caption{\label{fig:org20ebcd1}A syntax tree for clause \((l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\)}
 \end{figure}
 
 For the root operator node, we introduce a \emph{clause vertex} \(u^i\) which is used by three flow pairs \(L,R,B\).
@@ -205,12 +205,12 @@ Moreover, for the operand nodes of the syntax tree, we introduce \emph{literal v
 
 Finally, for every branch from a parent node to its left (right) child node, we add an edge to either \(L\) (\(R\)) (if the parent node is \(u^i\)) or \(\tilde{L}\) (\(\tilde{R}\)) (if the parent node is \(u_{1,2}^i\) or \(u_{3,4}^i\)).
 
-We now proceed with the detailed specification of clause gadget \(C^i\) (see Figure \ref{fig:org5b5792f}).
+We now proceed with the detailed specification of clause gadget \(C^i\) (see Figure \ref{fig:orgd02ab13}).
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-14 at 15.07.03.png}
-\caption{\label{fig:org5b5792f}Clause gadget \(C^i\)}
+\caption{\label{fig:orgd02ab13}Clause gadget \(C^i\)}
 \end{figure}
 
 We introduce six flow pairs \(L,R,B,\tilde{L},\tilde{R},\tilde{B}\), each with demand \(1\).
@@ -244,12 +244,12 @@ We introduce a \emph{variable vertex} \(x^j\) which is used by three flow pairs 
 \item Not both \(b(x^j,X)\) and \(b(x^j,\bar{X})\) can be updated before \(b(x^j,B)\).
 \end{enumerate}
 
-We now proceed with the detailed specification of variable gadget \(X^j\) (see Figure \ref{fig:org59b2466}).
+We now proceed with the detailed specification of variable gadget \(X^j\) (see Figure \ref{fig:orgba575d1}).
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-14 at 15.06.35.png}
-\caption{\label{fig:org59b2466}Variable gadget \(X^j\)}
+\caption{\label{fig:orgba575d1}Variable gadget \(X^j\)}
 \end{figure}
 
 We introduce two flow pairs \(X,\bar{X}\), each with demand \(1\).
@@ -285,17 +285,16 @@ We introduce vertices \(s,t\) and create (\(s,t\))-paths for all flows by adding
 \item \((s,x_1^1)\), \((y_1^j,x_1^{j+1})\) for every \(j\in[n-1]\), and \((y_1^n,t)\) to \(B_1^o,B_1^u\)
 \end{itemize}
 
-See Figure \ref{fig:orga75fbf5} for the complete update flow network.
-See Table \ref{tab:org0792dc7} for all (\(s,t\))-flows.
+See Figure \ref{fig:org01cc568} for the complete update flow network, Table \ref{tab:org8697bab} for all (\(s,t\))-flows, and Table \ref{tab:org10b898a} for the set of blocks grouped by flow pair.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-14 at 15.08.01.png}
-\caption{\label{fig:orga75fbf5}The update flow network}
+\caption{\label{fig:org01cc568}The update flow network}
 \end{figure}
 
 \begin{table}[htbp]
-\caption{\label{tab:org0792dc7}All (\(s,t\))-flows}
+\caption{\label{tab:org8697bab}All (\(s,t\))-flows}
 \centering
 \begin{tabular}{ll}
 Flow & (\(s,t\))-path\\[0pt]
@@ -344,7 +343,7 @@ Edge capacities are defined as follows.
 We remark that vertices \(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i,\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i\) are not necessary for this proof.
 Instead, we could directly connect clause vertices \(u^i,u_{1,2}^i\) via flow pair \(L\) and \(u^i,u_{3,4}^i\) via \(R\). Similarly, vertices \(x_0^j,y_0^j,x_1^j,y_1^j\) as well as flow pairs \(B_0,B_1\) are not necessary.
 We could instead directly connect variable vertex \(x^j\) to literal vertex, say \(u_1^i\), via \(X\) (\(\bar{X}\)) if \(l_{i_1}=x_j\) (\(l_{i_1}=\bar{x}_j\)).
-The vertices and flow pairs are necessary, however, for the proof of Theorem \ref{org7f47b71}.
+The vertices and flow pairs are necessary, however, for the proof of Theorem \ref{orgb42c6b4}.
 
 Let us quickly verify that \(G\) is indeed a feasible update flow network.
 
@@ -353,7 +352,7 @@ Let us quickly verify that \(G\) is indeed a feasible update flow network.
 \end{itemize}
 
 \begin{table}[htbp]
-\caption{\label{tab:orgd3cec77}All blocks grouped by flow pair}
+\caption{\label{tab:org10b898a}All blocks grouped by flow pair}
 \centering
 \begin{tabular}{lll}
 \(P\) & \(V(P^o\cap P^u)\) ordered w.r.t. \(\leq_{P^o\cup P^u}\) & \(B^P(G)\)\\[0pt]
@@ -413,9 +412,9 @@ Let us quickly verify that \(G\) is indeed a feasible update flow network.
 \end{table}
 
 \section{The Proof}
-\label{sec:org3963ee4}
+\label{sec:orgbfd81da}
 
-Before we prove Theorem \ref{orgea6d1e6}, let us show that every feasible block sequence for the update flow network specified in the previous section satisfies the following properties.
+Before we prove Theorem \ref{org0eb0eea}, let us show that every feasible block sequence for the update flow network specified in the previous section satisfies the following properties.
 
 \begin{lem}
 Let \(\mathcal{B}\) be a feasible block sequence for update flow network \(G\). Then:
@@ -477,14 +476,14 @@ For every \(j\in[n]\),
 \(\mathcal{B}(x^j,X)<\mathcal{B}(x_1^j,B_1)\).
 \end{enumerate}
 \end{enumerate}
-\label{org6310503}
+\label{org34ee630}
 \end{lem}
 
 \begin{proof}
 We show every property by contradiction.
 More precisely, for every property, we assume it doesn't hold and then obtain an edge and a round such that the corresponding capacity constraint is violated, which contradicts the feasibility of block sequence \(\mathcal{B}\).
 
-Since every flow pair has demand \(1\), we may use \ref{org31f9978} to argue about capacity constraints.
+Since every flow pair has demand \(1\), we may use \ref{org6136b38} to argue about capacity constraints.
 
 \paragraph{\ref{itm:lem-feasible-block-sequence-properties-1}, \ref{itm:lem-feasible-block-sequence-properties-3}.}
 We only show \ref{itm:lem-feasible-block-sequence-properties-1}; the proofs for \ref{itm:lem-feasible-block-sequence-properties-3-1} and \ref{itm:lem-feasible-block-sequence-properties-3-2} are analogous.
@@ -550,10 +549,10 @@ Hence
 \end{align*}
 \end{proof}
 
-We are now ready to prove Theorem \ref{orgea6d1e6}.
+We are now ready to prove Theorem \ref{org0eb0eea}.
 
 \begin{proof}[Proof of Theorem [[thm:np-hardness-special-case]]]
-We show that there is a satisfying assignment \(\sigma\) for 4CNF formula \(C\) iff there is a feasible block sequence \(\mathcal{B}\) for the corresponding update flow network \(G\), which, by Corollary \ref{orged5cf81}, is the case iff there is a feasible update sequence for \(G\).
+We show that there is a satisfying assignment \(\sigma\) for 4CNF formula \(C\) iff there is a feasible block sequence \(\mathcal{B}\) for the corresponding update flow network \(G\), which, by Corollary \ref{org9e35157}, is the case iff there is a feasible update sequence for \(G\).
 We will choose \(\sigma\), \(\mathcal{B}\), respectively, such that \(\sigma\) assigns \(1\) to variable \(x_j\) iff \(\mathcal{B}(x^j,\bar{X})>\mathcal{B}(x^1,B)\).
 
 \paragraph{Only-if part.}
@@ -566,19 +565,19 @@ Let \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\) be a clause.
 We show that \(\sigma\) satisfies \(C_i\) by obtaining a literal that evaluates to \(1\).
 
 Consider round \(\mathcal{B}(x^1,B)\).
-By Lemma \ref{org6310503} \ref{itm:lem-feasible-block-sequence-properties-1}, \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,L)\) or \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,R)\).
+By Lemma \ref{org34ee630} \ref{itm:lem-feasible-block-sequence-properties-1}, \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,L)\) or \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,R)\).
 We only consider the former case \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,L)\); the latter one is analogous.
 
-By Lemma \ref{org6310503} \ref{itm:lem-feasible-block-sequence-properties-2-1}, \(\mathcal{B}(u^i,L)>\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})\).
-By Lemma \ref{org6310503} \ref{itm:lem-feasible-block-sequence-properties-3-1}, \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{L})\) or \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{R})\).
+By Lemma \ref{org34ee630} \ref{itm:lem-feasible-block-sequence-properties-2-1}, \(\mathcal{B}(u^i,L)>\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})\).
+By Lemma \ref{org34ee630} \ref{itm:lem-feasible-block-sequence-properties-3-1}, \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{L})\) or \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{R})\).
 We only consider the latter case \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{R})\); the former one is analogous.
 
 Let \(x_j\) be the variable corresponding to literal \(l_{i_2}\).
 We consider the cases \(l_{i_2}=\bar{x}_j\) and \(l_{i_2}=x_j\) separately.
 
 Case \(l_{i_2}=\bar{x}_j\).
-By Lemma \ref{org6310503} \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_{1,2}^i,\tilde{R})>\mathcal{B}(x_0^j,B_0)\).
-By Lemma \ref{org6310503} \ref{itm:lem-feasible-block-sequence-properties-6-1}, \(\mathcal{B}(x_0^j,B_0)>\mathcal{B}(x^j,\bar{X})\).
+By Lemma \ref{org34ee630} \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_{1,2}^i,\tilde{R})>\mathcal{B}(x_0^j,B_0)\).
+By Lemma \ref{org34ee630} \ref{itm:lem-feasible-block-sequence-properties-6-1}, \(\mathcal{B}(x_0^j,B_0)>\mathcal{B}(x^j,\bar{X})\).
 Putting everything together yields the following chain of inequalities:
 \[
 \mathcal{B}(x^1,B)>
@@ -592,8 +591,8 @@ Hence, by definition of our assignment, variable \(x_j\) is assigned \(0\).
 Hence literal \(l_{i_2}=\bar{x}_j\) evaluates to \(1\).
 
 Case \(l_{i_2}=x_j\).
-By Lemma \ref{org6310503} \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_{1,2}^i,\tilde{R})>\mathcal{B}(x_1^j,B_1)\).
-By Lemma \ref{org6310503} \ref{itm:lem-feasible-block-sequence-properties-6-2}, \(\mathcal{B}(x_1^j,B_1)>\mathcal{B}(x^j,X)\).
+By Lemma \ref{org34ee630} \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_{1,2}^i,\tilde{R})>\mathcal{B}(x_1^j,B_1)\).
+By Lemma \ref{org34ee630} \ref{itm:lem-feasible-block-sequence-properties-6-2}, \(\mathcal{B}(x_1^j,B_1)>\mathcal{B}(x^j,X)\).
 Putting everything together yields the following chain of inequalities:
 \[
 \mathcal{B}(x^1,B)>
@@ -603,7 +602,7 @@ Putting everything together yields the following chain of inequalities:
 \mathcal{B}(x_1^j,B_1)>
 \mathcal{B}(x^j,X)
 \]
-Hence, by Lemma \ref{org6310503} \ref{itm:lem-feasible-block-sequence-properties-4}, \(\mathcal{B}(x^j,\bar{X})>\mathcal{B}(x^1,B)\).
+Hence, by Lemma \ref{org34ee630} \ref{itm:lem-feasible-block-sequence-properties-4}, \(\mathcal{B}(x^j,\bar{X})>\mathcal{B}(x^1,B)\).
 Hence, by definition of our assignment, variable \(x_j\) is assigned \(1\).
 Hence literal \(l_{i_2}=x_j\) evaluates to \(1\).
 
@@ -728,7 +727,7 @@ We now show that block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{
 Since every flow pair has demand \(1\), we
 
 \begin{itemize}
-\item may use remark \ref{org31f9978} again to argue about capacity constraints, and
+\item may use remark \ref{org6136b38} again to argue about capacity constraints, and
 
 \item only have to consider edges with capacity less than \(10\), that is, the number of flow pairs.
 \end{itemize}
@@ -751,7 +750,7 @@ For every such edge \(e\), we proceed as follows.
 Let \(j\in[n]\).
 Then edge \((x^j,y^j)\) is used by flow pairs \(\bar{X},X,B\).
 
-Since \((x^j,y^j)\in E(\bar{X}^u\setminus\bar{X}^o)\), by Lemma \ref{org6b790d7},
+Since \((x^j,y^j)\in E(\bar{X}^u\setminus\bar{X}^o)\), by Lemma \ref{org460d5ac},
 \[\alpha_{\bar{X}}((x^j,y^j),B_{\ell})=
 \begin{cases}
 \mathrm{active} & \text{if }\sigma(x_j)=1\text{ and }\ell\geq 7\\
@@ -759,7 +758,7 @@ Since \((x^j,y^j)\in E(\bar{X}^u\setminus\bar{X}^o)\), by Lemma \ref{org6b790d7}
 \mathrm{inactive} & \text{otherwise}.
 \end{cases}\]
 
-Since \((x^j,y^j)\in E(X^u\setminus X^o)\), by Lemma \ref{org6b790d7},
+Since \((x^j,y^j)\in E(X^u\setminus X^o)\), by Lemma \ref{org460d5ac},
 \[\alpha_X((x^j,y^j),B_{\ell})=
 \begin{cases}
 \mathrm{active} & \text{if }\sigma(x_j)=1\text{ and }\ell\geq 1\\
@@ -767,7 +766,7 @@ Since \((x^j,y^j)\in E(X^u\setminus X^o)\), by Lemma \ref{org6b790d7},
 \mathrm{inactive} & \text{otherwise}.
 \end{cases}\]
 
-Since \((x^j,y^j)\in E(B^o\setminus B^u)\) and \(b(x^j,B)=b(x^1,B)\in\mathscr{B}_6\), by Lemma \ref{org6b790d7},
+Since \((x^j,y^j)\in E(B^o\setminus B^u)\) and \(b(x^j,B)=b(x^1,B)\in\mathscr{B}_6\), by Lemma \ref{org460d5ac},
 \[\alpha_B}((x^j,y^j),B_{\ell})=
 \begin{cases}
 \mathrm{active} & \ell<6\\
