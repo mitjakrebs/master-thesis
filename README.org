@@ -1,5 +1,4 @@
 #+TITLE: Congestion-Free Network Updates: Algorithms and Complexity
-#+OPTIONS: tex:t
 
 I would like to try to write my thesis using [[https://orgmode.org/][Org Mode]], an Emacs major mode, which has great LaTeX support.
 
@@ -9,7 +8,7 @@ See the [[./paper/main.pdf][pdf file]].
 
 * How to submit comments or feedback
 
-The [[./paper/main.tex][tex file]] is generated from the [[./paper/main.org][org file]], so please do not edit the former and feel free to edit the latter.
+The [[./paper/main.tex][tex file]] is generated from the [[./paper/main.org][org file]]; so please do not edit the former and feel free to edit the latter.
 
 * TODOs
 
@@ -23,14 +22,14 @@ The [[./paper/main.tex][tex file]] is generated from the [[./paper/main.org][org
 
 ** A better characterization of blocks
 
-A major point of friction so far has been arguing about blocks, in particular if we want to transform update flow network $G$ into update flow network $G'$ and relate blocks in $G$ to blocks in $G'$ and vice versa.
-I suspect there is a beautiful characterization of blocks that would significantly reduce this friction, but I haven't found it yet.
+A major point of friction so far has been arguing about blocks, in particular if we want to transform update flow network $G$ into update flow network $G'$ and relate blocks in $G$ to blocks in $G'$ (or vice versa).
+I suspect there is a beautiful characterization of blocks that would significantly reduce this friction, but I haven't found one yet.
 
 The definition of blocks in [cite:@amiri2019polynomialtime] fixes an arbitrary topological sorting $<$, computes the set of vertices $V(P^o\cap P^u)$ ordered w.r.t. $<$, and then computes the set of blocks using $<$ and $V(P^o\cap P^u)$.
 Since the topological sorting is arbitrary, it isn't obvious--to me--from the definition alone that the set of blocks is unique.
 
 My current definition (coming soon!) computes the reachability relation $\leq$, then computes the set of vertices $V(P^o\cap P^u)$ ordered w.r.t. $\leq$, and finally computes the set of blocks using $\leq$ and $V(P^o\cap P^u)$.
-I find the reachability relation more intuitive than an arbitrary topological sorting, but the definition is very similar to the one above, in particular because every topological sorting is a linear extension of the reachability relation.
+I find the reachability relation more intuitive than an arbitrary topological sorting, but the definition is very similar to the one above, in particular as every topological sorting is a linear extension of the reachability relation.
 
 A major problem--I think--with both of the above definitions is that they are algorithmic:
 In order to verify that a set $B$ is the set of blocks of flow update network $G$, we basically have to prove that $B$ is the output of the algorithm specified in the respective definition.
