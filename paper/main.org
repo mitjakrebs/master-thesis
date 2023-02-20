@@ -1,12 +1,15 @@
 #+TITLE: Congestion-Free Network Updates: Algorithms and Complexity
 
+#+STARTUP: latexpreview
+
 #+LATEX_CLASS: book
 #+LATEX_CLASS_OPTIONS: [fontsize=11pt,paper=a4]
 
 #+LATEX_HEADER: \input{preamble}
 
 #+CAPTION: Table of notations
-| [[notation:block][\(b(v,P)\)]]           | The \(P\)-block containing vertex \(v\)                   |
+| [[notation:reachability-relation][\(\leq_G\)]]           | The reachability relation for directed graph \(G\)        |
+| [[notation:block-update][\(b(v,P)\)]]           | The \(P\)-block containing vertex \(v\)                   |
 | [[notation:p-blocks][\(B^P(G)\)]]           | The set of \(P\)-blocks                                   |
 | [[notation:blocks][\(B(G)\)]]             | The set of blocks                                         |
 | [[notation:block-sequence-round-block][\(\mathcal{B}(b)\)]]   | The round in which block \(b\) is updated                 |
@@ -16,7 +19,28 @@
 
 * Preliminaries
 
-#+NAME: notation:block
+#+NAME: notation:reachability-relation
+#+BEGIN_notation
+For a directed graph \(G\), \(\leq_G=E(G)^*\) denotes the reachability relation of \(G\).
+That is, for every two vertices \(u,v\in V(G)\), \(u\leq_Gv\) iff there is a path in \(G\) from \(u\) to \(v\).
+#+END_notation
+
+Notice that for every directed graph \(G\),
+
+1. reachability relation \(\leq_G\) is a partial order,
+
+2. if \(G\) is a DAG, then \(\leq_G\) is antisymmetric, and
+
+3. if \(G\) is a path graph, then \(\leq_G\) is a total order.
+
+#+NAME: defn:block
+#+BEGIN_defn
+Let \(G=(V,E,\mathcal{P},s,t,c)\) be an update flow network and \(P\in\mathcal{P}\) be a flow pair.
+Let \(v_1,\dots,v_{\ell}\) be the set \(V(P^o\cap P^u)\) ordered w.r.t. \(\leq_{P^o\cup P^u}\).
+For every \(i\in[\ell-1]\), we define the \(i\)-th \(P\)-block as \(b_i^P=\{v\mid v_i\leq_{P^o\cup P^u}v\leq_{P^o\cup P^u}v_{i+1}\}\).
+#+END_defn
+
+#+NAME: notation:block-update
 #+BEGIN_notation
 For a flow pair \(P\) and a vertex \(v\in V(P)\), \(b(v,P)\) denotes the \(P\)-block containing \(v\).
 #+END_notation
@@ -35,6 +59,13 @@ For an update flow network \(G\), \(B(G)=\bigcup_{P\in\mathcal{P}}B^P(G)\)
 #+BEGIN_defn
 A /block sequence/ \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) is an ordered partition of the set of blocks.
 #+END_defn
+
+#+NAME: remark:block-sequence
+#+BEGIN_remark
+We may ignore all blocks containing less than three vertices.
+#+END_remark
+
+- [ ] Flesh out and argue why.
 
 #+NAME: notation:block-sequence-round-block
 #+BEGIN_notation
@@ -85,28 +116,40 @@ Then:
    \end{cases}\]
 #+END_lem
 
+#+NAME:
+#+BEGIN_notation
+For a flow pair \(P\) and a \(P\)-block \(b\), \(U(b)=\{(v,P)\mid v\in b\}\) denotes the set of updates induced by \(b\).
+Moreover, for a set \(B\) of blocks, \(U(B)=\bigcup_{b\in B}U(b)\) denotes the set of updates induced by \(B\).
+#+END_notation
+
+The following lemma shows that for every block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\), every flow pair \(P\), every edge \(e\in E(P^o\cup P^u)\), and every \(i\in[\ell]\), \(\alpha_P(e,B_i)=\mathrm{active}\) iff \(e\) is on the (\(s,t\))-path for \(P\) after updating all blocks in \(B_i\).
+
+#+NAME: lem:alpha-block-eq-active-iff
+#+BEGIN_lem
+Let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a block sequence, \(P\) be a flow pair, \(e\in E(P^o\cup P^u)\), and \(i\in[\ell]\).
+Then \(\alpha_P(e,B_i)=\mathrm{active}\) iff \(e\in E(T_{P,U(B_i)})\).
+#+END_lem
+
 #+NAME: defn:feasible-block-sequence
 #+BEGIN_defn
 A block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) is /feasible/ if for every edge \(e\) and every index \(i\in[\ell]\),
 #+NAME: eqn:capacity-constraint-blocks
-#+BEGIN_equation
+\begin{equation}
 c(e)\geq\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P,
-#+END_equation
-where we define \(\mathscr{B}_0=\emptyset\).
+\end{equation}
+where we define \(\mathscr{B}_0\) to be the empty set.
 #+END_defn
 
 #+NAME: remark:capacity-constraint-blocks-demand-1
 #+BEGIN_remark
 Let \(G\) be an update flow network with unit demand equal to \(1\), that is, \(d_P=1\) for every flow pair \(P\), and let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a block sequence.
 Then, for every edge \(e\) and every index \(i\in[\ell]\), capacity constraint [[eqn:capacity-constraint-blocks]] simplifies to:
-#+BEGIN_EXPORT LaTeX
 \begin{align*}
 c(e)
 &\geq\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P\\
 &=\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}1\\
 &=\lvert\{P\in\mathcal{P}\mid\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}\}\rvert.
 \end{align*}
-#+END_EXPORT
 #+END_remark
 
 #+NAME: corollary:block-sequence-iff-update-sequence
@@ -123,7 +166,8 @@ The goal of this section is to prove the following theorem.
 The \(k\)-network flow update problem is \(\textbf{NP}\)-hard for \(k=3\).
 #+END_thm
 
-We will prove this theorem in two steps. First, we will prove the following theorem.
+We will prove this theorem in two steps.
+First, we will prove the following theorem.
 
 #+NAME: thm:np-hardness-special-case
 #+BEGIN_thm
@@ -133,19 +177,46 @@ The \(k\)-network flow update problem, where every edge is used by at most three
 Then, we will (repeatedly) apply the following lemma to the flow update network we will have constructed in the proof of Theorem [[thm:np-hardness-special-case]] to reduce the number of flow pairs from \(10\) to \(3\).
 
 #+NAME: lem:merging-flow-pairs
+#+ATTR_LATEX: :options [Merging Lemma]
 #+BEGIN_lem
-Hehe.
+Let \(G\) be an update flow network with \(k\geq 2\) flow pairs, and let \(F,F'\) be two flow pairs such that
+
+1. @@latex:\label{itm:lem-merging-flow-pairs-property-1}@@
+   \(d_F=d_{F'}\),
+
+2. @@latex:\label{itm:lem-merging-flow-pairs-property-2}@@
+   \(F\) and \(F'\) have no common vertices other than \(s,t\), that is, \(V(F^o\cup F^u)\cap V(F'^o\cup F'^u)=\{s,t\}\), and
+
+3. @@latex:\label{itm:lem-merging-flow-pairs-property-3}@@
+   there are vertices \(v_F,v_{F'}\) such that
+
+   1) @@latex:\label{itm:lem-merging-flow-pairs-property-3-1}@@
+      there is no edge from \(v_F\) to \(v_{F'}\), that is, \((v_F,v_{F'})\notin E\),
+
+   2) @@latex:\label{itm:lem-merging-flow-pairs-property-3-2}@@
+      \((v_F,t)\) (\((s,v_{F'})\)) is the last (first) edge on both \(F^o\) and \(F^u\) (\(F'^o\) and \(F'^u\)), that is, \((v_F,t)\in E(F^o\cap F^u)\) (\((s,v_{F'})\in E(F'^o\cap F'^u)\)), and
+
+   3) @@latex:\label{itm:lem-merging-flow-pairs-property-3-3}@@
+      the capacity constraint for \((v_F,t)\) (\((s,v_{F'})\)) is trivially satisfied, that is,
+      \[
+      c(e)\geq\sum_{P\in\mathcal{P}:e\in E(P^o\cup P^u)}d_P
+      \]
+      for \(e=(v_F,t)\) (\(e=(s,v_{F'})\)).
+
+
+Then there is an update flow network \(\tilde{G}\) with \(k-1\) flow pairs such that (\(\lvert\tilde{G}\rvert=O(\lvert G\rvert)\) and) there is a feasible block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) for \(G\) iff there is a feasible block sequence \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) for \(\tilde{G}\).
 #+END_lem
 
 ** \(\textbf{NP}\)-Hardness for the Special Case
 
 The proof of Theorem [[thm:np-hardness-special-case]] is via reduction from \(\textsf{4-SAT}\) and is based on the \(\textbf{NP}\)-hardness proof for \(k=6\) in [cite:@amiri2019polynomialtime].
 
-*** The Reduction
-
 Let \(C\) be a 4CNF formula with \(n\) variables \(x_1,\dots,x_n\) and \(m\) clauses \(C_1,\dots,C_m\).
 W.l.o.g. every variable occurs both positively and negatively (otherwise, if a variable \(x_j\) occurs only positively (negatively), we can assign \(1\) (\(0\)) to \(x_j\) and remove all clauses containing literal \(x_j\) (\(\bar{x}_j\))).
 We construct the corresponding update flow network \(G\) as follows.
+
+*** The Reduction
+
 First, we introduce a /clause gadget/ for each clause and a /variable gadget/ for each variable.
 Then, we connect the variable and clause gadgets.
 Finally, we take the remaining steps necessary to ensure that \(G\) is indeed a feasible update flow network.
@@ -198,7 +269,8 @@ Finally, we add the following edges to connect clause gadget \(C^i\):
 
 #+LATEX: \paragraph{Variable gadgets.}
 For every variable \(x_j\), we construct the corresponding variable gadget \(X^j\) as follows.
-We introduce a /variable vertex/ \(x^j\) which is used by three flow pairs \(X,\bar{X},B\). The idea is to guarantee the following:
+We introduce a /variable vertex/ \(x^j\) which is used by three flow pairs \(X,\bar{X},B\).
+The idea is to guarantee the following:
 
 1. If block \(b(x^j,X)\) is updated before block \(b(x^j,B)\), then variable \(x_j\) is assigned \(1\).
 2. If block \(b(x^j,\bar{X})\) is updated before \(b(x^j,B)\), then \(x_j\) is assigned \(0\).
@@ -239,7 +311,7 @@ We introduce vertices \(s,t\) and create (\(s,t\))-paths for all flows by adding
 - \((s,x_0^1)\), \((y_0^j,x_0^{j+1})\) for every \(j\in[n-1]\), and \((y_0^n,t)\) to \(B_0^o,B_0^u\)
 - \((s,x_1^1)\), \((y_1^j,x_1^{j+1})\) for every \(j\in[n-1]\), and \((y_1^n,t)\) to \(B_1^o,B_1^u\)
 
-See Figure [[fig:update-flow-network]] for the complete update flow network, Table [[tab:s-t-flows]] for all (\(s,t\))-flows, and Table [[tab:blocks]] for the set of blocks grouped by flow pair.
+See Figure [[fig:update-flow-network]] for the complete update flow network and Table [[tab:s-t-flows]] for all (\(s,t\))-flows.
 
 #+CAPTION: The update flow network
 #+NAME: fig:update-flow-network
@@ -287,13 +359,14 @@ Edge capacities are defined as follows.
 - All remaining edge capacities are set to \(10\), that is, the number of flow pairs, which equals the sum of all demands.
 
 We remark that vertices \(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i,\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i\) are not necessary for this proof.
-Instead, we could directly connect clause vertices \(u^i,u_{1,2}^i\) via flow pair \(L\) and \(u^i,u_{3,4}^i\) via \(R\). Similarly, vertices \(x_0^j,y_0^j,x_1^j,y_1^j\) as well as flow pairs \(B_0,B_1\) are not necessary.
+Instead, we could directly connect clause vertices \(u^i,u_{1,2}^i\) via flow pair \(L\) and \(u^i,u_{3,4}^i\) via \(R\).
+Similarly, vertices \(x_0^j,y_0^j,x_1^j,y_1^j\) as well as flow pairs \(B_0,B_1\) are not necessary.
 We could instead directly connect variable vertex \(x^j\) to literal vertex, say \(u_1^i\), via \(X\) (\(\bar{X}\)) if \(l_{i_1}=x_j\) (\(l_{i_1}=\bar{x}_j\)).
 The vertices and flow pairs are necessary, however, for the proof of Theorem [[thm:np-hardness-k-eq-3]].
 
 Let us quickly verify that \(G\) is indeed a feasible update flow network.
 
-- [ ] Feasibility.
+- [ ] Argue that \(G\) is a feasible update flow network instance.
 
 #+CAPTION: All blocks grouped by flow pair
 #+NAME: tab:blocks
@@ -357,7 +430,8 @@ Before we prove Theorem [[thm:np-hardness-special-case]], let us show that every
 
 #+NAME: lem:feasible-block-sequence-properties
 #+BEGIN_lem
-Let \(\mathcal{B}\) be a feasible block sequence for update flow network \(G\). Then:
+Let \(\mathcal{B}\) be a feasible block sequence for update flow network \(G\).
+Then:
 
 1. @@latex:\label{itm:lem-feasible-block-sequence-properties-1}@@
    For every \(i\in[m]\), \(\mathcal{B}(u^i,L)<\mathcal{B}(x^1,B)\) or \(\mathcal{B}(u^i,R)<\mathcal{B}(x^1,B)\).
@@ -429,12 +503,10 @@ We have that
 3. \(\alpha_B((u^i,v^i),B_{\mathcal{B}(x^1,B)})=\mathrm{active}\), since \(b(u^i,B)=b(x^1,B)\in B_{\mathcal{B}(x^1,B)}\) and \((u^i,v^i)\in E(B^u)\).
 
 Hence
-#+BEGIN_EXPORT LaTeX
 \begin{align*}
 \lvert\{P\in\mathcal{P}\mid&\alpha_P((u^i,v^i),B_{\mathcal{B}(x^1,B)-1})=\mathrm{active}\text{ or }\\
 &\alpha_P((u^i,v^i),B_{\mathcal{B}(x^1,B)})=\mathrm{active}\}\rvert\geq\lvert\{L,R,B\}\rvert=3>2=c(u^i,v^i)
 \end{align*}
-#+END_EXPORT
 
 #+LATEX: \paragraph{\ref{itm:lem-feasible-block-sequence-properties-2}, \ref{itm:lem-feasible-block-sequence-properties-5}, \ref{itm:lem-feasible-block-sequence-properties-6}.}
 We only show \ref{itm:lem-feasible-block-sequence-properties-2-1}; the proofs for \ref{itm:lem-feasible-block-sequence-properties-2-2}, \ref{itm:lem-feasible-block-sequence-properties-5-1}, \ref{itm:lem-feasible-block-sequence-properties-5-2}, \ref{itm:lem-feasible-block-sequence-properties-5-3}, \ref{itm:lem-feasible-block-sequence-properties-5-4}, \ref{itm:lem-feasible-block-sequence-properties-6-1}, and \ref{itm:lem-feasible-block-sequence-properties-6-2} are similar.
@@ -449,12 +521,10 @@ We have that
 2. \(\alpha_L((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)})=\mathrm{active}\), since \(b(u^i,L)\in B_{\mathcal{B}(u^i,L)}\) and \((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)\in E(L^u)\).
 
 Hence
-#+BEGIN_EXPORT LaTeX
 \begin{align*}
 \lvert\{P\in\mathcal{P}\mid&\alpha_P((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)-1})=\mathrm{active}\text{ or }\\
 &\alpha_P((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)})=\mathrm{active}\}\rvert\geq\lvert\{\tilde{B},L\}\rvert=2>1=c(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)
 \end{align*}
-#+END_EXPORT
 
 #+LATEX: \paragraph{\ref{itm:lem-feasible-block-sequence-properties-4}.}
 Suppose not.
@@ -470,12 +540,10 @@ We have that
 3. \(\alpha_{X}((x^j,y^j),B_{\mathcal{B}(x^1,B)})=\mathrm{active}\), since \(b(x^j,X)\notin B_{\mathcal{B}(x^1,B)}\) and \((x^j,y^j)\in E(X^u)\).
 
 Hence
-#+BEGIN_EXPORT LaTeX
 \begin{align*}
 \lvert\{P\in\mathcal{P}\mid&\alpha_P((x^j,y^j),B_{\mathcal{B}(x^1,B)-1})=\mathrm{active}\text{ or }\\
 &\alpha_P((x^j,y^j),B_{\mathcal{B}(x^1,B)})=\mathrm{active}\}\rvert\geq\lvert\{B,\bar{X},X\}\rvert=3>2=c(x^j,y^j)
 \end{align*}
-#+END_EXPORT
 #+END_proof
 
 We are now ready to prove Theorem [[thm:np-hardness-special-case]].
@@ -572,33 +640,27 @@ We now specify \(\mathscr{B}_1,\dots,\mathscr{B}_{11}\) in detail.
    4) if \(l_{i_4}\) evaluates to \(1\), we add \(b(u_{3,4}^i,\tilde{R})\).
 
    That is,
-   #+BEGIN_EXPORT LaTeX
    \begin{align*}
    \mathscr{B}_3=&\{b(u_{1,2}^i,\tilde{L})\mid\sigma(l_{i_1})=1\}\cup
    \{b(u_{1,2}^i,\tilde{R})\mid\sigma(l_{i_2})=1\}\cup\\
    &\{b(u_{3,4}^i,\tilde{L})\mid\sigma(l_{i_3})=1\}\cup
    \{b(u_{3,4}^i,\tilde{R})\mid\sigma(l_{i_4})=1\}.
    \end{align*}
-   #+END_EXPORT
-
+   
 4. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is satisfied, we add block \(b(\tilde{u}_{1,2}^i,\tilde{B})\) to \(\mathscr{B}_4\), and if the right half \((l_{i_3}\vee l_{i_4})\) is satisfied, we add \(b(\tilde{u}_{3,4}^i,\tilde{B})\).
    That is,
-   #+BEGIN_EXPORT LaTeX
    \begin{align*}
    \mathscr{B}_4=&\{b(\tilde{u}_{1,2}^i,\tilde{B})\mid\sigma(l_{i_1})=1\text{ or }\sigma(l_{i_2})=1\}\cup\\
    &\{b(\tilde{u}_{3,4}^i,\tilde{B})\mid\sigma(l_{i_3})=1\text{ or }\sigma(l_{i_4})=1\}.
    \end{align*}
-   #+END_EXPORT
-
+   
 5. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is satisfied, we add block \(b(u^i,L)\) to \(\mathscr{B}_5\), and if the right half \((l_{i_3}\vee l_{i_4})\) is satisfied, we add \(b(u^i,R)\).
    That is,
-   #+BEGIN_EXPORT LaTeX
    \begin{align*}
    \mathscr{B}_5=&\{b(u^i,L)\mid\sigma(l_{i_1})=1\text{ or }\sigma(l_{i_2})=1\}\cup\\
    &\{b(u^i,R)\mid\sigma(l_{i_3})=1\text{ or }\sigma(l_{i_4})=1\}.
    \end{align*}
-   #+END_EXPORT
-
+   
 6. \(\mathscr{B}_6=\{b(x^1,B)\}\).
 
 7. For every variable \(x_j\), if \(x_j\) is assigned \(0\), we add block \(b(x^j,X)\) to \(\mathscr{B}_7\), otherwise we add \(b(x^j,\bar{X})\).
@@ -624,36 +686,28 @@ We now specify \(\mathscr{B}_1,\dots,\mathscr{B}_{11}\) in detail.
    4) if \(l_{i_4}\) evaluates to \(0\), we add \(b(u_{3,4}^i,\tilde{R})\).
 
    That is,
-   #+BEGIN_EXPORT LaTeX
    \begin{align*}
    \mathscr{B}_9=&\{b(u_{1,2}^i,\tilde{L})\mid\sigma(l_{i_1})=0\}\cup
    \{b(u_{1,2}^i,\tilde{R})\mid\sigma(l_{i_2})=0\}\cup\\
    &\{b(u_{3,4}^i,\tilde{L})\mid\sigma(l_{i_3})=0\}\cup
    \{b(u_{3,4}^i,\tilde{R})\mid\sigma(l_{i_4})=0\}.
    \end{align*}
-   #+END_EXPORT
 
 1. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is unsatisfied, we add block \(b(\tilde{u}_{1,2}^i,\tilde{B})\) to \(\mathscr{B}_{10}\), and if the right half \((l_{i_3}\vee l_{i_4})\) is unsatisfied, we add \(b(\tilde{u}_{3,4}^i,\tilde{B})\).
    That is,
-   #+BEGIN_EXPORT LaTeX
    \begin{align*}
    \mathscr{B}_{10}=&\{b(\tilde{u}_{1,2}^i,\tilde{B})\mid\sigma(l_{i_1})=0\text{ and }\sigma(l_{i_2})=0\}\cup\\
    &\{b(\tilde{u}_{3,4}^i,\tilde{B})\mid\sigma(l_{i_3})=0\text{ and }\sigma(l_{i_4})=0\}.
    \end{align*}
-   #+END_EXPORT
 
 1. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is unsatisfied, we add block \(b(u^i,L)\) to \(\mathscr{B}_{11}\), and if the right half \((l_{i_3}\vee l_{i_4})\) is unsatisfied, we add \(b(u^i,R)\).
    That is,
-   #+BEGIN_EXPORT LaTeX
    \begin{align*}
    \mathscr{B}_{11}=&\{b(u^i,L)\mid\sigma(l_{i_1})=0\text{ and }\sigma(l_{i_2})=0\}\cup\\
    &\{b(u^i,R)\mid\sigma(l_{i_3})=0\text{ and }\sigma(l_{i_4})=0\}.
    \end{align*}
-#+END_EXPORT
 
-
-- [ ] Remark that we may ignore all other blocks.
-
+By Remark [[remark:block-sequence]], we may ignore all other blocks.
 
 We now show that block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{11})\) is indeed feasible by verifying that the capacity constraint is satisfied for every edge and every \(\ell\in[11]\).
 Since every flow pair has demand \(1\), we
@@ -722,5 +776,248 @@ Hence,
 
 Hence \(\lvert\mathcal{P}'((x^j,y^j),\ell)\rvert=2=c(x^j,y^j)\) for every \(\ell\in[11]\).
 
-- [ ] Other edges.
+- [ ] Repeat for other edges.
+#+END_proof
+
+** Merging Flow Pairs
+
+We now prove the [[lem:merging-flow-pairs][Merging Lemma]].
+
+Let \(G=(V,E,\mathcal{P},s,t,c)\) be an update flow network with \(\lvert\mathcal{P}\rvert\geq 2\), and let \(F,F'\in\mathcal{P}\) and \(v_F,v_{F'}\in V\) such that they satisfy properties \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} (see Figure [[fig:lem-merging-flow-pairs-g]]).
+We construct an update flow network \(\tilde{G}=(\tilde{V},\tilde{E},\tilde{\mathcal{P}},s,t,\tilde{c})\) with \(\lvert\tilde{\mathcal{P}}\rvert=\lvert\mathcal{P}\rvert-1\) such that there is a feasible block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) for \(G\) iff there is a feasible block sequence \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) for \(\tilde{G}\) as follows.
+
+#+NAME: fig:lem-merging-flow-pairs-g
+#+CAPTION: Flow pairs \(F\) and \(F'\) in update flow network \(G\)
+[[file:../assets/Screen Shot 2023-02-19 at 13.28.41.png]]
+
+*** The Construction
+
+Intuitively, we merge flow pairs \(F\) and \(F'\) into a single flow pair \(\tilde{F}\) by concatenating \(F\) and \(F'\).
+More precisely, \(\tilde{F}\) will be the union of \(F\) and \(F'\) except that we replace edges \((v_F,t)\) and \((s,v_{F'})\) by edge \((v_F,v_{F'})\).
+More formally, we define flow pair \(\tilde{F}\) as follows:
+
+\begin{align*}
+\tilde{E}(\tilde{F}^o)&=\left(E(F^o)\setminus\{(v_F,t)\}\right)\cup\left(E(F'^o)\setminus\{(s,v_{F'})\}\right)\cup\{(v_F,v_{F'})\}\\
+\tilde{E}(\tilde{F}^u)&=\left(E(F^u)\setminus\{(v_F,t)\}\right)\cup\left(E(F'^u)\setminus\{(s,v_{F'})\}\right)\cup\{(v_F,v_{F'})\}\\
+\tilde{V}(\tilde{F}^o)&=\tilde{V}(\tilde{E}(\tilde{F}^o))\\
+\tilde{V}(\tilde{F}^u)&=\tilde{V}(\tilde{E}(\tilde{F}^u))\\
+\tilde{d}_{\tilde{F}}&=d_F
+\end{align*}
+
+See Figure [[fig:lem-merging-flow-pairs-g-tilde]] for an illustration.
+
+#+NAME: fig:lem-merging-flow-pairs-g-tilde
+#+CAPTION: Flow pair \(\tilde{F}\) in update flow network \(\tilde{G}\)
+[[file:../assets/Screen Shot 2023-02-19 at 13.29.07.png]]
+
+Update flow network \(\tilde{G}=(\tilde{V},\tilde{E},\tilde{\mathcal{P}},s,t,\tilde{c})\) is defined as follows:
+
+\begin{align*}
+\tilde{\mathcal{P}}&=\mathcal{P}\setminus\{F,F'\}\cup\{\tilde{F}\}\\
+\tilde{V}&=\bigcup_{\tilde{P}\in\tilde{\mathcal{P}}}\tilde{V}(\tilde{P}^o\cup\tilde{P}^u)\\
+\tilde{E}&=\bigcup_{\tilde{P}\in\tilde{\mathcal{P}}}\tilde{E}(\tilde{P}^o\cup\tilde{P}^u)\\
+\tilde{c}(\tilde{e})&=
+\begin{cases}
+\sum_{\tilde{P}\in\tilde{\mathcal{P}}:\tilde{e}\in\tilde{E}(\tilde{P}^o\cup\tilde{P}^u)}d_{\tilde{P}} & \text{if }\tilde{e}=(v_F,v_{F'})\\
+c(\tilde{e}) & \text{otherwise}
+\end{cases}
+\end{align*}
+
+- [ ] Argue that \(\tilde{G}\) is a feasible update flow network instance.
+
+
+We denote notations such as \(b(v,P)\), \(B_i\), and \(\alpha_P(e,B)\) referring to update flow network \(\tilde{G}\) by \(\tilde{b}(v,P)\), \(\tilde{B}_i\), and \(\tilde{\alpha}_P(e,B)\).
+
+*** The Proof
+
+Our goal is to show that there is a feasible block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) for \(G\) iff there is a feasible block sequence \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) for \(\tilde{G}\).
+We will choose \(\mathcal{B},\tilde{\mathcal{B}}\), respectively, such that, for every block \(b\) contained in both \(G\) and \(\tilde{G}\), \(b\) is updated in round \(i\in[\ell]\) in \(\mathcal{B}\) iff it is updated in round \(i\) in \(\tilde{\mathcal{B}}\), that is, \(\mathcal{B}(b)=\tilde{\mathcal{B}}(b)\).
+The key insight is that it is indeed sufficient to consider such blocks.
+
+#+NAME: lem:p-blocks
+#+BEGIN_lem
+Let \(\tilde{P}\in\tilde{\mathcal{P}}\).
+Then:
+\[\tilde{B}^{\tilde{P}}(\tilde{G})=
+\begin{cases}
+\left(B^F(G)\setminus\{\{v_F,t\}\}\right)\cup\left(B^{F'}(G)\setminus\{\{s,v_{F'}\}\}\right)\cup\{\{v_F,v_{F'}\}\} & \tilde{P}=\tilde{F}\\
+B^{\tilde{P}}(G) & \tilde{P}\neq\tilde{F}.
+\end{cases}\]
+#+END_lem
+
+#+BEGIN_proof
+Let \(\tilde{P}\) be a flow pair in update flow network \(\tilde{G}\).
+
+If \(\tilde{P}\neq\tilde{F}\), then, by definition, \(\tilde{P}\) is also a flow pair in \(G\), and hence \(\tilde{B}^{\tilde{P}}(\tilde{G})=B^{\tilde{P}}(G)\).
+
+Now suppose \(\tilde{P}=\tilde{F}\).
+
+- [ ] Finish proof.
+#+END_proof
+
+To show that block sequences \(\mathcal{B},\tilde{\mathcal{B}}\) as chosen above are feasible, we will verify that capacity constraint [[eqn:capacity-constraint-blocks]] is satisfied for every edge \(e\in E\), \(\tilde{e}\in\tilde{E}\), respectively, and every \(i\in[\ell]\).
+We now show that for every edge \(\tilde{e}\) other than \((v_F,t),(s,v_{F'}),(v_F,v_{F'})\) and every \(i\in[\ell]\), \(\tilde{e}\) is on some (\(s,t\))-path in \(\tilde{G}\) after updating all blocks in \(\tilde{B}_i\) iff it is on some (\(s,t\))-path in \(G\) after updating all blocks in \(B_i\).
+
+#+NAME: lem:alpha
+#+BEGIN_lem
+Let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a block sequence for \(G\) and \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) be a block sequence for \(\tilde{G}\) such that for every block \(b\) contained in both \(G\) and \(\tilde{G}\), \(\mathcal{B}(b)=\tilde{\mathcal{B}}(b)\).
+Moreover, let \((\tilde{u},\tilde{v})\in\tilde{E}\setminus\{(v_F,t),(s,v_{F'}),(v_F,v_{F'})\}\) and \(i\in[\ell]\).
+Finally, let \(\tilde{P}\in\tilde{\mathcal{P}}\) such that \((\tilde{u},\tilde{v})\in\tilde{E}(\tilde{P}^o\cup\tilde{P}^u)\).
+Then:
+
+1. @@latex:\label{itm:lem-alpha-1}@@
+   If \(\tilde{P}=\tilde{F}\), then \(\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{active}\) iff \(\alpha_F((\tilde{u},\tilde{v}),B_i)=\mathrm{active}\) or \(\alpha_{F'}((\tilde{u},\tilde{v}),B_i)=\mathrm{active}\).
+
+2. @@latex:\label{itm:lem-alpha-2}@@
+   If \(\tilde{P}\in\tilde{\mathcal{P}}\setminus\{\tilde{F}\}\), then \(\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_i)\).
+#+END_lem
+
+#+BEGIN_proof
+Let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a block sequence for \(G\) and \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) be a block sequence for \(\tilde{G}\) such that for every block \(b\) satisfying both \(b\in B(G)\) and \(b\in\tilde{B}(\tilde{G})\), \(\mathcal{B}(b)=\tilde{\mathcal{B}}(b)\).
+Let \((\tilde{u},\tilde{v})\in\tilde{E}\setminus\{(v_F,t),(s,v_{F'}),(v_F,v_{F'})\}\) and \(i\in[\ell]\).
+Let \(\tilde{P}\in\tilde{\mathcal{P}}\) such that \((\tilde{u},\tilde{v})\in\tilde{E}(\tilde{P}^o\cup\tilde{P}^u)\).
+
+#+LATEX: \paragraph{\ref{itm:lem-alpha-1}.}
+Suppose \(\tilde{P}=\tilde{F}\).
+By definition of \(\tilde{F}\) and since \((\tilde{u},\tilde{v})\in\tilde{E}\setminus\{(v_F,t),(s,v_{F'}),(v_F,v_{F'})\}\), \((\tilde{u},\tilde{v})\in\tilde{E}(\tilde{F}^o)\) iff \((\tilde{u},\tilde{v})\in E(F^o)\) or \((\tilde{u},\tilde{v})\in E(F'^o)\).
+Similarly, \((\tilde{u},\tilde{v})\in\tilde{E}(\tilde{F}^u)\) iff \((\tilde{u},\tilde{v})\in E(F^u)\) or \((\tilde{u},\tilde{v})\in E(F'^u)\).
+Moreover, by assumption, \(\tilde{b}(\tilde{u},\tilde{F})\in\tilde{B}_i\) iff \(\tilde{b}(\tilde{u},\tilde{F})\in B_i\), and, by Lemma [[lem:p-blocks]], \(\tilde{b}(\tilde{u},\tilde{F})=b(\tilde{u},F)\) or \(\tilde{b}(\tilde{u},\tilde{F})=b(\tilde{u},F')\).
+Hence \(\tilde{b}(\tilde{u},\tilde{F})\in\tilde{B}_i\) iff \(b(\tilde{u},F)\in B_i\) or \(b(\tilde{u},F')\in B_i\).
+
+- [ ] Finish proof.
+
+#+LATEX: \paragraph{\ref{itm:lem-alpha-2}.}
+Suppose \(\tilde{P}\in\tilde{\mathcal{P}}\setminus\{\tilde{F}\}\).
+By definition of \(\tilde{G}\), \(\tilde{P}\in\mathcal{P}\setminus\{F,F'\}\) and hence both \((\tilde{u},\tilde{v})\in\tilde{E}(\tilde{P}^o)\) iff \((\tilde{u},\tilde{v})\in E(\tilde{P}^o)\) and \((\tilde{u},\tilde{v})\in\tilde{E}(\tilde{P}^u)\) iff \((\tilde{u},\tilde{v})\in E(\tilde{P}^u)\).
+Moreover, by assumption, \(\tilde{b}(\tilde{u},\tilde{P})\in\tilde{B}_i\) iff \(\tilde{b}(\tilde{u},\tilde{P})\in B_i\), and, by Lemma [[lem:p-blocks]], \(\tilde{b}(\tilde{u},\tilde{P})=b(\tilde{u},\tilde{P})\).
+Hence \(\tilde{b}(\tilde{u},\tilde{P})\in\tilde{B}_i\) iff \(b(\tilde{u},\tilde{P})\in B_i\).
+The claim now follows by definitions of \(\tilde{\alpha}_{\tilde{P}},\alpha_{\tilde{P}}\).
+#+END_proof
+
+#+NAME: lem:sum-demands
+#+BEGIN_lem
+Let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a block sequence for \(G\) and \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) be a block sequence for \(\tilde{G}\) such that for every block \(b\) contained in both \(G\) and \(\tilde{G}\), \(\mathcal{B}(b)=\tilde{\mathcal{B}}(b)\).
+Moreover, let \((\tilde{u},\tilde{v})\in\tilde{E}\setminus\{(v_F,t),(s,v_{F'}),(v_F,v_{F'})\}\) and \(i\in[\ell]\).
+Then
+
+\begin{align*}
+\sum_{\tilde{P}\in\tilde{\mathcal{P}}:\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_{i-1})=\mathrm{active}\text{ or }\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{active}}\tilde{d}_{\tilde{P}}&=\\
+\sum_{\tilde{P}\in\mathcal{P}:\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_{i-1})=\mathrm{active}\text{ or }\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_i)=\mathrm{active}}d_{\tilde{P}}&.
+\end{align*}
+#+END_lem
+
+#+BEGIN_proof
+Let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a block sequence for \(G\) and \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) be a block sequence for \(\tilde{G}\) such that for every block \(b\) satisfying both \(b\in B(G)\) and \(b\in\tilde{B}(\tilde{G})\), \(\mathcal{B}(b)=\tilde{\mathcal{B}}(b)\).
+Let \((\tilde{u},\tilde{v})\in\tilde{E}\setminus\{(v_F,t),(s,v_{F'}),(v_F,v_{F'})\}\) and \(i\in[\ell]\).
+By definition of \(\tilde{G}\), \(\tilde{\mathcal{P}}=\mathcal{P}\setminus\{F,F'\}\cup\{\tilde{F}\}\), \(\tilde{d}_{\tilde{F}}=d_F\), and \(\tilde{d}_{\tilde{P}}=d_{\tilde{P}}\) for every \(\tilde{P}\in\tilde{\mathcal{P}}\setminus\{\tilde{F}\}\).
+Moreover, by assumption, \(d_F=d_{F'}\).
+Also by assumption, \(F,F'\) are edge-disjoint: Otherwise, either
+
+1. \(F\) and \(F'\) have a common vertex other than \(s,t\), or
+   
+2. \(F^o\cup F^u\) and \(F'^o\cup F'^u\) both consist of the single edge \((s,t)\), in which case \(v_F=s\) and \(v_{F'}=t\), which contradicts that \((v_F,v_{F'})\notin E\)).
+
+
+Hence, by Lemma [[lem:alpha]], we have
+
+\begin{align*}
+\sum_{\tilde{P}\in\tilde{\mathcal{P}}:\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_{i-1})=\mathrm{active}\text{ or }\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{active}}\tilde{d}_{\tilde{P}}&=\\
+\sum_{\tilde{P}\in\tilde{\mathcal{P}}\setminus\{\tilde{F}\}:\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_{i-1})=\mathrm{active}\text{ or }\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{active}}\tilde{d}_{\tilde{P}}&+\\
+\sum_{\tilde{P}\in\{\tilde{F}\}:\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_{i-1})=\mathrm{active}\text{ or }\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{active}}\tilde{d}_{\tilde{P}}&=\\
+\sum_{\tilde{P}\in\mathcal{P}\setminus\{F,F'\}:\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_{i-1})=\mathrm{active}\text{ or }\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_i)=\mathrm{active}}d_{\tilde{P}}&+\\
+\sum_{\tilde{P}\in\{F,F'\}:\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_{i-1})=\mathrm{active}\text{ or }\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_i)=\mathrm{active}}d_{\tilde{P}}&=\\
+\sum_{\tilde{P}\in\mathcal{P}:\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_{i-1})=\mathrm{active}\text{ or }\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_i)=\mathrm{active}}d_{\tilde{P}}&.
+\end{align*}
+#+END_proof
+
+We are now ready to prove the [[lem:merging-flow-pairs][Merging Lemma]].
+
+#+ATTR_LATEX: :options [Proof of Lemma [[lem:merging-flow-pairs]]]
+#+BEGIN_proof
+We show that there is a feasible block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) for \(G\) iff there is a feasible block sequence \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) for \(\tilde{G}\).
+
+#+LATEX: \paragraph{If part.}
+Let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a feasible block sequence for \(G\).
+We define block sequence \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) for \(\tilde{G}\) as follows.
+By Remark [[remark:block-sequence]], we may ignore block \(\{v_F,v_{F'}\}\).
+For every other block \(\tilde{b}\in\tilde{B}(\tilde{G})\setminus\{\{v_F,v_{F'}\}\}\), we define \(\tilde{\mathcal{B}}(\tilde{b})=\mathcal{B}(\tilde{b})\).
+Notice that if \(\tilde{b}\in\tilde{B}(\tilde{G})\setminus\{\{v_F,v_{F'}\}\}\), then, by Lemma [[lem:p-blocks]], \(\tilde{b}\in B(G)\) and hence \(\mathcal{B}(\tilde{b})\) is defined.
+
+We now show that \(\tilde{\mathcal{B}}\) is feasible.
+Let \((\tilde{u},\tilde{v})\in\tilde{E}\) and \(i\in[\ell]\).
+We show that the capacity constraint for \((\tilde{u},\tilde{v})\) and \(i\) is satisfied.
+
+If \((\tilde{u},\tilde{v})=(v_F,v_{F'})\), then, by definition of \(\tilde{G}\),
+\[
+\tilde{c}(\tilde{u},\tilde{v})\geq\sum_{\tilde{P}\in\tilde{\mathcal{P}}:(\tilde{u},\tilde{v})\in E(\tilde{P}^o\cup\tilde{P}^u)}d_{\tilde{P}}
+\]
+and hence the capacity constraint is satisfied.
+Now suppose \((\tilde{u},\tilde{v})\neq(v_F,v_{F'})\).
+Hence, by definition of \(\tilde{G}\), \((\tilde{u},\tilde{v})\in E\) and \(\tilde{c}(\tilde{u},\tilde{v})=c(\tilde{u},\tilde{v})\).
+If \((\tilde{u},\tilde{v})\in\{(v_F,t),(s,v_{F'})\}\), then by assumption \ref{itm:lem-merging-flow-pairs-property-3-3}, the capacity constraint is satisfied.
+Now suppose \((\tilde{u},\tilde{v})\notin\{(v_F,t),(s,v_{F'}),(v_F,v_{F'})\}\).
+Hence, by Lemma [[lem:sum-demands]] and since block sequence \(\mathcal{B}\) is feasible, we have
+
+\begin{align*}
+\sum_{\tilde{P}\in\tilde{\mathcal{P}}:\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_{i-1})=\mathrm{active}\text{ or }\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{active}}\tilde{d}_{\tilde{P}}&=\\
+\sum_{\tilde{P}\in\mathcal{P}:\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_{i-1})=\mathrm{active}\text{ or }\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_i)=\mathrm{active}}d_{\tilde{P}}&\leq\\
+c(\tilde{u},\tilde{v})&=
+\tilde{c}(\tilde{u},\tilde{v}).
+\end{align*}
+
+#+LATEX: \paragraph{Only-if part.}
+Let \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) be a feasible block sequence for \(\tilde{G}\).
+We define block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) for \(G\) as follows.
+By Remark [[remark:block-sequence]], we may ignore blocks \(\{v_F,t\},\{s,v_{F'}\}\).
+For every other block \(b\in B(G)\setminus\{\{v_F,t\},\{s,v_{F'}\}\}\), we define \(\mathcal{B}(b)=\tilde{\mathcal{B}}(b)\).
+Notice that if \(b\in B(G)\setminus\{\{v_F,t\},\{s,v_{F'}\}\}\), then, by Lemma [[lem:p-blocks]], \(b\in\tilde{B}(\tilde{G})\) and hence \(\tilde{\mathcal{B}}(b)\) is defined.
+
+We now show that \(\mathcal{B}\) is feasible.
+Let \((u,v)\in E\) and \(i\in[\ell]\).
+We show that the capacity constraint for \((u,v)\) and \(i\) is satisfied.
+
+If \((u,v)\in\{(v_F,t),(s,v_{F'})\}\), then, by assumption \ref{itm:lem-merging-flow-pairs-property-3-3}, the capacity constraint is satisfied.
+Now suppose \((u,v)\notin\{(v_F,t),(s,v_{F'})\}\).
+Hence, by definition of \(\tilde{G}\), \((u,v)\in\tilde{E}\) and \(c(u,v)=\tilde{c}(u,v)\).
+Hence, by Lemma [[lem:sum-demands]] and since block sequence \(\tilde{\mathcal{B}}\) is feasible, we have
+
+\begin{align*}
+\sum_{P\in\mathcal{P}:\alpha_P((u,v),B_{i-1})=\mathrm{active}\text{ or }\alpha_P((u,v),B_i)=\mathrm{active}}d_P&=\\
+\sum_{P\in\tilde{\mathcal{P}}:\tilde{\alpha}_P((u,v),\tilde{B}_{i-1})=\mathrm{active}\text{ or }\tilde{\alpha}_P((u,v),\tilde{B}_i)=\mathrm{active}}\tilde{d}_P&\leq\\
+\tilde{c}(u,v)&=
+c(u,v).
+\end{align*}
+#+END_proof
+
+#+NAME: remark:merging-flow-pairs
+#+BEGIN_remark
+Let \(G,F,F'\) and \(\tilde{G},\tilde{F}\) be as specified in the proof of the [[lem:merging-flow-pairs][Merging Lemma]].
+Then notice that:
+
+1. @@latex:\label{itm:remark-merging-flow-pairs-1}@@
+   For every flow pair \(P\in\mathcal{P}\setminus\{F,F'\}\), if properties \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} are satisfied for both \(F,P\) and \(F',P\) in \(G\), then they are also satisfied for \(\tilde{F},P\) in \(\tilde{G}\).
+
+2. @@latex:\label{itm:remark-merging-flow-pairs-2}@@
+   For every two flow pairs \(P,P'\in\mathcal{P}\setminus\{F,F'\}\), if properties \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} are satisfied for \(P,P'\) in \(G\), then they are also satisfied for \(P,P'\) in \(\tilde{G}\).
+#+END_remark
+
+** \(\textbf{NP}\)-Hardness for the General Case
+
+We are finally ready to prove Theorem [[thm:np-hardness-k-eq-3]].
+
+#+ATTR_LATEX: :options [Proof of Theorem [[thm:np-hardness-k-eq-3]]]
+#+BEGIN_proof
+Let \(C\) be a 4CNF formula and \(G\) be the corresponding update flow network as specified in the proof of Theorem [[thm:np-hardness-special-case]].
+Then \(G\) comprises \(10\) flow pairs \(\bar{X},L,\tilde{L},X,R,\tilde{R},B,\tilde{B},B_0,B_1\), each with demand \(1\).
+
+By definition, flow pairs \(\bar{X},L,\tilde{L}\) pairwise satisfy assumptions \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} of the [[lem:merging-flow-pairs][Merging Lemma]] (confirm Table [[tab:s-t-flows]]).
+Hence, by Remark [[remark:merging-flow-pairs]] \ref{itm:remark-merging-flow-pairs-1}, we may apply the Merging Lemma twice to obtain from \(G\) an update flow network \(G_8\) with \(8\) flow pairs.
+
+Similarly, flow pairs \(X,R,\tilde{R}\) pairwise satisfy assumptions \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} of the Merging Lemma in \(G\).
+By Remark [[remark:merging-flow-pairs]] \ref{itm:remark-merging-flow-pairs-2}, they also satisfy these assumptions in \(G_8\).
+Hence, again by Remark [[remark:merging-flow-pairs]] \ref{itm:remark-merging-flow-pairs-1}, we may apply the Merging Lemma twice to obtain from \(G_8\) an update flow network \(G_6\) with \(6\) flow pairs.
+
+Finally, as flow pairs \(B,\tilde{B},B_0,B_1\) again pairwise satisfy all three assumptions, we apply the Merging Lemma three times to obtain from \(G_6\) an update flow network \(G_3\) with \(3\) flow pairs.
+
+Putting everything together, we have that there is a satisfying assignment for 4CNF formula \(C\) iff there is a feasible block sequence for update flow network \(G\) iff there is a feasible block sequence for \(G_8\) iff there is a feasible block sequence for \(G_6\) iff there is a feasible block sequence for \(G_3\), which, by Corollary [[corollary:block-sequence-iff-update-sequence]], is the case iff there is a feasible update sequence for \(G_3\).
 #+END_proof

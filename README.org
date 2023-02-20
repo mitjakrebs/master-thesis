@@ -28,7 +28,7 @@ I suspect there is a beautiful characterization of blocks that would significant
 The definition of blocks in [cite:@amiri2019polynomialtime] fixes an arbitrary topological sorting $<$, computes the set of vertices $V(P^o\cap P^u)$ ordered w.r.t. $<$, and then computes the set of blocks using $<$ and $V(P^o\cap P^u)$.
 Since the topological sorting is arbitrary, it isn't obvious--to me--from the definition alone that the set of blocks is unique.
 
-My current definition (coming soon!) computes the reachability relation $\leq$, then computes the set of vertices $V(P^o\cap P^u)$ ordered w.r.t. $\leq$, and finally computes the set of blocks using $\leq$ and $V(P^o\cap P^u)$.
+My current definition computes the reachability relation $\leq$, then computes the set of vertices $V(P^o\cap P^u)$ ordered w.r.t. $\leq$, and finally computes the set of blocks using $\leq$ and $V(P^o\cap P^u)$.
 I find the reachability relation more intuitive than an arbitrary topological sorting, but the definition is very similar to the one above, in particular as every topological sorting is a linear extension of the reachability relation.
 
 A major problem--I think--with both of the above definitions is that they are algorithmic:
