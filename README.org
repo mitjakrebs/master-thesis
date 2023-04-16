@@ -35,7 +35,7 @@ A major problem--I think--with both of the above definitions is that they are al
 In order to verify that a set $B$ is the set of blocks of flow update network $G$, we basically have to prove that $B$ is the output of the algorithm specified in the respective definition.
 
 I would rather have a more graph-theoretic characterization à la "A set $B$ is the set of blocks of flow update network $G$ if it satisfies the following two conditions ...".
-As a pointer, I'm confident that every block is a union of weak components, but I haven't managed to get anywhere with this.
+As a pointer, I'm confident that every block is a union of [[https://en.wikipedia.org/wiki/Weak_component][weak components]], but I haven't managed to get anywhere with this.
 
 ** The set of blocks of an update flow network is actually a multiset
 
