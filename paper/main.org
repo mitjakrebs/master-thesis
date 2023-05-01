@@ -17,9 +17,14 @@
 | [[notation:block-sequence-round-block][\(\mathcal{B}(b)\)]]   | The round in which block \(b\) is updated                                                 |
 | [[notation:block-sequence-round-update][\(\mathcal{B}(v,P)\)]] | The round in which block \(b(v,P)\) is updated                                            |
 | [[notation:b-sub-i][\(B_i\)]]              | The set of blocks updated before or in the \(i\)-th round                                 |
-|                      |                                                                                           |
+| [[notation:permutation][\(S(\pi)\)]]              | The set of which \(\pi\) is a permutation                                                 |
+| [[notation:permutation][\(\lvert\pi\rvert\)]]     | The number of elements of permutation \(\pi\)                                             |
+| [[notation:permutation][\(\pi_i\)]]               | The \(i\)-th element of permutation \(\pi\)                                               |
+| [[notation:permutation][\(\pi(x)\)]]              | The position of element \(x\) in permutation \(\pi\)                                     |
 
 * Preliminaries
+
+** Blocks
 
 #+name: notation:reachability-relation
 #+begin_notation
@@ -70,6 +75,8 @@ For an update flow network \(G\) and a flow pair \(P\), \(B^P(G)\) denotes the s
 #+begin_notation
 For an update flow network \(G\), \(B(G)=\bigcup_{P\in\mathcal{P}}B^P(G)\) denotes the set of blocks.
 #+end_notation
+
+** Block Sequences
 
 #+name: defn:block-sequence
 #+begin_defn
@@ -207,6 +214,127 @@ c(e)
 #+begin_corollary
 There is a feasible block sequence iff there is a feasible update sequence.
 #+end_corollary
+
+** Block Permutations
+
+#+name: notation:permutation
+#+begin_notation
+For a set \(S\) and a permutation \(\pi=(x_1,\dots,x_{\ell})\) of \(S\),
+
+1. @@latex:\label{itm:notation-permutation-1}@@
+   \(S(\pi)\) denotes the set \(S\) of which \(\pi\) is a permutation;
+
+2. @@latex:\label{itm:notation-permutation-2}@@
+   \(\lvert\pi\rvert\) denotes the number \(\ell\) of elements of \(\pi\);
+
+3. @@latex:\label{itm:notation-permutation-3}@@
+   for an index \(i\in[\ell]\), \(\pi_i\) denotes the \(i\)-th element \(x_i\) of \(\pi\); and
+
+4. @@latex:\label{itm:notation-permutation-4}@@
+   for an element \(x\in S\), \(\pi(x)\) denotes the index \(i\) such that \(\pi_i=x\).
+#+end_notation
+
+#+name: notation:core
+#+begin_notation
+For two permutations \(\pi_1,\pi_2\), \(\mathrm{core}(\pi_1,\pi_2)=S(\pi_1)\cap S(\pi_2)\) denotes the /core/ of \(\pi_1\) and \(\pi_2\).
+#+end_notation
+
+#+name: defn:restriction-extension
+#+begin_defn
+Let \(\pi\) be a permutation and \(\pi'\) be a subsequence of \(\pi\). Then:
+
+1. \(\pi\) is an /extension/ of \(\pi'\) to \(S(\pi)\supseteq S(\pi')\); and
+
+2. \(\pi'\) is the /restriction/ of \(\pi\) to \(S(\pi')\subseteq S(\pi)\).
+#+end_defn
+
+- [ ] Should we define subsequence?
+
+#+name: defn:consistent-permutations
+#+begin_defn
+Two permutations \(\pi_1,\pi_2\) are /consistent/ if the restrictions of \(\pi_1\) and \(\pi_2\) to \(\mathrm{core}(\pi_1,\pi_2)\) are equal.
+#+end_defn
+
+#+name: defn:union
+#+begin_defn
+Let \(\pi_1,\pi_2\) be two consistent permutations.
+A permutation \(\pi\) is a /union/ of \(\pi_1\) and \(\pi_2\) if \(\pi\) is an extension of both \(\pi_1\) and \(\pi_2\) to \(S(\pi_1)\cup S(\pi_2)\).
+#+end_defn
+
+#+name: defn:congestion-free-permutation
+#+begin_defn
+Let \(X\subseteq E(G)\) be a set of edges.
+A permutation \(\pi=(b_1,\dots,b_{\ell})\) of blocks is /congestion free/ w.r.t. \(X\) if for every edge \(e\in X\) and every index \(i\in[\ell]\),
+#+name: eqn:capacity-constraint-permutations
+\begin{equation}
+c(e)\geq \sum_{P\in\mathcal{P}:\alpha_P(e,B_i)=\mathrm{active}}d_P,
+\end{equation}
+where \(B_i=\bigcup_{j\leq i}\{b_i\}\).
+#+end_defn
+
+- [ ] Remark why we may overload notation \(B_i\).
+
+#+name: lem:
+#+begin_lem
+Let \(X\subseteq E(G)\) be a set of edges and \(\pi=(b_1,\dots,b_{\ell})\) be a permutation of blocks.
+Then \(\pi\) is congestion free w.r.t. \(X\) iff the block sequence \(\mathcal{B}=(\{b_1\},\dots,\{b_{\ell}\})\) induced by \(\pi\) is feasible w.r.t. \(X\).
+#+end_lem
+
+- [ ] The block sequence induced by \(\pi\) is not defined unless \(S(\pi)=B(G)\).
+
+- [ ] Feasible w.r.t. \(X\) is not defined unless \(X=E(G)\).
+
+#+begin_proof
+Let \(X\subseteq E(G)\) be a set of edges, \(\pi=(b_1,\dots,b_{\ell})\) be a permutation, and \(e\in X\) be an edge.
+
+#+latex: \paragraph{Only-if part.}
+Let \(i\in[\ell]\).
+If capacity constraint [[eqn:capacity-constraint-blocks]] is satisfied for the block sequence \(\mathcal{B}=(\{b_1\},\dots,\{b_{\ell}\})\) induced by \(\pi\), \(e\), and \(i\), then capacity constraint [[eqn:capacity-constraint-permutations]] is satisfied for \(\pi\), \(e\), and \(i\):
+\[
+\sum_{P\in\mathcal{P}:\alpha_P(e,B_i)=\mathrm{active}}d_P\leq\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P\leq c(e)
+\]
+
+#+latex: \paragraph{If part.}
+We show the contrapositive.
+Suppose capacity contraint [[eqn:capacity-constraint-blocks]] is violated for some \(i\in[\ell]\).
+We show that capacity constraint [[eqn:capacity-constraint-permutations]] is violated for \(i\) or \(i-1\).
+Notice that if \(i=1\), then the latter contradicts the feasibility of update flow network \(G\).
+
+Since block \(b_i\) is the only block updated in round \(i\), we have that for every block \(b\neq b_i\), \(b\in B_i\) iff \(b\in B_{i-1}\).
+Hence for every flow pair \(P\in\mathcal{P}\setminus\{P(b_i)\}\), we have \(\alpha_P(e,B_i)=\mathrm{active}\) iff \(\alpha_P(e,B_{i-1})=\mathrm{active}\).
+For flow pair \(P(b_i)\), we consider the cases \(\alpha_{P(b_i)}(e,B_i)=\mathrm{active}\) and \(\alpha_{P(b_i)}(e,B_{i-1})=\mathrm{active}\) separately.
+(Note that if neither \(\alpha_{P(b_i)}(e,B_i)=\mathrm{active}\) nor \(\alpha_{P(b_i)}(e,B_{i-1})=\mathrm{active}\), then demand \(d_{P(b_i)}\) contributes to neither sum.)
+
+If \(\alpha_{P(b_i)}(e,B_i)=\mathrm{active}\), then capacity constraint [[eqn:capacity-constraint-permutations]] is violated for \(i\):
+\begin{align*}
+\sum_{P\in\mathcal{P}:\alpha_P(e,B_i)=\mathrm{active}}d_P&=\\
+\sum_{P\in\mathcal{P}\setminus\{P(b_i)\}:\alpha_P(e,B_i)=\mathrm{active}}d_P+\sum_{P\in\{P(b_i)\}:\alpha_P(e,B_i)=\mathrm{active}}d_P&=\\
+\sum_{P\in\mathcal{P}\setminus\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&\\
++\sum_{P\in\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&=\\
+\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&>
+c(e)
+\end{align*}
+
+If \(\alpha_{P(b_i)}(e,B_{i-1})=\mathrm{active}\), then capacity constraint [[eqn:capacity-constraint-permutations]] is violated for \(i-1\):
+\begin{align*}
+\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}}d_P&=\\
+\sum_{P\in\mathcal{P}\setminus\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}}d_P+\sum_{P\in\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}}d_P&=\\
+\sum_{P\in\mathcal{P}\setminus\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&\\
++\sum_{P\in\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&=\\
+\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&>
+c(e)
+\end{align*}
+#+end_proof
+
+#+name: defn:x-permutation
+#+begin_defn
+Let \(X\subseteq V(G)\) be a set of vertices.
+A permutation \(\pi\) is an \(X\)-/permutation/ if:
+
+1. \(S(\pi)=\bigcup_{P\in\mathcal{P},v\in X}\{b(v,P)\}\); and
+
+2. \(\pi\) is congestion free w.r.t. \(E(X)\).
+#+end_defn
 
 * \(\textbf{NP}\)-Hardness for \(k=3\)
 
