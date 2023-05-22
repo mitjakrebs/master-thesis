@@ -249,11 +249,32 @@ Let \(\pi\) be a permutation and \(\pi'\) be a subsequence of \(\pi\). Then:
 #+end_defn
 
 - [ ] Should we define subsequence?
+- [ ] Remark something about empty permutations.
 
 #+name: defn:consistent-permutations
 #+begin_defn
 Two permutations \(\pi_1,\pi_2\) are /consistent/ if the restrictions of \(\pi_1\) and \(\pi_2\) to \(\mathrm{core}(\pi_1,\pi_2)\) are equal.
 #+end_defn
+
+#+name: lem:three-permutations
+#+begin_lem
+Let \(\pi_1,\pi_2,\pi_3\) be three permutations such that \(S(\pi_1)\subseteq S(\pi_2)\subseteq S(\pi_3)\).
+Then:
+
+1. @@latex:\label{itm:lem-three-permutations-1}@@
+   If \(\pi_3\) is an extension of \(\pi_2\) and \(\pi_2\) is an extension of \(\pi_1\), then \(\pi_3\) is an extension of \(\pi_2\).
+
+2. @@latex:\label{itm:lem-three-permutations-2}@@
+   If \(\pi_3\) is an extension of both \(\pi_1\) and \(\pi_2\), then \(\pi_2\) is an extension of \(\pi_1\).
+#+end_lem
+
+#+begin_proof
+Let \(\pi_1,\pi_2,\pi_3\) be three permutations such that \(S(\pi_1)\subseteq S(\pi_2)\subseteq S(\pi_3)\).
+
+#+latex: \paragraph{\ref{itm:lem-three-permutations-1}.}
+
+#+latex: \paragraph{\ref{itm:lem-three-permutations-2}.}
+#+end_proof
 
 #+name: defn:union
 #+begin_defn
@@ -312,7 +333,7 @@ If \(\alpha_{P(b_i)}(e,B_i)=\mathrm{active}\), then capacity constraint [[eqn:ca
 \sum_{P\in\mathcal{P}\setminus\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&\\
 +\sum_{P\in\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&=\\
 \sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&>
-c(e)
+c(e).
 \end{align*}
 
 If \(\alpha_{P(b_i)}(e,B_{i-1})=\mathrm{active}\), then capacity constraint [[eqn:capacity-constraint-permutations]] is violated for \(i-1\):
@@ -322,19 +343,46 @@ If \(\alpha_{P(b_i)}(e,B_{i-1})=\mathrm{active}\), then capacity constraint [[eq
 \sum_{P\in\mathcal{P}\setminus\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&\\
 +\sum_{P\in\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&=\\
 \sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P&>
-c(e)
+c(e).
 \end{align*}
 #+end_proof
 
-#+name: defn:x-permutation
 #+begin_defn
 Let \(X\subseteq V(G)\) be a set of vertices.
-A permutation \(\pi\) is an \(X\)-/permutation/ if:
+A permutation \(\pi\) is:
 
-1. \(S(\pi)=\bigcup_{P\in\mathcal{P},v\in X}\{b(v,P)\}\); and
+1. an \(X\)-/permutation/ if it is a permutation of the blocks \(\bigcup_{P\in\mathcal{P},v\in X}\{b(v,P)\}\) induced by \(X\); and
 
-2. \(\pi\) is congestion free w.r.t. \(E(X)\).
+2. \(X\)-/feasible/ if it is an \(X\)-permutation and congestion free w.r.t. \(E(X)\).
 #+end_defn
+
+- [ ] I think we need to be careful here whether \(E(X)\) comprises directed or undirected edges.
+
+#+begin_defn
+Let \(X\subseteq V(G)\) be a set of vertices and \(\pi,\pi'\) be two permutations.
+Then:
+
+1. \(\pi\) is an \(X\)-/extension/ of \(\pi'\) if \(\pi\) is an extension of \(\pi'\) to \(X\); and
+
+2. \(\pi'\) and the \(X\)-/restriction/ of \(\pi\) if \(\pi'\) is the extension of \(\pi\) to \(X\).
+#+end_defn
+
+#+name: lem:three-permutations-2
+#+begin_lem
+Let \(X,Y,Z\subseteq V(G)\) be three sets of vertices such that \(X\subseteq Y\subseteq Z\).
+Moreover, let \(\pi_X\) be an \(X\)-permutation, \(\pi_Y\) be a \(Y\)-permutation, and \(\pi_Z\) be a \(Z\)-permutation.
+Then:
+
+1. @@latex:\label{itm:lem-three-permutations-2-1}@@
+   If \(\pi_Z\) is an extension of \(\pi_Y\) and \(\pi_Y\) is an extension of \(\pi_X\), then \(\pi_Z\) is an extension of \(\pi_X\).
+
+2. @@latex:\label{itm:lem-three-permutations-2-2}@@
+   If \(\pi_Z\) is an extension of both \(\pi_X\) and \(\pi_Y\), then \(\pi_Y\) is an extension of \(\pi_X\).
+#+end_lem
+
+#+begin_proof
+The lemma follows immediately from Lemma [[lem:three-permutations]] and the fact that if \(X\subseteq Y\), then \(\bigcup_{P\in\mathcal{P},v\in X}\{b(v,P)\}\subseteq\bigcup_{P\in\mathcal{P},v\in Y}\{b(v,P)\}\).
+#+end_proof
 
 * \(\textbf{NP}\)-Hardness for \(k=3\)
 
@@ -1269,3 +1317,361 @@ Finally, as flow pairs \(B,\tilde{B},B_0,B_1\) again pairwise satisfy all three 
 
 Putting everything together, we have that there is a satisfying assignment for 4CNF formula \(C\) iff there is a feasible block sequence for update flow network \(G\) iff there is a feasible block sequence for \(G_8\) iff there is a feasible block sequence for \(G_6\) iff there is a feasible block sequence for \(G_3\), which, by Corollary [[corollary:block-sequence-iff-update-sequence]], is the case iff there is a feasible update sequence for \(G_3\).
 #+end_proof
+
+* Bounded Treewidth
+
+The goal of this section is to prove the following theorem.
+
+#+name: thm:algorithm-bounded-treewidth-search
+#+begin_thm
+There is an algorithm that, given an update flow network \(G\) with \(k\) flow pairs and a nice tree decomposition of \(G\) with \(O(n)\) nodes and width \(\ell-1\), either determines that there is no feasible block sequence for \(G\) or finds such a sequence in time \(O((k\ell)!k\ell n^2)\).
+#+end_thm
+
+- [ ] Define tree decomposition of an update flow network.
+
+  
+Before we will prove how to find a feasible block sequence in section _, we will show how to decide if there is such a sequence in section _.
+
+** Decision Problem
+
+#+name: thm:algorithm-bounded-treewidth-decision
+#+begin_thm
+There is an algorithm that, given an update flow network \(G\) with \(k\) flow pairs and a nice tree decomposition of \(G\) with \(O(n)\) nodes and width \(\ell-1\), decides whether there is a feasible block sequence for \(G\) in time \(O((k\ell)!k\ell n^2)\).
+#+end_thm
+
+Let \(G\) be an update flow network with \(k\) flow pairs and \((T,\mathcal{X}=\{X_x\}_{x\in V(T)})\) be a nice tree decomposition of \(G\) with \(O(n)\) nodes and width \(\ell-1\).
+For a node \(x\in V(T)\), we denote by \(V_x\) the union of all bags \(X_y\) with \(y=x\) or \(y\) is a descendant of \(x\) in \(T\), and by \(G_x=(V_x,E(V_x))\) the subgraph of \(G\) induced by \(V_x\).
+
+- [ ] Extract notation?
+
+
+For every node \(x\in V(T)\), we compute a table \(D_x\) which contains a value \(D_x[\pi]\) for every \(X_x\)-permutation \(\pi\), that is, for every permutation of the blocks \(\bigcup_{P\in\mathcal{P},v\in X_x}\{b(v,P)\}\) induced by \(X_x\).
+Hence \(D_x\) contains at most \((k\lvert X_x\rvert)!\leq(k\ell)!\) values.
+Every value \(D_x[\pi]\) is a bit indicating whether \(X_x\)-permutation \(\pi\) can be extended to a \(V_x\)-feasible permutation.
+
+- [ ] What about empty permutations, that is, if \(X_x\subseteq\{t\}\)?
+
+- [ ] Argue somewhere that every vertex is contained in at most \(k\) blocks.
+  
+
+The algorithm computes for every node \(x\in V(T)\) the table \(D_x\).
+This is done in bottom-up order, that is, the table for node \(x\) is computed after the tables for all descendants of \(x\) have been computed.
+In particular, to compute the table for node \(x\), we use the tables for the children of \(x\).
+
+*** Leaf Nodes
+
+Let \(x\in V(T)\) be a leaf node.
+Then bag \(X_x\) contains a single vertex and \(V_x=X_x\).
+Hence \(V_x\) does not induce any edges.
+Hence every \(X_x\)-permutation is \(V_x\)-feasible.
+Thus we can set \(D_x[\pi]=1\) for every \(X_x\)-permutation \(\pi\).
+
+Hence each of the at most \((k\lvert X_x\rvert)!=k!\) entries of table \(D_x\) can be computed in \(O(1)\) time.
+Thus the entire table for a leaf node can be computed in \(O(k!)\) time.
+
+*** Introduce Nodes
+
+Let \(x\in V(T)\) be an introduce node with child \(y\).
+Then \(X_x\supseteq X_y\) and \(V_x=X_x\cup V_y\).
+
+#+name: lem:blocks-induce-subtrees
+#+begin_lem
+Blocks induce subtrees.
+#+end_lem
+
+- [ ] Move.
+
+#+name: lem:introduce-nodes-edges-v-x
+#+begin_lem
+\(E(V_x)=E(X_x)\cup E(V_y)\).
+#+end_lem
+
+- [ ] Move.
+
+#+begin_proof
+#+end_proof
+
+#+name: lem:restriction-congestion-free
+#+begin_lem
+Let \(X\subseteq V(G)\) be a set of vertices, \(Y\subseteq X\), \(\pi\) be an \(X\)-permutation, and \(\pi'\) be the \(Y\)-restriction of \(\pi\).
+If \(\pi\) is \(X\)-feasible, then \(\pi'\) is \(Y\)-feasible.
+#+end_lem
+
+- [ ] Move?
+
+#+begin_proof
+Let \(X\subseteq V(G)\) be a set of vertices, \(Y\subseteq X\), \(\pi\) be an \(X\)-permutation, and \(\pi'\) be the \(Y\)-restriction of \(\pi\).
+Suppose \(\pi\) is \(X\)-feasible.
+We show that \(\pi'\) is \(Y\)-feasible.
+
+Let \(e\in E(Y)\) and \(i\in[\lvert\pi'\rvert]\).
+We first show the following claim.
+
+#+name: claim:lem-restriction-congestion-free
+#+begin_claim
+Let \(P\in\mathcal{P}\).
+If \(\alpha_P(e,B'_i)=\mathrm{active}\), then \(\alpha_P(e,B_{\pi(\pi'_i)})=\mathrm{active}\).
+#+end_claim
+
+#+begin_proof2
+Let \(u,v\in V(G)\) be two vertices such that \(e=(u,v)\) and \(P\in\mathcal{P}\).
+Suppose \(\alpha_P((u,v),B'_i)=\mathrm{active}\).
+If \((u,v)\in E(P^u)\) and \(b(u,P)\in B'_i\), then \(b(u,P)\in B_{\pi(\pi'_i)}\) and hence \(\alpha_P((u,v),B_{\pi(\pi'_i)})=\mathrm{active}\).
+Now suppose \((u,v)\in E(P^o)\) and \(b(u,P)\notin B'_i\).
+If \(b(u,P)\notin B_{\pi(\pi'_i)}\), then \(\alpha_P((u,v),B_{\pi(\pi'_i)})=\mathrm{active}\).
+Now suppose \(b(u,P)\in B_{\pi(\pi'_i)}\).
+Hence \(\pi(b(u,P))\leq \pi(\pi'_i)\).
+Moreover, since \((u,v)\in E(Y)\), \(u\in Y\).
+Since \(\pi'\) is a \(Y\)-permutation, \(b(u,P)\in S(\pi')\).
+But since \(b(u,P)\notin B'_i\), \(\pi'(b(u,P))>i=\pi'(\pi'_i)\).
+Hence \(\pi\) and \(\pi'\) are not consistent which contradicts that \(\pi'\) is a restriction of \(\pi\).
+#+end_proof2
+
+Since \(\pi\) is \(X\)-feasible and \(e\in E(Y)\subseteq E(X)\), by Claim [[claim:lem-restriction-congestion-free]], we have
+\[
+\sum_{P\in\mathcal{P}:\alpha_P(e,B'_i)=\mathrm{active}}d_P\leq\sum_{P\in\mathcal{P}:\alpha_P(e,B_{\pi(\pi'_i)})=\mathrm{active}}d_P\leq c(e).
+\]
+#+end_proof
+
+- [ ] Point out that \(\pi(\pi'_i)\) is defined, as \(\pi\) is an extension of \(\pi'\).
+- [ ] Define \(B'_i\).
+- [ ] Argue that \(B'_i\subseteq B_{\pi(\pi'_i)}\).
+
+#+name: lem:union-congestion-free
+#+begin_lem
+Let \(X,Y\subseteq V(G)\) be two sets of vertices, \(\pi\) be an \(X\)-feasible permutation, and \(\pi'\) be a \(Y\)-feasible permutation.
+If \(\pi\) and \(\pi'\) are consistent, then every union of \(\pi\) and \(\pi'\) is congestion free w.r.t. \(E(X)\cup E(Y)\).
+#+end_lem
+
+- [ ] Move?
+
+#+begin_proof
+Let \(X,Y\subseteq V(G)\) be two sets of vertices, \(\pi\) be an \(X\)-feasible permutation, and \(\pi'\) be a \(Y\)-feasible permutation.
+Let \(\tilde{\pi}\) be any union of \(\pi\) and \(\pi'\).
+Suppose \(\pi\) and \(\pi'\) are consistent.
+We show that \(\tilde{\pi}\) is congestion free w.r.t. \(E(X)\cup E(Y)\).
+
+Let \(e\in E(X)\cup E(Y)\) and \(i\in [\lvert\tilde{\pi}\rvert]\).
+We only consider the case \(e\in E(X)\); the case \(e\in E(Y)\) is similar.
+Suppose \(e\in E(X)\).
+Let \(j\in\{0,\dots,\lvert\pi\rvert\}\) such that \((\pi_1,\dots,\pi_j)\) is the \(X\)-restriction of \((\tilde{\pi}_1,\dots,\tilde{\pi}_i)\).
+We first show the following claim.
+
+#+name: claim:lem-union-congestion-free
+#+begin_claim
+Let \(P\in\mathcal{P}\).
+If \(\alpha_P(e,\tilde{B}_i)=\mathrm{active}\), then \(\alpha_P(e,B_j)=\mathrm{active}\).
+#+end_claim
+
+#+begin_proof2
+Let \(u,v\in V(G)\) be two vertices such that \(e=(u,v)\) and \(P\in\mathcal{P}\).
+Suppose \(\alpha_P((u,v),\tilde{B}_i)=\mathrm{active}\).
+If \((u,v)\in E(P^o)\) and \(b(u,P)\notin\tilde{B}_i\), then \(b(u,P)\notin B_j\) and hence \(\alpha_P((u,v),B_j)=\mathrm{active}\).
+Now suppose \((u,v)\in E(P^u)\) and \(b(u,P)\in\tilde{B}_i\).
+If \(b(u,P)\in B_j\), then \(\alpha_P((u,v),B_j)=\mathrm{active}\).
+Now suppose \(b(u,P)\notin B_j\).
+Since \((u,v)\in E(X)\), \(u\in X\).
+Since \(\pi\) is an \(X\)-permutation, \(b(u,P)\in S(\pi)\).
+Hence \(\pi(b(u,P))>j=\pi(\pi_j)\).
+But since \(b(u,P)\in\tilde{B}_i\) and by the choice of index \(j\), \(\tilde{\pi}(b(u,P))\leq\tilde{\pi}(\pi_j)\).
+Hence \(\pi\) and \(\tilde{\pi}\) are not consistent which contradicts that \(\tilde{\pi}\) is a union of \(\pi\) and \(\pi'\).
+#+end_proof2
+
+Since \(\pi\) is \(X\)-feasible and \(e\in E(X)\), by Claim [[claim:lem-union-congestion-free]], we have
+\[
+\sum_{P\in\mathcal{P}:\alpha_P(e,\tilde{B}_i)=\mathrm{active}}d_P\leq\sum_{P\in\mathcal{P}:\alpha_P(e,B_j)=\mathrm{active}}d_P\leq c(e).
+\]
+#+end_proof
+
+- [ ] Define \(\tilde{B}_i\).
+- [ ] Argue that \(B_j\subseteq\tilde{B}_i\).
+
+#+attr_latex: :options [[cite:@amiri2016congestionfree; Lemma 4.3]]
+#+name: lem:algorithm-x-feasible-permutation
+#+begin_lem
+Let \(X\subseteq V(G)\) be a set of vertices and \(\pi\) be an \(X\)-permutation.
+Whether \(\pi\) is \(X\)-feasible can be determined in time \(O(\lvert\pi\rvert\cdot\lvert G\rvert)\).
+#+end_lem
+
+- [ ] Do we have to change the running time of the algorithm to use \(\lvert G\rvert\) instead of \(n\)?
+
+#+attr_latex: :options [Introduce nodes]
+#+name: lem:introduce-nodes
+#+begin_lem
+Let \(\pi\) be an \(X_x\)-permutation and \(\pi'\) be the \(X_y\)-restriction of \(\pi\).
+Then \(D_x[\pi]=1\) iff \(\pi\) is \(X_x\)-feasible and \(D_y[\pi']=1\).
+#+end_lem
+
+#+begin_proof
+Let \(\pi_{X_x}\) be an \(X_x\)-permutation and \(\pi_{X_y}\) be the \(X_y\)-restriction of \(\pi_{X_x}\).
+
+#+latex: \paragraph{If part.}
+Suppose \(D_x[\pi_{X_x}]=1\).
+Then let \(\pi_{V_x}\) be a \(V_x\)-feasible extension of \(\pi_{X_x}\).
+Hence, by Lemma [[lem:restriction-congestion-free]], \(\pi_{X_x}\) is \(X_x\)-feasible.
+To show \(D_y[\pi_{X_y}]=1\), consider the \(V_y\)-restriction \(\pi_{V_y}\) of \(\pi_{V_x}\).
+Since \(V_y\subseteq V_x\) and \(\pi_{V_x}\) is \(V_x\)-feasible, by Lemma [[lem:restriction-congestion-free]], \(\pi_{V_y}\) is \(V_y\)-feasible.
+Moreover, since \(X_y\subseteq X_x\subseteq V_x\), by Lemma [[lem:three-permutations-2]] \ref{itm:lem-three-permutations-2-1}, \(\pi_{V_x}\) is a \(V_x\)-extension of \(\pi_{X_y}\).
+Since \(X_y\subseteq V_y\subseteq V_x\), by Lemma [[lem:three-permutations-2]] \ref{itm:lem-three-permutations-2-2}, \(\pi_{V_y}\) is a \(V_y\)-extension of \(\pi_{X_y}\).
+Thus \(D_y[\pi_{X_y}]=1\).
+
+#+latex: \paragraph{Only-if part.}
+Suppose \(\pi_{X_x}\) is \(X_x\)-feasible and \(D_y[\pi_{X_y}]=1\).
+Then let \(\pi_{V_y}\) be a \(V_y\)-feasible extension of \(\pi_{X_y}\).
+We show that \(\pi_{X_x}\) and \(\pi_{V_y}\) are consistent.
+Then, by Lemma [[lem:union-congestion-free]], every union of \(\pi_{X_x}\) and \(\pi_{V_y}\) is congestion free w.r.t. \(E(X_x)\cup E(V_y)\), which, by Lemma [[lem:introduce-nodes-edges-v-x]], equals \(E(V_x)\).
+Thus, since every union of \(\pi_{X_x}\) and \(\pi_{V_y}\) is an extension of \(\pi_{X_x}\) to blocks induced by \(X_x\cup V_y=V_x\), \(D_x[\pi_{X_x}]=1\).
+
+Suppose not.
+Then obtain blocks \(b,b'\) such that \(\pi_{X_x}(b)<\pi_{X_x}(b')\) and \(\pi_{V_y}(b)>\pi_{V_y}(b')\).
+By Lemma [[lem:blocks-induce-subtrees]], both \(b\) and \(b'\) are induced by \(X_y\).
+If \(\pi_{X_y}(b)<\pi_{X_y}(b')\), then \(\pi_{V_y}\) is not an extension of \(\pi_{X_y}\).
+If \(\pi_{X_y}(b)>\pi_{X_y}(b')\), then \(\pi_{X_y}\) is not a restriction of \(\pi_{X_x}\).
+#+end_proof
+
+Lemma [[lem:introduce-nodes]] shows how to compute the table for an introduce node \(x\) when we have the table for its child.
+By Lemma [[lem:algorithm-x-feasible-permutation]], we can determine whether permutation \(\pi\) is feasible in \(O(\lvert\pi\rvert\cdot\lvert G\rvert)\) time.
+Moreover, we can compute any restriction of \(\pi\) in \(O(\lvert\pi\rvert)\) time.
+Hence each of the at most \((k\lvert X_x\rvert)!\) entries of table \(D_x\) can be computed in \(O(k\lvert X_x\rvert\cdot\lvert G\rvert)\) time.
+Thus we can compute the entire table for an introduce node \(x\) in \(O((k\lvert X_x\rvert)!k\lvert X_x\rvert\cdot\lvert G\rvert)\) time.
+
+- [ ] Do we have to argue that any restriction of permutation \(\pi\) can be computed in \(O(\lvert\pi\rvert)\) time?
+
+*** Forget nodes
+
+Let \(x\in V(T)\) be a forget node with child \(y\). Then \(X_x\subseteq X_y\) and hence \(V_x=V_y\).
+
+#+attr_latex: :options [Forget nodes]
+#+name: lem:forget-nodes
+#+begin_lem
+Let \(\pi\) be an \(X_x\)-permutation. Then \(D_x[\pi]=1\) iff \(D_y[\pi']=1\) for some \(X_y\)-extension \(\pi'\) of \(\pi\).
+#+end_lem
+
+#+begin_proof
+Let \(\pi_{X_x}\) be an \(X_x\)-permutation.
+The lemma follows from the following observation:
+Since \(X_x\subseteq X_y\subseteq V_y=V_x\), every \(V_x\)-extension of \(\pi_{X_x}\) is the \(V_y\)-extension of some \(X_y\)-extension of \(\pi_{X_x}\).
+
+#+latex: \paragraph{If part.}
+Suppose \(D_x[\pi_{X_x}]=1\).
+Then let \(\pi_{V_x}\) be a \(V_x\)-feasible extension of \(\pi_{X_x}\).
+Consider the \(X_y\)-restriction \(\pi_{X_y}\) of \(\pi_{V_x}\).
+Since \(X_x\subseteq X_y\subseteq V_x\), by Lemma [[lem:three-permutations-2]] \ref{itm:lem-three-permutations-2-2}, \(\pi_{X_y}\) is an \(X_y\)-extension of \(\pi_{X_x}\).
+Moreover, since \(V_x=V_y\), \(\pi_{V_x}\) is a \(V_y\)-feasible extension of \(\pi_{X_y}\) and thus \(D_y[\pi_{X_y}]=1\).
+
+#+latex: \paragraph{Only-if part.}
+Suppose \(D_y[\pi_{X_y}]=1\) for some \(X_y\)-extension \(\pi_{X_y}\) of \(\pi_{X_x}\).
+Then let \(\pi_{V_y}\) be a \(V_y\)-feasible extension of \(\pi_{X_y}\).
+Since \(X_x\subseteq X_y\subseteq V_y\), by Lemma [[lem:three-permutations-2]] \ref{itm:lem-three-permutations-2-1}, \(\pi_{V_y}\) is a \(V_y\)-extension of \(\pi_{X_x}\).
+Moreover, since \(V_x=V_y\), \(\pi_{V_y}\) is a \(V_x\)-feasible extension of \(\pi_{X_x}\) and thus \(D_x[\pi_{X_x}]=1\).
+#+end_proof
+
+#+name: alg:forget-nodes
+#+begin_algorithm
+\DontPrintSemicolon
+\ForEach{\(X_x\)-permutation \(\pi\)}{\(D_x[\pi]\gets 0\;\)}
+\ForEach{\(X_y\)-permutation \(\pi'\)}{
+\If{\(D_y[\pi']=1\)}{Compute the \(X_x\)-restriction \(\pi\) of \(\pi'\)\;\label{line:alg-forget-nodes-1}\(D_x[\pi]\gets 1\)\;}
+}
+#+end_algorithm
+
+- [ ] Fix rendering.
+
+
+Rather than computing the table for a forget node \(x\) given the table for its child \(y\) in the obvious way suggested by Lemma [[lem:forget-nodes]], we use the fact that permutation \(\pi'\) is an \(X_y\)-extension of \(X_x\)-permutation \(\pi\) iff \(\pi\) is the \(X_x\)-restriction of \(\pi'\) and compute the table for \(x\) using Algorithm [[alg:forget-nodes]].
+
+Let us quickly argue that, given a forget node \(x\) and the table for its child \(y\), the output \(D_x\) of Algorithm [[alg:forget-nodes]] satisfies Lemma [[lem:forget-nodes]].
+Let \(\pi\) be an \(X_x\)-permutation.
+If \(D_x[\pi]=0\), then \(D_x[\pi]\) was not set to \(1\) in Line \ref{line:alg-forget-nodes-1} and hence \(\pi\) is not the \(X_x\)-restriction of any \(X_y\)-permutation \(\pi'\) with \(D_y[\pi']=1\), which is the case iff there is no \(X_y\)-extension \(\pi'\) of \(\pi\) with \(D_y[\pi']=1\).
+If, on the other hand, \(D_x[\pi]=1\), then there is an \(X_y\)-permutation \(\pi'\) with \(D_y[\pi']=1\) such that \(\pi\) is the \(X_x\)-restriction of \(\pi'\), which is the case iff there is an \(X_y\)-extension \(\pi'\) of \(\pi\) with \(D_y[\pi']=1\).
+
+Since we can compute any restriction of permutation \(\pi'\) in \(O(\lvert\pi'\rvert)\) time, Algorithm [[alg:forget-nodes]] computes the table for a forget node \(x\) given the table for its child \(y\) in \(O((k\lvert X_x\rvert)!+(k\lvert X_y\rvert)!k\lvert X_y\rvert)=O((k\lvert X_y\rvert)!k\lvert X_y\rvert)\) time.
+
+*** Join nodes
+
+Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\).
+Then \(X_{y_1}=X_x=X_{y_2}\) and hence \(V_x=X_x\cup V_{y_1}\cup V_{y_2}=V_{y_1}\cup V_{y_2}\).
+
+#+name: lem:join-nodes-edges-v-x
+#+begin_lem
+\(E(V_x)=E(V_{y_1})\cup E(V_{y_2})\).
+#+end_lem
+
+- [ ] Move.
+
+#+begin_proof
+#+end_proof
+
+#+attr_latex: :options [Join nodes]
+#+name: lem:join-nodes
+#+begin_lem
+Let \(\pi\) be an \(X_x\)-permutation.
+Then \(D_x[\pi]=1\) iff both \(D_{y_1}[\pi]=1\) and \(D_{y_2}[\pi]=1\).
+#+end_lem
+
+#+begin_proof
+Let \(\pi_{X_x}\) be an \(X_x\)-permutation.
+
+#+latex: \paragraph{If part.}
+Suppose \(D_x[\pi_{X_x}]=1\).
+Then let \(\pi_{V_x}\) be a \(V_x\)-feasible extension of \(\pi_{X_x}\).
+Consider the \(V_{y_1}\)-restriction \(\pi_{V_{y_1}}\) of \(\pi_{V_x}\).
+Since \(V_{y_1}\subseteq V_x\) and \(\pi_{V_x}\) is \(V_x\)-feasible, by Lemma [[lem:restriction-congestion-free]], \(\pi_{V_{y_1}}\) is \(V_{y_1}\)-feasible.
+Moreover, since \(X_x=X_{y_1}\subseteq V_{y_1}\subseteq V_x\), by Lemma [[lem:three-permutations-2]] \ref{itm:lem-three-permutations-2-2}, \(\pi_{V_{y_1}}\) is a \(V_{y_1}\)-extension of \(\pi_{X_x}\).
+Thus \(D_{y_1}[\pi_{X_x}]=1\).
+Analogously, \(D_{y_2}[\pi_{X_x}]=1\).
+
+#+latex: \paragraph{Only-if part.}
+Suppose both \(D_{y_1}[\pi_{X_x}]=1\) and \(D_{y_2}[\pi_{X_x}]=1\).
+Then let \(\pi_{V_{y_1}}\) (\(\pi_{V_{y_2}}\)) be a \(V_{y_1}\)-feasible (\(V_{y_2}\)-feasible) extension of \(\pi_{X_x}\).
+We show that \(\pi_{V_{y_1}}\) and \(\pi_{V_{y_2}}\) are consistent.
+Then, by Lemma [[lem:union-congestion-free]], every union of \(\pi_{V_{y_1}}\) and \(\pi_{V_{y_2}}\) is congestion free w.r.t. \(E(V_{y_1})\cup E(V_{y_2})\), which, by Lemma [[lem:join-nodes-edges-v-x]] equals \(E(V_x)\).
+Moreover, since every union \(\pi_{V_{y_1}\cup V_{y_2}}\) of \(\pi_{V_{y_1}}\) and \(\pi_{V_{y_2}}\) is an extension of \(\pi_{V_{y_1}}\) to blocks induced by \(V_{y_1}\cup V_{y_2}=V_x\), \(\pi_{V_{y_1}\cup V_{y_2}}\) is a \(V_x\)-extension of \(\pi_{V_{y_1}}\).
+Hence, since \(X_x=X_{y_1}\subseteq V_{y_1}\subseteq V_x\), by Lemma [[lem:three-permutations-2]] \ref{itm:lem-three-permutations-2-1}, \(\pi_{V_{y_1}\cup V_{y_2}}\) is a \(V_x\)-extension of \(\pi_{X_x}\).
+Thus \(D_x[\pi_{X_x}]=1\).
+
+Suppose \(\pi_{V_{y_1}}\) and \(\pi_{V_{y_2}}\) are not consistent.
+Then obtain blocks \(b,b'\) such that \(\pi_{V_{y_1}}(b)<\pi_{V_{y_1}}(b')\) and \(\pi_{V_{y_2}}(b)>\pi_{V_{y_2}}(b')\).
+By Lemma [[lem:blocks-induce-subtrees]], both \(b\) and \(b'\) are induced by \(X_x\).
+If \(\pi_{X_x}(b)<\pi_{X_x}(b')\), then \(\pi_{V_{y_2}}\) is not an extension of \(\pi_{X_x}\).
+If \(\pi_{X_x}(b)>\pi_{X_x}(b')\), then \(\pi_{V_{y_1}}\) is not an extension of \(\pi_{X_x}\).
+#+end_proof
+
+Lemma [[lem:join-nodes]] shows how to compute the table for a join node \(x\) when we have the tables for both its children \(y_1\) and \(y_2\).
+Hence each of the at most \((k\lvert X_x\rvert)!\) entries of table \(D_x\) can be computed in \(O(1)\) time.
+Thus we can compute the entire table for a join node \(x\) in \(O((k\lvert X_x\rvert)!)\) time.
+
+*** Putting everything together
+
+A /postorder tree walk/ is an ordering of the nodes of a tree such that every node is later in the ordering than any of its descendants.
+There are simple and well-known algorithms to find a postorder tree walk of a given tree in linear time.
+
+In our algorithm, we compute tables for nodes in postorder, that is, first we determine a postorder tree walk for tree \(T\), and then we compute for each node \(x\in V(T)\) table \(D_x\) in this postorder.
+In this way, all tables for the children of \(x\) are already computed before we compute \(D_x\), and we thus can use the methods described above to compute the tables.
+
+Suppose \(r\) is the root of tree \(T\).
+After all other tables have been computed, we compute table \(D_r\).
+Given this table, we can decide if there is a feasible block sequence for update flow network \(G\).
+
+- [ ] Edit! This is basically a copy-paste from [cite:@bodlaender2008combinatorial].
+
+#+name: lem:root
+#+begin_lem
+There is a feasible block sequence for update flow network \(G\) iff \(D_r[\pi]=1\) for some \(X_r\)-permutation \(\pi\).
+#+end_lem
+
+#+begin_proof
+The lemma follows immediately from \(V_r=V(G)\).
+#+end_proof
+
+#+attr_latex: :options [[[thm:algorithm-bounded-treewidth-decision]]]
+#+begin_proof
+Since tree decomposition \((T,\mathcal{X})\) has width \(\ell-1\), for every node \(x\in V(T)\), we can compute table \(D_x\) in \(O((k\ell)!k\ell n)\) time.
+Since \((T,\mathcal{X})\) has \(O(n)\) nodes, we can compute the tables for all nodes in \(O((k\ell)!k\ell n^2)\) time.
+Moreover, by Lemma [[lem:root]], given the table for the root, we can decide if there is a feasible block sequence for update flow network \(G\) in \(O((k\ell)!)\) time.
+Thus the algorithm decides if there is a feasible block sequence for \(G\) in \(O((k\ell)!k\ell n^2)\) time.
+#+end_proof
+
+- [ ] Should we add lemmas for the running times?
+
+** Search Problem
