@@ -1,4 +1,4 @@
-% Created 2023-05-22 Mon 15:42
+% Created 2023-06-12 Mon 15:14
 % Intended LaTeX compiler: pdflatex
 \documentclass[fontsize=11pt,paper=a4]{book}
 \usepackage[utf8]{inputenc}
@@ -32,32 +32,32 @@
 \caption{Table of notations}
 \centering
 \begin{tabular}{ll}
-\hyperref[orgc40fbed]{\(\leq_G\)} & The reachability relation for directed graph \(G\)\\[0pt]
-\hyperref[org6c1d07b]{\(b(v,P)\)} & The \(P\)-block containing vertex \(v\)\\[0pt]
-\hyperref[org48541ca]{\(P(b)\)} & The flow pair \(P\) such that block \(b\) is a \(P\)-block\\[0pt]
-\hyperref[orgd3dd3c7]{\(\mathcal{S}(b)\)} & The least vertex in block \(b\) w.r.t. reachability relation \(\leq_{P(b)^o\cup P(b)^u}\)\\[0pt]
-\hyperref[orgd08d3dd]{\(B^P(G)\)} & The set of \(P\)-blocks\\[0pt]
-\hyperref[org8ecbe6a]{\(B(G)\)} & The set of blocks\\[0pt]
-\hyperref[org78c9a03]{\(\mathcal{B}(b)\)} & The round in which block \(b\) is updated\\[0pt]
-\hyperref[orgefe9042]{\(\mathcal{B}(v,P)\)} & The round in which block \(b(v,P)\) is updated\\[0pt]
-\hyperref[org7110eb0]{\(B_i\)} & The set of blocks updated before or in the \(i\)-th round\\[0pt]
-\hyperref[orga3cd559]{\(S(\pi)\)} & The set of which \(\pi\) is a permutation\\[0pt]
-\hyperref[orga3cd559]{\(\lvert\pi\rvert\)} & The number of elements of permutation \(\pi\)\\[0pt]
-\hyperref[orga3cd559]{\(\pi_i\)} & The \(i\)-th element of permutation \(\pi\)\\[0pt]
-\hyperref[orga3cd559]{\(\pi(x)\)} & The position of element \(x\) in permutation \(\pi\)\\[0pt]
+\hyperref[orgea6953d]{\(\leq_G\)} & The reachability relation for directed graph \(G\)\\[0pt]
+\hyperref[org858ac17]{\(b(v,P)\)} & The \(P\)-block containing vertex \(v\)\\[0pt]
+\hyperref[orga1fa224]{\(P(b)\)} & The flow pair \(P\) such that block \(b\) is a \(P\)-block\\[0pt]
+\hyperref[orgc5c33ba]{\(\mathcal{S}(b)\)} & The least vertex in block \(b\) w.r.t. reachability relation \(\leq_{P(b)^o\cup P(b)^u}\)\\[0pt]
+\hyperref[orgb42e306]{\(B^P(G)\)} & The set of \(P\)-blocks\\[0pt]
+\hyperref[orgafd4369]{\(B(G)\)} & The set of blocks\\[0pt]
+\hyperref[org79f7d52]{\(\mathcal{B}(b)\)} & The round in which block \(b\) is updated\\[0pt]
+\hyperref[org3ce10e5]{\(\mathcal{B}(v,P)\)} & The round in which block \(b(v,P)\) is updated\\[0pt]
+\hyperref[org6460974]{\(B_i\)} & The set of blocks updated before or in the \(i\)-th round\\[0pt]
+\hyperref[org8a1f029]{\(S(\pi)\)} & The set of which \(\pi\) is a permutation\\[0pt]
+\hyperref[org8a1f029]{\(\lvert\pi\rvert\)} & The number of elements of permutation \(\pi\)\\[0pt]
+\hyperref[org8a1f029]{\(\pi_i\)} & The \(i\)-th element of permutation \(\pi\)\\[0pt]
+\hyperref[org8a1f029]{\(\pi(x)\)} & The position of element \(x\) in permutation \(\pi\)\\[0pt]
 \end{tabular}
 \end{table}
 
 \part{Preliminaries}
-\label{sec:org36b665d}
+\label{sec:org2de5357}
 
 \chapter{Blocks}
-\label{sec:org97e3d2d}
+\label{sec:org73aa1b8}
 
 \begin{notation}
 For a directed graph \(G\), \(\leq_G=E(G)^*\) denotes the reachability relation of \(G\).
 That is, for every two vertices \(u,v\in V(G)\), \(u\leq_Gv\) iff there is a path in \(G\) from \(u\) to \(v\).
-\label{orgc40fbed}
+\label{orgea6953d}
 \end{notation}
 
 Notice that for every directed graph \(G\),
@@ -74,7 +74,7 @@ Notice that for every directed graph \(G\),
 Let \(G=(V,E,\mathcal{P},s,t,c)\) be an update flow network and \(P\in\mathcal{P}\) be a flow pair.
 Let \(v_1,\dots,v_{\ell}\) be the set \(V(P^o\cap P^u)\) ordered w.r.t. \(\leq_{P^o\cup P^u}\).
 For every \(i\in[\ell-1]\), we define the \(i\)-th \emph{\(P\)-block} as \(b_i^P=\{v\mid v_i\leq_{P^o\cup P^u}v\leq_{P^o\cup P^u}v_{i+1}\}\).
-\label{org9a8ac46}
+\label{orge56ea48}
 \end{defn}
 
 \begin{remark}
@@ -83,40 +83,40 @@ There are multiple issues with this definition (see \url{../README.org}).
 
 \begin{notation}
 For a flow pair \(P\) and a vertex \(v\in V(P)\), \(b(v,P)\) denotes the \(P\)-block containing \(v\).
-\label{org6c1d07b}
+\label{org858ac17}
 \end{notation}
 
 \begin{notation}
 For a block \(b\), \(P(b)\) denotes the flow pair \(P\) such that \(b\) is a \(P\)-block.
-\label{orgd3dd3c7}
+\label{orgc5c33ba}
 \end{notation}
 
 \begin{notation}
 For a block \(b\), \(\mathcal{S}(b)\) denotes the \emph{start} of \(b\), that is, the least vertex in \(b\) w.r.t. \(\leq_{P(b)^o\cup P(b)^u}\).
-\label{org48541ca}
+\label{orga1fa224}
 \end{notation}
 
 \begin{notation}
 For an update flow network \(G\) and a flow pair \(P\), \(B^P(G)\) denotes the set of \(P\)-blocks.
-\label{orgd08d3dd}
+\label{orgb42e306}
 \end{notation}
 
 \begin{notation}
 For an update flow network \(G\), \(B(G)=\bigcup_{P\in\mathcal{P}}B^P(G)\) denotes the set of blocks.
-\label{org8ecbe6a}
+\label{orgafd4369}
 \end{notation}
 
 \chapter{Block Sequences}
-\label{sec:org94c7c4b}
+\label{sec:orga21b652}
 
 \begin{defn}
 A \emph{block sequence} \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) is an ordered partition of the set of blocks.
-\label{org13196ad}
+\label{org1fe743a}
 \end{defn}
 
 \begin{remark}
 We may ignore all blocks containing less than three vertices.
-\label{org50cc955}
+\label{orgbe725f4}
 \end{remark}
 
 \begin{itemize}
@@ -125,17 +125,17 @@ We may ignore all blocks containing less than three vertices.
 
 \begin{notation}
 For a block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) and a block \(b\), \(\mathcal{B}(b)\) denotes the index \(i\in[\ell]\) such that \(b\) is contained in \(\mathscr{B}_i\).
-\label{org78c9a03}
+\label{org79f7d52}
 \end{notation}
 
 \begin{notation}
 For a block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\), a flow pair \(P\), and a vertex \(v\in V(P)\), \(\mathcal{B}(v,P)=\mathcal{B}(b(v,P))\) denotes the index \(i\in[\ell]\) such that block \(b(v,P)\) is contained in \(\mathscr{B}_i\).
-\label{orgefe9042}
+\label{org3ce10e5}
 \end{notation}
 
 \begin{notation}
 For a block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) and an index \(i\in[\ell]\), \(B_i=\bigcup_{j\leq i}\mathscr{B}_j\) denotes the set of blocks updated before or in the \(i\)-th round.
-\label{org7110eb0}
+\label{org6460974}
 \end{notation}
 
 \begin{defn}
@@ -147,7 +147,7 @@ For a flow pair \(P\), an edge \((u,v)\in E(P^o\cup P^u)\), and an index \(i\in[
 \mathrm{active} & \text{if }(u,v)\in E(P^u)\text{ and }b(u,P)\in B_i\\
 \mathrm{inactive} & \text{otherwise}.
 \end{cases}\]
-\label{org14af385}
+\label{orgccf29bb}
 \end{defn}
 
 \begin{lem}
@@ -171,13 +171,13 @@ Then:
    \mathrm{inactive} & i<\mathcal{B}(u,P).
    \end{cases}\]
 \end{enumerate}
-\label{org595ecc7}
+\label{orgd745bbc}
 \end{lem}
 
 \begin{notation}
 For a flow pair \(P\) and a \(P\)-block \(b\), \(U(b)=\{(v,P)\mid v\in b\}\) denotes the set of updates induced by \(b\).
 Moreover, for a set \(B\) of blocks, \(U(B)=\bigcup_{b\in B}U(b)\) denotes the set of updates induced by \(B\).
-\label{org5246868}
+\label{org0b34b52}
 \end{notation}
 
 The following lemma shows that for every block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\), every flow pair \(P\), every edge \(e\in E(P^o\cup P^u)\), and every \(i\in[\ell]\), \(\alpha_P(e,B_i)=\mathrm{active}\) iff \(e\) is on the transient (\(s,t\))-path for \(P\) after updating all blocks in \(B_i\).
@@ -185,29 +185,29 @@ The following lemma shows that for every block sequence \(\mathcal{B}=(\mathscr{
 \begin{lem}
 Let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a block sequence, \(P\) be a flow pair, \(e\in E(P^o\cup P^u)\), and \(i\in[\ell]\).
 Then \(\alpha_P(e,B_i)=\mathrm{active}\) iff \(e\in E(T_{P,U(B_i)})\).
-\label{org5a28ee9}
+\label{org2335b10}
 \end{lem}
 
 \begin{defn}
 A block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) is \emph{feasible} if for every edge \(e\) and every index \(i\in[\ell]\),
 \begin{equation}
-\label{eq:orgcad020b}
+\label{eq:org56be2ad}
 c(e)\geq\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P,
 \end{equation}
 where we define \(\mathscr{B}_0\) to be the empty set.
-\label{org23be785}
+\label{org62f0080}
 \end{defn}
 
 \begin{remark}
 Let \(G\) be an update flow network with unit demand, that is, \(d_P=1\) for every flow pair \(P\), and let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a block sequence.
-Then, for every edge \(e\) and every index \(i\in[\ell]\), capacity constraint \ref{eq:orgcad020b} simplifies to:
+Then, for every edge \(e\) and every index \(i\in[\ell]\), capacity constraint \ref{eq:org56be2ad} simplifies to:
 \begin{align*}
 c(e)
 &\geq\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P\\
 &=\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}1\\
 &=\lvert\{P\in\mathcal{P}\mid\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}\}\rvert.
 \end{align*}
-\label{org32d76cc}
+\label{org14d79a1}
 \end{remark}
 
 \begin{lem}
@@ -215,12 +215,12 @@ Let \(G\) be a not necessarily feasible update flow network and \(\mathcal{B}=(\
 
 \begin{enumerate}
 \item \label{itm:lem-update-flow-network-feasible-if-1}
-The old flow network is feasible if capacity constraint \ref{eq:orgcad020b} is satisfied for every edge and \(i=1\).
+The old flow network is feasible if capacity constraint \ref{eq:org56be2ad} is satisfied for every edge and \(i=1\).
 
 \item \label{itm:lem-update-flow-network-feasible-if-2}
-The updated flow network is feasible if capacity constraint \ref{eq:orgcad020b} is satisfied for every edge and \(i=\ell\).
+The updated flow network is feasible if capacity constraint \ref{eq:org56be2ad} is satisfied for every edge and \(i=\ell\).
 \end{enumerate}
-\label{orgcb7de4b}
+\label{org28f0752}
 \end{lem}
 
 \begin{proof}
@@ -228,7 +228,7 @@ Let \(G\) be a not necessarily feasible update flow network and \(\mathcal{B}=(\
 Moreover, let \(e\) be an edge.
 
 \paragraph{\ref{itm:lem-update-flow-network-feasible-if-1}.}
-Suppose capacity constraint \ref{eq:orgcad020b}  is satisfied for \(e\) and \(i=1\).
+Suppose capacity constraint \ref{eq:org56be2ad}  is satisfied for \(e\) and \(i=1\).
 Then, since \(\mathscr{B}_0=\emptyset\), and by definitions of \(B_i\) and \(\alpha_P\):
 \begin{align*}
 c(e)
@@ -237,7 +237,7 @@ c(e)
 &=\sum_{P\in\mathcal{P}:e\in E(P^o)}d_P.
 \end{align*}
 \paragraph{\ref{itm:lem-update-flow-network-feasible-if-2}.}
-Suppose capacity constraint \ref{eq:orgcad020b}  is satisfied for \(e\) and \(i=\ell\).
+Suppose capacity constraint \ref{eq:org56be2ad}  is satisfied for \(e\) and \(i=\ell\).
 Then, since \(\mathcal{B}\) partitions the set of blocks, and by definitions of \(B_i\) and \(\alpha_P\):
 \begin{align*}
 c(e)
@@ -249,11 +249,11 @@ c(e)
 
 \begin{corollary}
 There is a feasible block sequence iff there is a feasible update sequence.
-\label{orgc26c90e}
+\label{org1eb86ee}
 \end{corollary}
 
 \chapter{Block Permutations}
-\label{sec:orgdee2747}
+\label{sec:org55b711c}
 
 \begin{notation}
 For a set \(S\) and a permutation \(\pi=(x_1,\dots,x_{\ell})\) of \(S\),
@@ -271,12 +271,12 @@ for an index \(i\in[\ell]\), \(\pi_i\) denotes the \(i\)-th element \(x_i\) of \
 \item \label{itm:notation-permutation-4}
 for an element \(x\in S\), \(\pi(x)\) denotes the index \(i\) such that \(\pi_i=x\).
 \end{enumerate}
-\label{orga3cd559}
+\label{org8a1f029}
 \end{notation}
 
 \begin{notation}
 For two permutations \(\pi_1,\pi_2\), \(\mathrm{core}(\pi_1,\pi_2)=S(\pi_1)\cap S(\pi_2)\) denotes the \emph{core} of \(\pi_1\) and \(\pi_2\).
-\label{org4852a00}
+\label{org2e535d7}
 \end{notation}
 
 \begin{defn}
@@ -287,7 +287,7 @@ Let \(\pi\) be a permutation and \(\pi'\) be a subsequence of \(\pi\). Then:
 
 \item \(\pi'\) is the \emph{restriction} of \(\pi\) to \(S(\pi')\subseteq S(\pi)\).
 \end{enumerate}
-\label{org141d491}
+\label{org065f525}
 \end{defn}
 
 \begin{itemize}
@@ -297,7 +297,7 @@ Let \(\pi\) be a permutation and \(\pi'\) be a subsequence of \(\pi\). Then:
 
 \begin{defn}
 Two permutations \(\pi_1,\pi_2\) are \emph{consistent} if the restrictions of \(\pi_1\) and \(\pi_2\) to \(\mathrm{core}(\pi_1,\pi_2)\) are equal.
-\label{orgc384963}
+\label{org95e114c}
 \end{defn}
 
 \begin{lem}
@@ -311,7 +311,7 @@ If \(\pi_3\) is an extension of \(\pi_2\) and \(\pi_2\) is an extension of \(\pi
 \item \label{itm:lem-three-permutations-2}
 If \(\pi_3\) is an extension of both \(\pi_1\) and \(\pi_2\), then \(\pi_2\) is an extension of \(\pi_1\).
 \end{enumerate}
-\label{orge4116d3}
+\label{org9abfabb}
 \end{lem}
 
 \begin{proof}
@@ -325,18 +325,18 @@ Let \(\pi_1,\pi_2,\pi_3\) be three permutations such that \(S(\pi_1)\subseteq S(
 \begin{defn}
 Let \(\pi_1,\pi_2\) be two consistent permutations.
 A permutation \(\pi\) is a \emph{union} of \(\pi_1\) and \(\pi_2\) if \(\pi\) is an extension of both \(\pi_1\) and \(\pi_2\) to \(S(\pi_1)\cup S(\pi_2)\).
-\label{org969cdf9}
+\label{orge0fe414}
 \end{defn}
 
 \begin{defn}
 Let \(X\subseteq E(G)\) be a set of edges.
 A permutation \(\pi=(b_1,\dots,b_{\ell})\) of blocks is \emph{congestion free} w.r.t. \(X\) if for every edge \(e\in X\) and every index \(i\in[\ell]\),
 \begin{equation}
-\label{eq:org33e793e}
+\label{eq:org06fe169}
 c(e)\geq \sum_{P\in\mathcal{P}:\alpha_P(e,B_i)=\mathrm{active}}d_P,
 \end{equation}
 where \(B_i=\bigcup_{j\leq i}\{b_i\}\).
-\label{org01237bf}
+\label{org675c0bd}
 \end{defn}
 
 \begin{itemize}
@@ -346,7 +346,7 @@ where \(B_i=\bigcup_{j\leq i}\{b_i\}\).
 \begin{lem}
 Let \(X\subseteq E(G)\) be a set of edges and \(\pi=(b_1,\dots,b_{\ell})\) be a permutation of blocks.
 Then \(\pi\) is congestion free w.r.t. \(X\) iff the block sequence \(\mathcal{B}=(\{b_1\},\dots,\{b_{\ell}\})\) induced by \(\pi\) is feasible w.r.t. \(X\).
-\label{org28ebda8}
+\label{orgaf85aa9}
 \end{lem}
 
 \begin{itemize}
@@ -360,15 +360,15 @@ Let \(X\subseteq E(G)\) be a set of edges, \(\pi=(b_1,\dots,b_{\ell})\) be a per
 
 \paragraph{Only-if part.}
 Let \(i\in[\ell]\).
-If capacity constraint \ref{eq:orgcad020b} is satisfied for the block sequence \(\mathcal{B}=(\{b_1\},\dots,\{b_{\ell}\})\) induced by \(\pi\), \(e\), and \(i\), then capacity constraint \ref{eq:org33e793e} is satisfied for \(\pi\), \(e\), and \(i\):
+If capacity constraint \ref{eq:org56be2ad} is satisfied for the block sequence \(\mathcal{B}=(\{b_1\},\dots,\{b_{\ell}\})\) induced by \(\pi\), \(e\), and \(i\), then capacity constraint \ref{eq:org06fe169} is satisfied for \(\pi\), \(e\), and \(i\):
 \[
 \sum_{P\in\mathcal{P}:\alpha_P(e,B_i)=\mathrm{active}}d_P\leq\sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}\text{ or }\alpha_P(e,B_i)=\mathrm{active}}d_P\leq c(e)
 \]
 
 \paragraph{If part.}
 We show the contrapositive.
-Suppose capacity contraint \ref{eq:orgcad020b} is violated for some \(i\in[\ell]\).
-We show that capacity constraint \ref{eq:org33e793e} is violated for \(i\) or \(i-1\).
+Suppose capacity contraint \ref{eq:org56be2ad} is violated for some \(i\in[\ell]\).
+We show that capacity constraint \ref{eq:org06fe169} is violated for \(i\) or \(i-1\).
 Notice that if \(i=1\), then the latter contradicts the feasibility of update flow network \(G\).
 
 Since block \(b_i\) is the only block updated in round \(i\), we have that for every block \(b\neq b_i\), \(b\in B_i\) iff \(b\in B_{i-1}\).
@@ -376,7 +376,7 @@ Hence for every flow pair \(P\in\mathcal{P}\setminus\{P(b_i)\}\), we have \(\alp
 For flow pair \(P(b_i)\), we consider the cases \(\alpha_{P(b_i)}(e,B_i)=\mathrm{active}\) and \(\alpha_{P(b_i)}(e,B_{i-1})=\mathrm{active}\) separately.
 (Note that if neither \(\alpha_{P(b_i)}(e,B_i)=\mathrm{active}\) nor \(\alpha_{P(b_i)}(e,B_{i-1})=\mathrm{active}\), then demand \(d_{P(b_i)}\) contributes to neither sum.)
 
-If \(\alpha_{P(b_i)}(e,B_i)=\mathrm{active}\), then capacity constraint \ref{eq:org33e793e} is violated for \(i\):
+If \(\alpha_{P(b_i)}(e,B_i)=\mathrm{active}\), then capacity constraint \ref{eq:org06fe169} is violated for \(i\):
 \begin{align*}
 \sum_{P\in\mathcal{P}:\alpha_P(e,B_i)=\mathrm{active}}d_P&=\\
 \sum_{P\in\mathcal{P}\setminus\{P(b_i)\}:\alpha_P(e,B_i)=\mathrm{active}}d_P+\sum_{P\in\{P(b_i)\}:\alpha_P(e,B_i)=\mathrm{active}}d_P&=\\
@@ -386,7 +386,7 @@ If \(\alpha_{P(b_i)}(e,B_i)=\mathrm{active}\), then capacity constraint \ref{eq:
 c(e).
 \end{align*}
 
-If \(\alpha_{P(b_i)}(e,B_{i-1})=\mathrm{active}\), then capacity constraint \ref{eq:org33e793e} is violated for \(i-1\):
+If \(\alpha_{P(b_i)}(e,B_{i-1})=\mathrm{active}\), then capacity constraint \ref{eq:org06fe169} is violated for \(i-1\):
 \begin{align*}
 \sum_{P\in\mathcal{P}:\alpha_P(e,B_{i-1})=\mathrm{active}}d_P&=\\
 \sum_{P\in\mathcal{P}\setminus\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}}d_P+\sum_{P\in\{P(b_i)\}:\alpha_P(e,B_{i-1})=\mathrm{active}}d_P&=\\
@@ -435,21 +435,21 @@ If \(\pi_Z\) is an extension of \(\pi_Y\) and \(\pi_Y\) is an extension of \(\pi
 \item \label{itm:lem-three-permutations-2-2}
 If \(\pi_Z\) is an extension of both \(\pi_X\) and \(\pi_Y\), then \(\pi_Y\) is an extension of \(\pi_X\).
 \end{enumerate}
-\label{orgff8a5ac}
+\label{org7b57a33}
 \end{lem}
 
 \begin{proof}
-The lemma follows immediately from Lemma \ref{orge4116d3} and the fact that if \(X\subseteq Y\), then \(\bigcup_{P\in\mathcal{P},v\in X}\{b(v,P)\}\subseteq\bigcup_{P\in\mathcal{P},v\in Y}\{b(v,P)\}\).
+The lemma follows immediately from Lemma \ref{org9abfabb} and the fact that if \(X\subseteq Y\), then \(\bigcup_{P\in\mathcal{P},v\in X}\{b(v,P)\}\subseteq\bigcup_{P\in\mathcal{P},v\in Y}\{b(v,P)\}\).
 \end{proof}
 
 \part{\(\textbf{NP}\)-Hardness for \(k=3\)}
-\label{sec:org932ea3c}
+\label{sec:orgab82979}
 
 The goal of this section is to prove the following theorem.
 
 \begin{thm}
 The \(k\)-network flow update problem is \(\textbf{NP}\)-hard for \(k=3\).
-\label{org4deb635}
+\label{org1e51ebf}
 \end{thm}
 
 We will prove this theorem in two steps.
@@ -457,10 +457,10 @@ First, we will prove the following theorem.
 
 \begin{thm}
 The \(k\)-network flow update problem, where every edge is used by at most three flow pairs, is \(\textbf{NP}\)-hard for \(k=10\).
-\label{org9a7f867}
+\label{org8c43346}
 \end{thm}
 
-Then, we will (repeatedly) apply the following lemma to the flow update network we will have constructed in the proof of Theorem \ref{org9a7f867} to reduce the number of flow pairs from \(10\) to \(3\).
+Then, we will (repeatedly) apply the following lemma to the flow update network we will have constructed in the proof of Theorem \ref{org8c43346} to reduce the number of flow pairs from \(10\) to \(3\).
 
 \begin{lem}[Merging Lemma]
 Let \(G\) be an update flow network with \(k\geq 2\) flow pairs, and let \(F,F'\) be two flow pairs such that
@@ -493,7 +493,7 @@ for \(e=(v_F,t)\) (\(e=(s,v_{F'})\)).
 
 
 Then there is an update flow network \(\tilde{G}\) with \(k-1\) flow pairs such that (\(\lvert\tilde{G}\rvert=O(\lvert G\rvert)\) and) there is a feasible block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) for \(G\) iff there is a feasible block sequence \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) for \(\tilde{G}\).
-\label{org44b4347}
+\label{org7dbdd46}
 \end{lem}
 
 \begin{remark}
@@ -501,118 +501,181 @@ I'm confident we don't need property \ref{itm:lem-merging-flow-pairs-property-3}
 \end{remark}
 
 \chapter{\(\textbf{NP}\)-Hardness for the Special Case}
-\label{sec:org96c25fa}
+\label{sec:org9af9543}
 
-The proof of Theorem \ref{org9a7f867} is via reduction from \(\textsf{4-SAT}\) and is based on the \(\textbf{NP}\)-hardness proof for \(k=6\) in (Amiri, Saeed A. and Dudycz, Szymon and Parham, Mahmoud and Schmid, Stefan and Wiederrecht, Sebastian, 2019).
+The proof of Theorem \ref{org8c43346} is via reduction from \(\textsf{4-SAT}\) and is based on the \(\textbf{NP}\)-hardness proof for \(k=6\) in (Amiri, Saeed A. and Dudycz, Szymon and Parham, Mahmoud and Schmid, Stefan and Wiederrecht, Sebastian, 2019).
 
 Let \(C\) be a 4CNF formula with \(n\) variables \(x_1,\dots,x_n\) and \(m\) clauses \(C_1,\dots,C_m\).
 W.l.o.g. every variable occurs both positively and negatively (otherwise, if a variable \(x_j\) occurs only positively (negatively), we can assign \(1\) (\(0\)) to \(x_j\) and remove all clauses containing literal \(x_j\) (\(\bar{x}_j\))).
 We construct the corresponding update flow network \(G\) as follows.
 
 \section{The Reduction}
-\label{sec:orgce5b6e3}
+\label{sec:orgf1866d6}
 
-First, we introduce a \emph{clause gadget} for each clause and a \emph{variable gadget} for each variable.
-Then, we connect the variable and clause gadgets.
-Finally, we take the remaining steps necessary to ensure that \(G\) is indeed a feasible update flow network.
-
-\paragraph{Clause gadgets.}
-Let \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\) be a clause.
-We construct the corresponding clause gadget \(C^i\) as follows.
-The idea is to model the syntax tree for \(C_i\) depicted in Figure \ref{fig:org04fc70c}.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-14 at 15.05.37.png}
-\caption{\label{fig:org04fc70c}A syntax tree for clause \((l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\)}
-\end{figure}
-
-For the root operator node, we introduce a \emph{clause vertex} \(u^i\) which is used by three flow pairs \(L,R,B\).
-The idea is to guarantee that clause \(C_i\) is satisfied iff block \(b(u^i,L)\) is updated before block \(b(u^i,B)\) or block \(b(u^i,R)\) is updated before \(b(u^i,B)\).
-Equivalently, \(b(u^i,B)\) cannot be updated unless at least one of \(b(u^i,L),b(u^i,R)\) has been updated.
-Intuitively, if \(b(u^i,L)\) (\(b(u^i,R)\)) is updated before \(b(u^i,B)\), then the \(\textbf{L}\)eft half \((l_{i_1}\vee l_{i_2})\) (\(\textbf{R}\)ight half \((l_{i_3}\vee l_{i_4})\)) of \(C_i\) is satisfied.
-
-Similarly, for the intermediate operator nodes of the syntax tree, we introduce clause vertices \(u_{1,2}^i,u_{3,4}^i\), where \(u_{1,2}^i\) corresponds to \((l_{i_1}\vee l_{i_2})\) and \(u_{3,4}^i\) corresponds to \((l_{i_3}\vee l_{i_4})\).
-Both clause vertices are used by flow pairs \(\tilde{L},\tilde{R},\tilde{B}\) such that if \(b(u_{1,2}^i,\tilde{L})\) (\(b(u_{1,2}^i,\tilde{R})\)) is updated before \(b(u_{1,2},\tilde{B})\), then the left half \(l_{i_1}\) (right half \(l_{i_2}\)) of \((l_{i_1}\vee l_{i_2})\) is satisfied, and analogously for \(u_{3,4}^i\).
-
-Moreover, for the operand nodes of the syntax tree, we introduce \emph{literal vertices} \(u_1^i,u_2^i,u_3^i,u_4^i\).
-
-Finally, for every branch from a parent node to its left (right) child node, we add an edge to either \(L\) (\(R\)) (if the parent node is \(u^i\)) or \(\tilde{L}\) (\(\tilde{R}\)) (if the parent node is \(u_{1,2}^i\) or \(u_{3,4}^i\)).
-
-We now proceed with the detailed specification of clause gadget \(C^i\) (see Figure \ref{fig:org697c962}).
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-14 at 15.07.03.png}
-\caption{\label{fig:org697c962}Clause gadget \(C^i\)}
-\end{figure}
-
-We introduce six flow pairs \(L,R,B,\tilde{L},\tilde{R},\tilde{B}\), each with demand \(1\).
-
-For the clause vertices, we introduce two vertices \(u^i,v^i\) and add edge \((u^i,v^i)\) to flows \(L^o,R^o,B^u\).
-Similarly, we introduce vertices \(u_{1,2}^i,v_{1,2}^i,u_{3,4}^i,v_{3,4}^i\) and add edges \((u_{1,2}^i,v_{1,2}^i),(u_{3,4}^i,v_{3,4}^i)\) to flows \(\tilde{L}^o,\tilde{R}^o,\tilde{B}^u\).
-
-For the literal vertices, we introduce vertices \(u_1^i,v_1^i,u_2^i,v_2^i,u_3^i,v_3^i,u_4^i,v_4^i\) and add edges \((u_1^i,v_1^i),(u_3^i,v_3^i)\) to flow \(\tilde{L}^u\) and \((u_2^i,v_2^i),(u_4^i,v_4^i)\) to \(\tilde{R}^u\).
-
-Moreover, we introduce auxiliary vertices \(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i,\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i\) and add edge \((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)\) to flows \(\tilde{L}^u,\tilde{B}^o\) and \((\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i)\) to \(\tilde{R}^u,\tilde{B}^o\).
-
-Finally, we add the following edges to connect clause gadget \(C^i\):
+We will need to map a solution for formula \(C\), that is, a satisfying assignment, to a solution for update flow network \(G\), that is, a feasible block sequence, and vice versa.
+We will do this by mapping the choice of assigning either \(1\) or \(0\) to variable \(x_j\) to the choice of updating a corresponding block, say \(b^j\), after a dedicated reference block \(b\) or not, and vice versa.
+For this purpose, we construct a \emph{variable gadget} \(X^j\) for every variable \(x_j\) such that, in particular, block \(b^j\) is completely contained in \(X^j\), whereas reference block \(b\) spans all variable gadgets.
+Moreover, to guarantee that an assignment obtained from a feasible block sequence as indicated above indeed satisfies every clause, we additionally construct a \emph{clause gadget} for every clause.
+We first describe the variable gadgets.
 
 \begin{itemize}
-\item \((u^i,\tilde{u}_{1,2}^i),(\tilde{v}_{1,2}^i,v^i)\) to \(L^u\)
-\item \((u^i,\tilde{u}_{3,4}^i),(\tilde{v}_{3,4}^i,v^i)\) to \(R^u\)
-\item \((v_{1,2}^i,u_{3,4}^i)\) to \(\tilde{L}^o,\tilde{L}^u,\tilde{R}^o,\tilde{R}^u\)
-\item \((u_{1,2}^i,u_1^i),(v_1^i,v_{1,2}^i),(u_{3,4}^i,u_3^i),(v_3^i,v_{3,4}^i)\) to \(\tilde{L}^u\)
-\item \((u_{1,2}^i,u_2^i),(v_2^i,v_{1,2}^i),(u_{3,4}^i,u_4^i),(v_4^i,v_{3,4}^i)\) to \(\tilde{R}^u\)
-\item \((\tilde{v}_{1,2}^i,\tilde{u}_{3,4}^i)\) to \(\tilde{B}^o,\tilde{B}^u\)
-\item \((\tilde{u}_{1,2}^i,u_{1,2}^i),(v_{1,2}^i,\tilde{v}_{1,2}^i),(\tilde{u}_{3,4}^i,u_{3,4}^i),(v_{3,4}^i,\tilde{v}_{3,4}^i)\) to \(\tilde{B}^u\)
+\item[{$\square$}] Mention that all flow pairs have unit demand.
 \end{itemize}
 
 \paragraph{Variable gadgets.}
-For every variable \(x_j\), we construct the corresponding variable gadget \(X^j\) as follows.
-We introduce a \emph{variable vertex} \(x^j\) which is used by three flow pairs \(X,\bar{X},B\).
-The idea is to guarantee the following:
+For every variable \(x_j\), we construct the corresponding variable gadget \(X^j\) as follows (see Figure \ref{fig:org3611eea}).
+As indicated above, the idea is that \(X^j\) contains a block \(b^j\) such that:
 
-\begin{enumerate}
-\item If block \(b(x^j,X)\) is updated before block \(b(x^j,B)\), then variable \(x_j\) is assigned \(1\).
-\item If block \(b(x^j,\bar{X})\) is updated before \(b(x^j,B)\), then \(x_j\) is assigned \(0\).
-\item Not both \(b(x^j,X)\) and \(b(x^j,\bar{X})\) can be updated before \(b(x^j,B)\).
+\begin{enumerate}[label=(V\arabic*)]
+\item\label{itm:v1}
+Variable \(x_j\) is assigned \(1\) iff block \(b^j\) is updated after reference block \(b\).
 \end{enumerate}
 
-We now proceed with the detailed specification of variable gadget \(X^j\) (see Figure \ref{fig:org78f3ea3}).
+Therefore, we introduce a \emph{variable vertex} \(x^j\) which is used by three flow pairs \(X,\bar{X},B\) such that \(b^j=b(x^j,\bar{X})\) and \(b=b(x^j,B)\).
+Intuitively, updating flow pair \(X\) (\(\bar{X}\)) before \(B\) for \(x^j\) corresponds to assigning \(1\) (\(0\)) to variable \(x_j\).
+More precisely, the idea is to guarantee the following:
+
+\begin{enumerate}[label=(V\arabic*),start=2]
+\item\label{itm:v2}
+If block \(b(x^j,X)\) is updated before \(b(x^j,B)\), then variable \(x_j\) is assigned \(1\).
+\item\label{itm:v3}
+If \(b(x^j,\bar{X})\) is updated before \(b(x^j,B)\), then \(x_j\) is assigned \(0\).
+\item\label{itm:v4}
+Not both \(b(x^j,X)\) and \(b(x^j,\bar{X})\) can be updated before \(b(x^j,B)\).
+\end{enumerate}
+
+Notice that \ref{itm:v1} and \ref{itm:v4} imply both \ref{itm:v2} and \ref{itm:v3}.
+To guarantee \ref{itm:v4}, we introduce a vertex \(y^j\) and add an edge \((x^j,y^j)\) with capacity \(2\) to flows \(X^u,\bar{X}^u,B^o\).
+
+Moreover, we introduce auxiliary vertices \(x_0^j,y_0^j,x_1^j,y_1^j\) and add edge \((x_0^j,y_0^j)\) with capacity \(1\) to flow \(\bar{X}^o\) and \((x_1^j,y_1^j)\) with capacity \(1\) to \(X^o\).
+These will be used to connect variable with clause gadgets.
+More precisely, \(x_0^j\) (\(x_1^j\)) will be connected to clause gadgets corresponding to clauses in which variable \(x_j\) occurs negatively (positively).
+
+As mentioned above, block \(b^j\) should be completely contained in variable gadget \(X^j\).
+Therefore, we add edges \((x^j,x_0^j),(y_0^j,y^j)\) with capacity \(10\) to flow \(\bar{X}^o\) and \((x^j,x_1^j),(y_1^j,y^j)\) with capacity \(10\) to \(X^o\).
+
+\begin{itemize}
+\item[{$\square$}] Either use capacity \(\infty\) or argue why we use capacity \(10\).
+\end{itemize}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-14 at 15.06.35.png}
-\caption{\label{fig:org78f3ea3}Variable gadget \(X^j\)}
+\caption{\label{fig:org3611eea}Variable gadget \(X^j\)}
 \end{figure}
 
-We introduce two flow pairs \(X,\bar{X}\), each with demand \(1\).
-For the variable vertices, we introduce vertices \(x^j,y^j\) and add edge \((x^j,y^j)\) to flows \(X^u,\bar{X}^u,B^o\).
-Moreover, we introduce auxiliary vertices \(x_0^j,y_0^j,x_1^j,y_1^j\) and add edge \((x_0^j,y_0^j)\) to flow \(\bar{X}^o\) and \((x_1^j,y_1^j)\) to \(X^o\).
-Finally, to connect variable gadget \(X^j\), we add edges \((x^j,x_0^j),(y_0^j,y^j)\) to flow \(\bar{X}^o\) and \((x^j,x_1^j),(y_1^j,y^j)\) to \(X^o\).
+\paragraph{Clause gadgets.}
+Let \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\) be a clause.
+We construct the corresponding clause gadget \(C^i\) as follows (see Figure \ref{fig:org1553c0b}).
+The idea is to model the syntax tree for \(C_i\) depicted in Figure \ref{fig:org53c50df}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-14 at 15.05.37.png}
+\caption{\label{fig:org53c50df}A syntax tree for clause \((l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\)}
+\end{figure}
+
+For the root operator node, we introduce a \emph{clause vertex} \(u^i\) which is used by three flow pairs \(L,R,B\) such that block \(b(u^i,B)\) equals the reference block \(b\).
+The idea is to guarantee the following:
+
+\begin{enumerate}[label=(C\arabic*)]
+\item\label{itm:c1}
+Clause \(C_i\) is satisfied iff block \(b(u^i,L)\) is updated before \(b\) or \(b(u^i,R)\) is updated before \(b\).
+\end{enumerate}
+
+Intuitively, if \(b(u^i,L)\) (\(b(u^i,R)\)) is updated before \(b\), then the \(\textbf{L}\)eft half \((l_{i_1}\vee l_{i_2})\) (\(\textbf{R}\)ight half \((l_{i_3}\vee l_{i_4})\)) of \(C_i\) is satisfied.
+Similarly, for the intermediate operator nodes of the syntax tree, we introduce clause vertices \(u_L^i,u_R^i\), where \(u_L^i\) corresponds to the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) and \(u_R^i\) corresponds to the right half \((l_{i_3}\vee l_{i_4})\).
+Both vertices are used by flow pairs \(\tilde{L},\tilde{R},\tilde{B}\) such that:
+
+\begin{enumerate}[label=(C\arabic*),start=2]
+\item\label{itm:c2}
+Suppose block \(b(u^i,L)\) is updated before \(b\).
+Then clause \((l_{i_1}\vee l_{i_2})\) is satisfied if \(b(u_L^i,\tilde{L})\) is updated before \(b(u_L^i,\tilde{B})\) or \(b(u_L^i,\tilde{R})\) is updated before \(b(u_L^i,\tilde{B})\).
+\item\label{itm:c3}
+Suppose block \(b(u^i,R)\) is updated before \(b\).
+Then clause \((l_{i_3}\vee l_{i_4})\) is satisfied if \(b(u_R^i,\tilde{L})\) is updated before \(b(u_R^i,\tilde{B})\) or \(b(u_R^i,\tilde{R})\) is updated before \(b(u_R^i,\tilde{B})\).
+\end{enumerate}
+
+Again, intuitively, if \(b(u_L^i,\tilde{L})\) (\(b(u_L^i,\tilde{R})\)) is updated before \(b(u_L^i,\tilde{B})\), then the left half \(l_{i_1}\) (right half \(l_{i_2}\)) of \((l_{i_1}\vee l_{i_2})\) is satisfied, and analogously for \(u_R^i\).
+
+Moreover, for the operand nodes of the syntax tree, we introduce \emph{literal vertices} \(u_1^i,u_2^i,u_3^i,u_4^i\).
+Finally, for every branch from a parent node to its left (right) child node, we add an edge to either \(L^u\) (\(R^u\)) (if the parent node is \(u^i\)) or \(\tilde{L}^u\) (\(\tilde{R}^u\)) (if the parent node is \(u_L^i\) or \(u_R^i\)).
+See Figure \ref{fig:org0ab5d84} for an illustration.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-05-27 at 14.31.00.png}
+\caption{\label{fig:org0ab5d84}Clause gadget \(C^i\)}
+\end{figure}
+
+To guarantee \ref{itm:c1}, we introduce a vertex \(v^i\) and add an edge \((u^i,v^i)\) with capacity \(2\) to flows \(L^o,R^o,B^u\).
+Similarly, to guarantee \ref{itm:c2} and \ref{itm:c3}, we introduce vertices \(v_L^i,v_R^i\) and add edges \((u_L^i,v_L^i),(u_R^i,v_R^i)\) with capacity \(2\) to flows \(\tilde{L}^o,\tilde{R}^o,\tilde{B}^u\).
+See Figure \ref{fig:org746f116} for an illustration.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-05-27 at 14.31.31.png}
+\caption{\label{fig:org746f116}Clause gadget \(C^i\)}
+\end{figure}
+
+Moreover, we introduce vertices \(v_1^i,v_2^i,v_3^i,v_4^i\) and add edges \((u_1^i,v_1^i),(u_3^i,v_3^i)\) with capacity \(1\) to flow \(\tilde{L}^u\) and \((u_2^i,v_2^i),(u_4^i,v_4^i)\) with capacity \(1\) to \(\tilde{R}^u\).
+These will be used to connect variable with clause gadgets.
+
+Finally, we introduce auxiliary vertices \(\tilde{u}_L^i,\tilde{v}_L^i,\tilde{u}_R^i,\tilde{v}_R^i\) and add edge \((\tilde{u}_L^i,\tilde{v}_L^i)\) with capacity \(1\) to flows \(L^u,\tilde{B}^o\) and \((\tilde{u}_R^i,\tilde{v}_R^i)\) with capacity \(1\) to \(R^u,\tilde{B}^o\).
+We remark that these vertices, as well as flow pair \(\tilde{B}\), are not necessary for this proof.
+Instead, we could directly connect clause vertices \(u^i,u_L^i\) via flow pair \(L\) and \(u^i,u_R^i\) via \(R\).
+They are necessary, however, for the proof of Theorem \ref{org1e51ebf}.
+
+Since we want to guarantee \ref{itm:c1}, \ref{itm:c2}, and \ref{itm:c3} for each clause independently, blocks \(b(u^i,L),b(u^i,R),b(u_L^i,\tilde{L}),b(u_L^i,\tilde{R}),b(u_R^i,\tilde{L}),b(u_R^i,\tilde{R})\) should be completely contained in clause gadget \(C^i\).
+Moreover, since we want to guarantee \ref{itm:c2} and \ref{itm:c3} independently, blocks \(b(u_L^i,\tilde{L}),b(u_R^i,\tilde{L})\), \(b(u_L^i,\tilde{R}),b(u_R^i,\tilde{R})\), and \(b(u_L^i,\tilde{B}),b(u_R^i,\tilde{B})\) should be distinct.
+Therefore, we add the following edges, each with capacity \(10\):
+
+\begin{itemize}
+\item \((u^i,\tilde{u}_L^i),(\tilde{v}_L^i,v^i)\) to \(L^u\)
+\item \((u^i,\tilde{u}_R^i),(\tilde{v}_R^i,v^i)\) to \(R^u\)
+\item \((u_L^i,u_1^i),(v_1^i,v_L^i),(u_R^i,u_3^i),(v_3^i,v_R^i)\) to \(\tilde{L}^u\)
+\item \((u_L^i,u_2^i),(v_2^i,v_L^i),(u_R^i,u_4^i),(v_4^i,v_R^i)\) to \(\tilde{R}^u\)
+\item \((\tilde{u}_L^i,u_L^i),(v_L^i,\tilde{v}_L^i),(\tilde{u}_R^i,u_R^i),(v_R^i,\tilde{v}_R^i)\) to \(\tilde{B}^u\)
+\end{itemize}
+
+
+Finally, to obtain \((s,t)\)-paths in the end, we add the following edges, each with capacity \(10\):
+
+\begin{itemize}
+\item \((v_L^i,u_R^i)\) to \(\tilde{L}^o,\tilde{L}^u,\tilde{R}^o,\tilde{R}^u\)
+\item \((\tilde{v}_L^i,\tilde{u}_R^i)\) to \(\tilde{B}^o,\tilde{B}^u\)
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-14 at 15.07.03.png}
+\caption{\label{fig:org1553c0b}Clause gadget \(C^i\)}
+\end{figure}
+
+\begin{itemize}
+\item[{$\square$}] Merge clause gadget figures.
+\end{itemize}
 
 \paragraph{Connecting variable with clause gadgets.}
 For every \(j\in[n]\) and every \(i\in[m]\), we connect variable gadget \(X^j\) to clause gadget \(C^i\) if variable \(x_j\) occurs in clause \(C_i\).
-More precisely, we introduce two flow pairs \(B_0,B_1\), each with demand \(1\), such that \(B_0\) (\(B_1\)) connects vertex \(x_0^j\) (\(x_1^j\)) to all literal vertices corresponding to literal \(\bar{x}_j\) (\(x_j\)).
-
-More formally, for every \(j\in[n]\), let \(P_j=\{p_1^j,\dots,p_{\ell_j}^j\}\) denote the set of indices of the clauses containing literal \(x_j\) and \(\bar{P}_j=\{\bar{p}_1^j,\dots,p_{\ell'_j}^j\}\) denote the set of indices of the clauses containing literal \(\bar{x}_j\).
+More precisely, we introduce two flow pairs \(B_0,B_1\) such that \(B_0\) (\(B_1\)) connects vertex \(x_0^j\) (\(x_1^j\)) to all literal vertices corresponding to literal \(\bar{x}_j\) (\(x_j\)).
+More formally, for every \(j\in[n]\), let \(P_j=\{p_1^j,\dots,p_{\ell_j}^j\}\) denote the set of indices of the clauses containing literal \(x_j\) and \(\bar{P}_j=\{\bar{p}_1^j,\dots,\bar{p}_{\ell'_j}^j\}\) denote the set of indices of the clauses containing literal \(\bar{x}_j\).
 Moreover, for every \(j\in[n]\) and every \(i\in[m]\), let \(\pi(i,j)\) denote the position of literal \(x_j\) in clause \(C_i\) and \(\bar{\pi}(i,j)\) denote the position of literal \(\bar{x}_j\) in \(C_i\).
 For every \(j\in[n]\), we add the following edges:
 
 \begin{itemize}
-\item \((x_0^j,u_{\bar{\pi}(\bar{p}_1^j,j)}^{\bar{p}_1^j})\), \((u_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j},v_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j})\) for every \(\ell\in[\ell'_j]\), \((v_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j},u_{\bar{\pi}(\bar{p}_{\ell+1}^j,j)}^{\bar{p}_{\ell+1}^j})\) for every \(\ell\in[\ell'_j-1]\), and \((v_{\bar{\pi}(\bar{p}_{\ell'_j}^j,j)}^{\bar{p}_{\ell'_j}^j},y_0^j)\) to \(B_0^o\)
-\item \((x_1^j,u_{\pi(p_1^j,j)}^{p_1^j})\), \((u_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j},v_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j})\) for every \(\ell\in[\ell_j]\), \((v_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j},u_{\pi(p_{\ell+1}^j,j)}^{p_{\ell+1}^j})\) for every \(\ell\in[\ell_j-1]\), and \((v_{\pi(p_{\ell_j}^j,j)}^{p_{\ell_j}^j},y_1^j)\) to \(B_1^o\)
+\item \((x_0^j,u_{\bar{\pi}(\bar{p}_1^j,j)}^{\bar{p}_1^j})\) with capacity \(10\), \((u_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j},v_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j})\) for every \(\ell\in[\ell'_j]\), \((v_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j},u_{\bar{\pi}(\bar{p}_{\ell+1}^j,j)}^{\bar{p}_{\ell+1}^j})\) with capacity \(10\) for every \(\ell\in[\ell'_j-1]\), and \((v_{\bar{\pi}(\bar{p}_{\ell'_j}^j,j)}^{\bar{p}_{\ell'_j}^j},y_0^j)\) with capacity \(10\) to \(B_0^o\)
+\item \((x_1^j,u_{\pi(p_1^j,j)}^{p_1^j})\) with capacity \(10\), \((u_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j},v_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j})\) for every \(\ell\in[\ell_j]\), \((v_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j},u_{\pi(p_{\ell+1}^j,j)}^{p_{\ell+1}^j})\) with capacity \(10\) for every \(\ell\in[\ell_j-1]\), and \((v_{\pi(p_{\ell_j}^j,j)}^{p_{\ell_j}^j},y_1^j)\) with capacity \(10\) to \(B_1^o\)
 \end{itemize}
 
-\paragraph{Completing the update flow network.}
+\paragraph{Putting everything together.}
 We introduce vertices \(s,t\) and create (\(s,t\))-paths for all flows by adding the following edges:
 
 \begin{itemize}
 \item \((s,u^1),(v^m,t)\) to \(L^o,L^u,R^o,R^u\)
 \item \((v^i,u^{i+1})\) for every \(i\in[m-1]\) to \(L^o,L^u,R^o,R^u,B^u\)
-\item \((s,u_{1,2}^1)\), \((v_{3,4}^i,u_{1,2}^{i+1})\) for every \(i\in[m-1]\), and \((v_{3,4}^m,t)\) to \(\tilde{L}^o,\tilde{L}^u,\tilde{R}^o,\tilde{R}^u\)
-\item \((s,\tilde{u}_{1,2}^1)\), \((\tilde{v}_{3,4}^i,\tilde{u}_{1,2}^{i+1})\) for every \(i\in[m-1]\), and \((\tilde{v}_{3,4}^m,t)\) to \(\tilde{B}^o,\tilde{B}^u\)
+\item \((s,u_L^1)\), \((v_R^i,u_L^{i+1})\) for every \(i\in[m-1]\), and \((v_R^m,t)\) to \(\tilde{L}^o,\tilde{L}^u,\tilde{R}^o,\tilde{R}^u\)
+\item \((s,\tilde{u}_L^1)\), \((\tilde{v}_R^i,\tilde{u}_L^{i+1})\) for every \(i\in[m-1]\), and \((\tilde{v}_R^m,t)\) to \(\tilde{B}^o,\tilde{B}^u\)
 \item \((s,x^1),(y^n,t)\) to \(X^o,X^u,\bar{X}^o,\bar{X}^u,B^o,B^u\)
 \item \((y^j,x^{j+1})\) for every \(j\in[n-1]\) to \(X^o,X^u,\bar{X}^o,\bar{X}^u,B^o\)
 \item \((x^1,u^1),(v^m,y^n)\) to \(B^u\)
@@ -620,16 +683,16 @@ We introduce vertices \(s,t\) and create (\(s,t\))-paths for all flows by adding
 \item \((s,x_1^1)\), \((y_1^j,x_1^{j+1})\) for every \(j\in[n-1]\), and \((y_1^n,t)\) to \(B_1^o,B_1^u\)
 \end{itemize}
 
-See Figure \ref{fig:org373a77b} for the complete update flow network and Table \ref{tab:org03cdb3d} for all (\(s,t\))-flows.
+See Figure \ref{fig:org583fd38} for the complete update flow network and Table \ref{tab:orgd4311f5} for all (\(s,t\))-flows.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-14 at 15.08.01.png}
-\caption{\label{fig:org373a77b}The update flow network}
+\caption{\label{fig:org583fd38}The update flow network}
 \end{figure}
 
 \begin{table}[htbp]
-\caption{\label{tab:org03cdb3d}All (\(s,t\))-flows}
+\caption{\label{tab:orgd4311f5}All (\(s,t\))-flows}
 \centering
 \begin{tabular}{ll}
 Flow & (\(s,t\))-path\\[0pt]
@@ -638,25 +701,25 @@ Flow & (\(s,t\))-path\\[0pt]
 \(\bar{X}^u\) & \(s,x^1,y^1,x^2,\dots,y^n,t\)\\[0pt]
 \hline
 \(L^o\) & \(s,u^1,v^1,u^2,\dots,v^m,t\)\\[0pt]
-\(L^u\) & \(s,u^1,\tilde{u}_{1,2}^1,\tilde{v}_{1,2}^1,v^1,u^2,\dots,v^m,t\)\\[0pt]
+\(L^u\) & \(s,u^1,\tilde{u}_L^1,\tilde{v}_L^1,v^1,u^2,\dots,v^m,t\)\\[0pt]
 \hline
-\(\tilde{L}^o\) & \(s,u_{1,2}^1,v_{1,2}^1,u_{3,4}^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\)\\[0pt]
-\(\tilde{L}^u\) & \(s,u_{1,2}^1,u_1^1,v_1^1,v_{1,2}^1,u_{3,4}^1,u_3^1,v_3^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\)\\[0pt]
+\(\tilde{L}^o\) & \(s,u_L^1,v_L^1,u_R^1,v_R^1,u_L^2,\dots,v_R^m,t\)\\[0pt]
+\(\tilde{L}^u\) & \(s,u_L^1,u_1^1,v_1^1,v_L^1,u_R^1,u_3^1,v_3^1,v_R^1,u_L^2,\dots,v_R^m,t\)\\[0pt]
 \hline
 \(X^o\) & \(s,x^1,x_1^1,y_1^1,y^1,x^2,\dots,y^n,t\)\\[0pt]
 \(X^u\) & \(s,x^1,y^1,x^2,\dots,y^n,t\)\\[0pt]
 \hline
 \(R^o\) & \(s,u^1,v^1,u^2,\dots,v^m,t\)\\[0pt]
-\(R^u\) & \(s,u^1,\tilde{u}_{3,4}^1,\tilde{v}_{3,4}^1,v^1,u^2,\dots,v^m,t\)\\[0pt]
+\(R^u\) & \(s,u^1,\tilde{u}_R^1,\tilde{v}_R^1,v^1,u^2,\dots,v^m,t\)\\[0pt]
 \hline
-\(\tilde{R}^o\) & \(s,u_{1,2}^1,v_{1,2}^1,u_{3,4}^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\)\\[0pt]
-\(\tilde{R}^u\) & \(s,u_{1,2}^1,u_2^1,v_2^1,v_{1,2}^1,u_{3,4}^1,u_4^1,v_4^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\)\\[0pt]
+\(\tilde{R}^o\) & \(s,u_L^1,v_L^1,u_R^1,v_R^1,u_L^2,\dots,v_R^m,t\)\\[0pt]
+\(\tilde{R}^u\) & \(s,u_L^1,u_2^1,v_2^1,v_L^1,u_R^1,u_4^1,v_4^1,v_R^1,u_L^2,\dots,v_R^m,t\)\\[0pt]
 \hline
 \(B^o\) & \(s,x^1,y^1,x^2,\dots,y^n,t\)\\[0pt]
 \(B^u\) & \(s,x^1,u^1,v^1,u^2,\dots,v^m,y^n,t\)\\[0pt]
 \hline
-\(\tilde{B}^o\) & \(s,\tilde{u}_{1,2}^1,\tilde{v}_{1,2}^1,\tilde{u}_{3,4}^1,\tilde{v}_{3,4}^1,\tilde{u}_{1,2}^2,\dots,\tilde{v}_{3,4}^m,t\)\\[0pt]
-\(\tilde{B}^u\) & \(s,\tilde{u}_{1,2}^1,u_{1,2}^1,v_{1,2}^1,\tilde{v}_{1,2}^1,\tilde{u}_{3,4}^1,u_{3,4}^1,v_{3,4}^1,\tilde{v}_{3,4}^1,\tilde{u}_{1,2}^2,\dots,\tilde{v}_{3,4}^m,t^\)\\[0pt]
+\(\tilde{B}^o\) & \(s,\tilde{u}_L^1,\tilde{v}_L^1,\tilde{u}_R^1,\tilde{v}_R^1,\tilde{u}_L^2,\dots,\tilde{v}_R^m,t\)\\[0pt]
+\(\tilde{B}^u\) & \(s,\tilde{u}_L^1,u_L^1,v_L^1,\tilde{v}_L^1,\tilde{u}_R^1,u_R^1,v_R^1,\tilde{v}_R^1,\tilde{u}_L^2,\dots,\tilde{v}_R^m,t^\)\\[0pt]
 \hline
 \(B_0^o\) & \(s,x_0^1,u_{\bar{\pi}(\bar{p}_1^1,1)}^{\bar{p}_1^1},v_{\bar{\pi}(\bar{p}_1^1,1)}^{\bar{p}_1^1},u_{\bar{\pi}(\bar{p}_2^1,1)}^{\bar{p}_2^1},\dots,v_{\bar{\pi}(\bar{p}_{l'_1}^1,1)}^{\bar{p}_{l'_1}^1},y_0^1,x_0^2,\dots,y_0^n,t\)\\[0pt]
 \(B_0^u\) & \(s,x_0^1,y_0^1,x_0^2,\dots,y_0^n,t\)\\[0pt]
@@ -670,30 +733,30 @@ Flow & (\(s,t\))-path\\[0pt]
 Edge capacities are defined as follows.
 
 \begin{itemize}
-\item We set the capacity to \(2\) for edges \((u^i,v^i),(u_{1,2}^i,v_{1,2}^i),(u_{3,4}^i,v_{3,4}^i),(x^j,y^j)\) for every \(i\in[m]\) and every \(j\in[n]\).
-\item We set the capacity to \(1\) for edges \((u_1^i,v_1^i),(u_2^i,v_2^i),(u_3^i,v_3^i),(u_4^i,v_4^i),(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),(\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i),(x_0^j,y_0^j),(x_1^j,y_1^j)\) for every \(i\in[m]\) and every \(j\in[n]\).
+\item We set the capacity to \(2\) for edges \((u^i,v^i),(u_L^i,v_L^i),(u_R^i,v_R^i),(x^j,y^j)\) for every \(i\in[m]\) and every \(j\in[n]\).
+\item We set the capacity to \(1\) for edges \((u_1^i,v_1^i),(u_2^i,v_2^i),(u_3^i,v_3^i),(u_4^i,v_4^i),(\tilde{u}_L^i,\tilde{v}_L^i),(\tilde{u}_R^i,\tilde{v}_R^i),(x_0^j,y_0^j),(x_1^j,y_1^j)\) for every \(i\in[m]\) and every \(j\in[n]\).
 \item All remaining edge capacities are set to \(10\), that is, the number of flow pairs, which equals the sum of all demands.
 \end{itemize}
 
-We remark that vertices \(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i,\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i\) are not necessary for this proof.
-Instead, we could directly connect clause vertices \(u^i,u_{1,2}^i\) via flow pair \(L\) and \(u^i,u_{3,4}^i\) via \(R\).
+We remark that vertices \(\tilde{u}_L^i,\tilde{v}_L^i,\tilde{u}_R^i,\tilde{v}_R^i\) are not necessary for this proof.
+Instead, we could directly connect clause vertices \(u^i,u_L^i\) via flow pair \(L\) and \(u^i,u_R^i\) via \(R\).
 Similarly, vertices \(x_0^j,y_0^j,x_1^j,y_1^j\) as well as flow pairs \(B_0,B_1\) are not necessary.
 We could instead directly connect variable vertex \(x^j\) to literal vertex, say \(u_1^i\), via \(X\) (\(\bar{X}\)) if \(l_{i_1}=x_j\) (\(l_{i_1}=\bar{x}_j\)).
-The vertices and flow pairs are necessary, however, for the proof of Theorem \ref{org4deb635}.
+The vertices and flow pairs are necessary, however, for the proof of Theorem \ref{org1e51ebf}.
 
 Let us quickly verify that \(G\) is a feasible update flow network.
 
-To verify that every flow is indeed an \((s,t)\)-path, see Table \ref{tab:org03cdb3d}.
+To verify that every flow is indeed an \((s,t)\)-path, see Table \ref{tab:orgd4311f5}.
 Recall we assumed every variable \(x_j\) occurs both negatively and positively in formula \(C\).
 Hence both \(\bar{P}_j\) and \(P_j\) are non-empty.
 Thus both \(B_0^o\) and \(B_1^o\) form \((s,t)\)-paths.
 
-To verify that every flow pair forms a DAG, again consider Table \ref{tab:org03cdb3d}.
+To verify that every flow pair forms a DAG, again consider Table \ref{tab:orgd4311f5}.
 
-Using Lemma \ref{orgcb7de4b}, we will show that all capacity constraints are satisfied for both the old flow network and the updated flow network in the if part of the proof of Theorem \ref{org9a7f867}.
+Using Lemma \ref{org28f0752}, we will show that all capacity constraints are satisfied for both the old flow network and the updated flow network in the if part of the proof of Theorem \ref{org8c43346}.
 
 \begin{table}[htbp]
-\caption{\label{tab:orge19f488}All blocks grouped by flow pair}
+\caption{\label{tab:org237f07e}All blocks grouped by flow pair}
 \centering
 \begin{tabular}{lll}
 \(P\) & \(V(P^o\cap P^u)\) ordered w.r.t. \(\leq_{P^o\cup P^u}\) & \(B^P(G)\)\\[0pt]
@@ -704,16 +767,16 @@ Using Lemma \ref{orgcb7de4b}, we will show that all capacity constraints are sat
  &  & \(\{y^n,t\}\)\\[0pt]
 \hline
 \(L\) & \(s,u^1,v^1,u^2,\dots,v^m,t\) & \(\{s,u^1\}\),\\[0pt]
- &  & \(\{u^i,\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i,v^i\},i\in[m]\),\\[0pt]
+ &  & \(\{u^i,\tilde{u}_L^i,\tilde{v}_L^i,v^i\},i\in[m]\),\\[0pt]
  &  & \(\{v^i,u^{i+1}\},i\in[m-1]\),\\[0pt]
  &  & \(\{v^m,t\}\)\\[0pt]
 \hline
-\(\tilde{L}\) & \(s,u_{1,2}^1,v_{1,2}^1,u_{3,4}^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\) & \(\{s,u_{1,2}^1\}\),\\[0pt]
- &  & \(\{u_{1,2}^i,u_1^i,v_1^i,v_{1,2}^i\},i\in[m]\),\\[0pt]
- &  & \(\{v_{1,2}^i,u_{3,4}^i\},i\in[m]\),\\[0pt]
- &  & \(\{u_{3,4}^i,u_3^i,v_3^i,v_{3,4}^i\},i\in[m]\),\\[0pt]
- &  & \(\{v_{3,4}^i,u_{1,2}^{i+1}\},i\in[m-1]\),\\[0pt]
- &  & \(\{v_{3,4}^m,t\}\)\\[0pt]
+\(\tilde{L}\) & \(s,u_L^1,v_L^1,u_R^1,v_R^1,u_L^2,\dots,v_R^m,t\) & \(\{s,u_L^1\}\),\\[0pt]
+ &  & \(\{u_L^i,u_1^i,v_1^i,v_L^i\},i\in[m]\),\\[0pt]
+ &  & \(\{v_L^i,u_R^i\},i\in[m]\),\\[0pt]
+ &  & \(\{u_R^i,u_3^i,v_3^i,v_R^i\},i\in[m]\),\\[0pt]
+ &  & \(\{v_R^i,u_L^{i+1}\},i\in[m-1]\),\\[0pt]
+ &  & \(\{v_R^m,t\}\)\\[0pt]
 \hline
 \(X\) & \(s,x^1,y^1,x^2,\dots,y^n,t\) & \(\{s,x^1\}\),\\[0pt]
  &  & \(\{x^j,x_1^j,y_1^j,y^j\},j\in[n]\),\\[0pt]
@@ -721,25 +784,25 @@ Using Lemma \ref{orgcb7de4b}, we will show that all capacity constraints are sat
  &  & \(\{y^n,t\}\)\\[0pt]
 \hline
 \(R\) & \(s,u^1,v^1,u^2,\dots,v^m,t\) & \(\{s,u^1\}\),\\[0pt]
- &  & \(\{u^i,\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i,v^i\},i\in[m]\),\\[0pt]
+ &  & \(\{u^i,\tilde{u}_R^i,\tilde{v}_R^i,v^i\},i\in[m]\),\\[0pt]
  &  & \(\{v^i,u^{i+1}\},i\in[m-1]\),\\[0pt]
  &  & \(\{v^m,t\}\)\\[0pt]
 \hline
-\(\tilde{R}\) & \(s,u_{1,2}^1,v_{1,2}^1,u_{3,4}^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\) & \(\{s,u_{1,2}^1\}\),\\[0pt]
- &  & \(\{u_{1,2}^i,u_2^i,v_2^i,v_{1,2}^i\},i\in[m]\),\\[0pt]
- &  & \(\{v_{1,2}^i,u_{3,4}^i\},i\in[m]\),\\[0pt]
- &  & \(\{u_{3,4}^i,u_4^i,v_4^i,v_{3,4}^i\},i\in[m]\),\\[0pt]
- &  & \(\{v_{3,4}^i,u_{1,2}^{i+1}\},i\in[m-1]\),\\[0pt]
- &  & \(\{v_{3,4}^m,t\}\)\\[0pt]
+\(\tilde{R}\) & \(s,u_L^1,v_L^1,u_R^1,v_R^1,u_L^2,\dots,v_R^m,t\) & \(\{s,u_L^1\}\),\\[0pt]
+ &  & \(\{u_L^i,u_2^i,v_2^i,v_L^i\},i\in[m]\),\\[0pt]
+ &  & \(\{v_L^i,u_R^i\},i\in[m]\),\\[0pt]
+ &  & \(\{u_R^i,u_4^i,v_4^i,v_R^i\},i\in[m]\),\\[0pt]
+ &  & \(\{v_R^i,u_L^{i+1}\},i\in[m-1]\),\\[0pt]
+ &  & \(\{v_R^m,t\}\)\\[0pt]
 \hline
 \(B\) & \(s,x^1,y^n,t\) & \(\{s,x^1\}\), \(\{x^j,y^j,u^i,v^i\mid j\in[n],i\in[m]\}\), \(\{y^n,t\}\)\\[0pt]
 \hline
-\(\tilde{B}\) & \(s,\tilde{u}_{1,2}^1,\tilde{v}_{1,2}^1,\tilde{u}_{3,4}^1,\tilde{v}_{3,4}^1,\tilde{u}_{1,2}^2,\dots,\tilde{v}_{3,4}^m,t\) & \(\{s,\tilde{u}_{1,2}^1\}\),\\[0pt]
- &  & \(\{\tilde{u}_{1,2}^i,u_{1,2}^i,v_{1,2}^i,\tilde{v}_{1,2}^i\},i\in[m]\),\\[0pt]
- &  & \(\{\tilde{v}_{1,2}^i,\tilde{u}_{3,4}^i\},i\in[m]\),\\[0pt]
- &  & \(\{\tilde{u}_{3,4}^i,u_{3,4}^i,v_{3,4}^i,\tilde{v}_{3,4}^i\},i\in[m]\),\\[0pt]
- &  & \(\{\tilde{v}_{3,4}^i,\tilde{u}_{1,2}^{i+1}\},i\in[m-1]\),\\[0pt]
- &  & \(\{\tilde{v}_{3,4}^m,t\}\)\\[0pt]
+\(\tilde{B}\) & \(s,\tilde{u}_L^1,\tilde{v}_L^1,\tilde{u}_R^1,\tilde{v}_R^1,\tilde{u}_L^2,\dots,\tilde{v}_R^m,t\) & \(\{s,\tilde{u}_L^1\}\),\\[0pt]
+ &  & \(\{\tilde{u}_L^i,u_L^i,v_L^i,\tilde{v}_L^i\},i\in[m]\),\\[0pt]
+ &  & \(\{\tilde{v}_L^i,\tilde{u}_R^i\},i\in[m]\),\\[0pt]
+ &  & \(\{\tilde{u}_R^i,u_R^i,v_R^i,\tilde{v}_R^i\},i\in[m]\),\\[0pt]
+ &  & \(\{\tilde{v}_R^i,\tilde{u}_L^{i+1}\},i\in[m-1]\),\\[0pt]
+ &  & \(\{\tilde{v}_R^m,t\}\)\\[0pt]
 \hline
 \(B_0\) & \(s,x_0^1,y_0^1,x_0^2,\dots,y_0^n,t\) & \(\{s,x_0^1\}\),\\[0pt]
  &  & \(\{x_0^j,u_{\bar{\pi}(i,j)}^i},v_{\bar{\pi}(i,j)}^i},y_0^j\mid i\in\bar{P}_j\},j\in[n]\),\\[0pt]
@@ -753,9 +816,9 @@ Using Lemma \ref{orgcb7de4b}, we will show that all capacity constraints are sat
 \end{table}
 
 \section{The Proof}
-\label{sec:org2f2cbe3}
+\label{sec:org593d7f5}
 
-Before we prove Theorem \ref{org9a7f867}, let us show that every feasible block sequence for the update flow network specified in the previous section satisfies the following properties.
+Before we prove Theorem \ref{org8c43346}, let us show that every feasible block sequence for the update flow network specified in the previous section satisfies the following properties.
 
 \begin{lem}
 Let \(\mathcal{B}\) be a feasible block sequence for update flow network \(G\).
@@ -770,10 +833,10 @@ For every \(i\in[m]\),
 
 \begin{enumerate}
 \item \label{itm:lem-feasible-block-sequence-properties-2-1}
-\(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})<\mathcal{B}(u^i,L)\), and
+\(\mathcal{B}(\tilde{u}_L^i,\tilde{B})<\mathcal{B}(u^i,L)\), and
 
 \item \label{itm:lem-feasible-block-sequence-properties-2-2}
-\(\mathcal{B}(\tilde{u}_{3,4}^i,\tilde{B})<\mathcal{B}(u^i,R)\).
+\(\mathcal{B}(\tilde{u}_R^i,\tilde{B})<\mathcal{B}(u^i,R)\).
 \end{enumerate}
 
 \item \label{itm:lem-feasible-block-sequence-properties-3}
@@ -781,10 +844,10 @@ For every \(i\in[m]\),
 
 \begin{enumerate}
 \item \label{itm:lem-feasible-block-sequence-properties-3-1}
-\(\mathcal{B}(u_{1,2}^i,\tilde{L})<\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})\) or \(\mathcal{B}(u_{1,2}^i,\tilde{R})<\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})\), and
+\(\mathcal{B}(u_L^i,\tilde{L})<\mathcal{B}(\tilde{u}_L^i,\tilde{B})\) or \(\mathcal{B}(u_L^i,\tilde{R})<\mathcal{B}(\tilde{u}_L^i,\tilde{B})\), and
 
 \item \label{itm:lem-feasible-block-sequence-properties-3-2}
-\(\mathcal{B}(u_{3,4}^i,\tilde{L})<\mathcal{B}(\tilde{u}_{3,4}^i,\tilde{B})\) or \(\mathcal{B}(u_{3,4}^i,\tilde{R})<\mathcal{B}(\tilde{u}_{3,4}^i,\tilde{B})\).
+\(\mathcal{B}(u_R^i,\tilde{L})<\mathcal{B}(\tilde{u}_R^i,\tilde{B})\) or \(\mathcal{B}(u_R^i,\tilde{R})<\mathcal{B}(\tilde{u}_R^i,\tilde{B})\).
 \end{enumerate}
 
 \item \label{itm:lem-feasible-block-sequence-properties-4}
@@ -795,16 +858,16 @@ For every \(i\in[m]\) and every \(j\in[n]\),
 
 \begin{enumerate}
 \item \label{itm:lem-feasible-block-sequence-properties-5-1}
-if \(l_{i_1}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_{1,2}^i,\tilde{L})\), and if \(l_{i_1}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_{1,2}^i,\tilde{L})\),
+if \(l_{i_1}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_L^i,\tilde{L})\), and if \(l_{i_1}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_L^i,\tilde{L})\),
 
 \item \label{itm:lem-feasible-block-sequence-properties-5-2}
-if \(l_{i_2}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_{1,2}^i,\tilde{R})\), and if \(l_{i_2}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_{1,2}^i,\tilde{R})\),
+if \(l_{i_2}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_L^i,\tilde{R})\), and if \(l_{i_2}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_L^i,\tilde{R})\),
 
 \item \label{itm:lem-feasible-block-sequence-properties-5-3}
-if \(l_{i_3}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_{3,4}^i,\tilde{L})\), and if \(l_{i_3}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_{3,4}^i,\tilde{L})\),
+if \(l_{i_3}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_R^i,\tilde{L})\), and if \(l_{i_3}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_R^i,\tilde{L})\),
 
 \item \label{itm:lem-feasible-block-sequence-properties-5-4}
-if \(l_{i_4}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_{3,4}^i,\tilde{R})\), and if \(l_{i_4}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_{3,4}^i,\tilde{R})\).
+if \(l_{i_4}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_R^i,\tilde{R})\), and if \(l_{i_4}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_R^i,\tilde{R})\).
 \end{enumerate}
 
 \item \label{itm:lem-feasible-block-sequence-properties-6}
@@ -818,14 +881,14 @@ For every \(j\in[n]\),
 \(\mathcal{B}(x^j,X)<\mathcal{B}(x_1^j,B_1)\).
 \end{enumerate}
 \end{enumerate}
-\label{orge5c331a}
+\label{orgb1bb7c4}
 \end{lem}
 
 \begin{proof}
 We show every property by contradiction.
 More precisely, for every property, we assume it doesn't hold and then obtain an edge and a round such that the corresponding capacity constraint is violated, which contradicts the feasibility of block sequence \(\mathcal{B}\).
 
-Since every flow pair has demand \(1\), we may use \ref{org32d76cc} to argue about capacity constraints.
+Since every flow pair has demand \(1\), we may use \ref{org14d79a1} to argue about capacity constraints.
 
 \paragraph{\ref{itm:lem-feasible-block-sequence-properties-1}, \ref{itm:lem-feasible-block-sequence-properties-3}.}
 We only show \ref{itm:lem-feasible-block-sequence-properties-1}; the proofs for \ref{itm:lem-feasible-block-sequence-properties-3-1} and \ref{itm:lem-feasible-block-sequence-properties-3-2} are analogous.
@@ -852,21 +915,21 @@ Hence
 \paragraph{\ref{itm:lem-feasible-block-sequence-properties-2}, \ref{itm:lem-feasible-block-sequence-properties-5}, \ref{itm:lem-feasible-block-sequence-properties-6}.}
 We only show \ref{itm:lem-feasible-block-sequence-properties-2-1}; the proofs for \ref{itm:lem-feasible-block-sequence-properties-2-2}, \ref{itm:lem-feasible-block-sequence-properties-5-1}, \ref{itm:lem-feasible-block-sequence-properties-5-2}, \ref{itm:lem-feasible-block-sequence-properties-5-3}, \ref{itm:lem-feasible-block-sequence-properties-5-4}, \ref{itm:lem-feasible-block-sequence-properties-6-1}, and \ref{itm:lem-feasible-block-sequence-properties-6-2} are similar.
 Suppose not.
-Then obtain \(i\in[m]\) such that \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})\geq\mathcal{B}(u^i,L)\).
-We show that the capacity constraint for edge \((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)\) is violated for round \(\mathcal{B}(u^i,L)\).
+Then obtain \(i\in[m]\) such that \(\mathcal{B}(\tilde{u}_L^i,\tilde{B})\geq\mathcal{B}(u^i,L)\).
+We show that the capacity constraint for edge \((\tilde{u}_L^i,\tilde{v}_L^i)\) is violated for round \(\mathcal{B}(u^i,L)\).
 
 We have that
 
 \begin{enumerate}
-\item \(\alpha_{\tilde{B}}((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)-1})=\mathrm{active}\), since \(b(\tilde{u}_{1,2}^i,\tilde{B})\notin B_{\mathcal{B}(u^i,L)-1}\) and \((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)\in E(\tilde{B}^o)\), and
+\item \(\alpha_{\tilde{B}}((\tilde{u}_L^i,\tilde{v}_L^i),B_{\mathcal{B}(u^i,L)-1})=\mathrm{active}\), since \(b(\tilde{u}_L^i,\tilde{B})\notin B_{\mathcal{B}(u^i,L)-1}\) and \((\tilde{u}_L^i,\tilde{v}_L^i)\in E(\tilde{B}^o)\), and
 
-\item \(\alpha_L((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)})=\mathrm{active}\), since \(b(\tilde{u}_{1,2}^i,L)=b(u^i,L)\in B_{\mathcal{B}(u^i,L)}\) and \((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)\in E(L^u)\).
+\item \(\alpha_L((\tilde{u}_L^i,\tilde{v}_L^i),B_{\mathcal{B}(u^i,L)})=\mathrm{active}\), since \(b(\tilde{u}_L^i,L)=b(u^i,L)\in B_{\mathcal{B}(u^i,L)}\) and \((\tilde{u}_L^i,\tilde{v}_L^i)\in E(L^u)\).
 \end{enumerate}
 
 Hence
 \begin{align*}
-\lvert\{P\in\mathcal{P}\mid&\alpha_P((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)-1})=\mathrm{active}\text{ or }\\
-&\alpha_P((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)})=\mathrm{active}\}\rvert\geq\lvert\{\tilde{B},L\}\rvert=2>1=c(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)
+\lvert\{P\in\mathcal{P}\mid&\alpha_P((\tilde{u}_L^i,\tilde{v}_L^i),B_{\mathcal{B}(u^i,L)-1})=\mathrm{active}\text{ or }\\
+&\alpha_P((\tilde{u}_L^i,\tilde{v}_L^i),B_{\mathcal{B}(u^i,L)})=\mathrm{active}\}\rvert\geq\lvert\{\tilde{B},L\}\rvert=2>1=c(\tilde{u}_L^i,\tilde{v}_L^i)
 \end{align*}
 
 \paragraph{\ref{itm:lem-feasible-block-sequence-properties-4}.}
@@ -891,10 +954,10 @@ Hence
 \end{align*}
 \end{proof}
 
-We are now ready to prove Theorem \ref{org9a7f867}.
+We are now ready to prove Theorem \ref{org8c43346}.
 
 \begin{proof}[Proof of Theorem [[thm:np-hardness-special-case]]]
-We show that there is a satisfying assignment \(\sigma\) for 4CNF formula \(C\) iff there is a feasible block sequence \(\mathcal{B}\) for the corresponding update flow network \(G\), which, by Corollary \ref{orgc26c90e}, is the case iff there is a feasible update sequence for \(G\).
+We show that there is a satisfying assignment \(\sigma\) for 4CNF formula \(C\) iff there is a feasible block sequence \(\mathcal{B}\) for the corresponding update flow network \(G\), which, by Corollary \ref{org1eb86ee}, is the case iff there is a feasible update sequence for \(G\).
 We will choose \(\sigma\), \(\mathcal{B}\), respectively, such that \(\sigma\) assigns \(1\) to variable \(x_j\) iff \(\mathcal{B}(x^j,\bar{X})>\mathcal{B}(x^1,B)\).
 
 \paragraph{Only-if part.}
@@ -907,25 +970,25 @@ Let \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\) be a clause.
 We show that \(\sigma\) satisfies \(C_i\) by obtaining a literal that evaluates to \(1\).
 
 Consider round \(\mathcal{B}(x^1,B)\).
-By Lemma \ref{orge5c331a} \ref{itm:lem-feasible-block-sequence-properties-1}, \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,L)\) or \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,R)\).
+By Lemma \ref{orgb1bb7c4} \ref{itm:lem-feasible-block-sequence-properties-1}, \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,L)\) or \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,R)\).
 We only consider the former case \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,L)\); the latter one is analogous.
 
-By Lemma \ref{orge5c331a} \ref{itm:lem-feasible-block-sequence-properties-2-1}, \(\mathcal{B}(u^i,L)>\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})\).
-By Lemma \ref{orge5c331a} \ref{itm:lem-feasible-block-sequence-properties-3-1}, \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{L})\) or \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{R})\).
-We only consider the latter case \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{R})\); the former one is analogous.
+By Lemma \ref{orgb1bb7c4} \ref{itm:lem-feasible-block-sequence-properties-2-1}, \(\mathcal{B}(u^i,L)>\mathcal{B}(\tilde{u}_L^i,\tilde{B})\).
+By Lemma \ref{orgb1bb7c4} \ref{itm:lem-feasible-block-sequence-properties-3-1}, \(\mathcal{B}(\tilde{u}_L^i,\tilde{B})>\mathcal{B}(u_L^i,\tilde{L})\) or \(\mathcal{B}(\tilde{u}_L^i,\tilde{B})>\mathcal{B}(u_L^i,\tilde{R})\).
+We only consider the latter case \(\mathcal{B}(\tilde{u}_L^i,\tilde{B})>\mathcal{B}(u_L^i,\tilde{R})\); the former one is analogous.
 
 Let \(x_j\) be the variable corresponding to literal \(l_{i_2}\).
 We consider the cases \(l_{i_2}=\bar{x}_j\) and \(l_{i_2}=x_j\) separately.
 
 Case \(l_{i_2}=\bar{x}_j\).
-By Lemma \ref{orge5c331a} \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_{1,2}^i,\tilde{R})>\mathcal{B}(x_0^j,B_0)\).
-By Lemma \ref{orge5c331a} \ref{itm:lem-feasible-block-sequence-properties-6-1}, \(\mathcal{B}(x_0^j,B_0)>\mathcal{B}(x^j,\bar{X})\).
+By Lemma \ref{orgb1bb7c4} \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_L^i,\tilde{R})>\mathcal{B}(x_0^j,B_0)\).
+By Lemma \ref{orgb1bb7c4} \ref{itm:lem-feasible-block-sequence-properties-6-1}, \(\mathcal{B}(x_0^j,B_0)>\mathcal{B}(x^j,\bar{X})\).
 Putting everything together yields the following chain of inequalities:
 \[
 \mathcal{B}(x^1,B)>
 \mathcal{B}(u^i,L)>
-\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>
-\mathcal{B}(u_{1,2}^i,\tilde{R})>
+\mathcal{B}(\tilde{u}_L^i,\tilde{B})>
+\mathcal{B}(u_L^i,\tilde{R})>
 \mathcal{B}(x_0^j,B_0)>
 \mathcal{B}(x^j,\bar{X})
 \]
@@ -933,18 +996,18 @@ Hence, by definition of our assignment, variable \(x_j\) is assigned \(0\).
 Hence literal \(l_{i_2}=\bar{x}_j\) evaluates to \(1\).
 
 Case \(l_{i_2}=x_j\).
-By Lemma \ref{orge5c331a} \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_{1,2}^i,\tilde{R})>\mathcal{B}(x_1^j,B_1)\).
-By Lemma \ref{orge5c331a} \ref{itm:lem-feasible-block-sequence-properties-6-2}, \(\mathcal{B}(x_1^j,B_1)>\mathcal{B}(x^j,X)\).
+By Lemma \ref{orgb1bb7c4} \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_L^i,\tilde{R})>\mathcal{B}(x_1^j,B_1)\).
+By Lemma \ref{orgb1bb7c4} \ref{itm:lem-feasible-block-sequence-properties-6-2}, \(\mathcal{B}(x_1^j,B_1)>\mathcal{B}(x^j,X)\).
 Putting everything together yields the following chain of inequalities:
 \[
 \mathcal{B}(x^1,B)>
 \mathcal{B}(u^i,L)>
-\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>
-\mathcal{B}(u_{1,2}^i,\tilde{R})>
+\mathcal{B}(\tilde{u}_L^i,\tilde{B})>
+\mathcal{B}(u_L^i,\tilde{R})>
 \mathcal{B}(x_1^j,B_1)>
 \mathcal{B}(x^j,X)
 \]
-Hence, by Lemma \ref{orge5c331a} \ref{itm:lem-feasible-block-sequence-properties-4}, \(\mathcal{B}(x^j,\bar{X})>\mathcal{B}(x^1,B)\).
+Hence, by Lemma \ref{orgb1bb7c4} \ref{itm:lem-feasible-block-sequence-properties-4}, \(\mathcal{B}(x^j,\bar{X})>\mathcal{B}(x^1,B)\).
 Hence, by definition of our assignment, variable \(x_j\) is assigned \(1\).
 Hence literal \(l_{i_2}=x_j\) evaluates to \(1\).
 
@@ -979,28 +1042,28 @@ That is,
 \item For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\),
 
 \begin{enumerate}
-\item if \(l_{i_1}\) evaluates to \(1\), we add block \(b(u_{1,2}^i,\tilde{L})\) to \(\mathscr{B}_3\),
+\item if \(l_{i_1}\) evaluates to \(1\), we add block \(b(u_L^i,\tilde{L})\) to \(\mathscr{B}_3\),
 
-\item if \(l_{i_2}\) evaluates to \(1\), we add \(b(u_{1,2}^i,\tilde{R})\),
+\item if \(l_{i_2}\) evaluates to \(1\), we add \(b(u_L^i,\tilde{R})\),
 
-\item if \(l_{i_3}\) evaluates to \(1\), we add \(b(u_{3,4}^i,\tilde{L})\), and
+\item if \(l_{i_3}\) evaluates to \(1\), we add \(b(u_R^i,\tilde{L})\), and
 
-\item if \(l_{i_4}\) evaluates to \(1\), we add \(b(u_{3,4}^i,\tilde{R})\).
+\item if \(l_{i_4}\) evaluates to \(1\), we add \(b(u_R^i,\tilde{R})\).
 \end{enumerate}
 
 That is,
 \begin{align*}
-\mathscr{B}_3=&\{b(u_{1,2}^i,\tilde{L})\mid\sigma(l_{i_1})=1\}\cup
-\{b(u_{1,2}^i,\tilde{R})\mid\sigma(l_{i_2})=1\}\cup\\
-&\{b(u_{3,4}^i,\tilde{L})\mid\sigma(l_{i_3})=1\}\cup
-\{b(u_{3,4}^i,\tilde{R})\mid\sigma(l_{i_4})=1\}.
+\mathscr{B}_3=&\{b(u_L^i,\tilde{L})\mid\sigma(l_{i_1})=1\}\cup
+\{b(u_L^i,\tilde{R})\mid\sigma(l_{i_2})=1\}\cup\\
+&\{b(u_R^i,\tilde{L})\mid\sigma(l_{i_3})=1\}\cup
+\{b(u_R^i,\tilde{R})\mid\sigma(l_{i_4})=1\}.
 \end{align*}
 
-\item For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is satisfied, we add block \(b(\tilde{u}_{1,2}^i,\tilde{B})\) to \(\mathscr{B}_4\), and if the right half \((l_{i_3}\vee l_{i_4})\) is satisfied, we add \(b(\tilde{u}_{3,4}^i,\tilde{B})\).
+\item For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is satisfied, we add block \(b(\tilde{u}_L^i,\tilde{B})\) to \(\mathscr{B}_4\), and if the right half \((l_{i_3}\vee l_{i_4})\) is satisfied, we add \(b(\tilde{u}_R^i,\tilde{B})\).
 That is,
 \begin{align*}
-\mathscr{B}_4=&\{b(\tilde{u}_{1,2}^i,\tilde{B})\mid\sigma(l_{i_1})=1\text{ or }\sigma(l_{i_2})=1\}\cup\\
-&\{b(\tilde{u}_{3,4}^i,\tilde{B})\mid\sigma(l_{i_3})=1\text{ or }\sigma(l_{i_4})=1\}.
+\mathscr{B}_4=&\{b(\tilde{u}_L^i,\tilde{B})\mid\sigma(l_{i_1})=1\text{ or }\sigma(l_{i_2})=1\}\cup\\
+&\{b(\tilde{u}_R^i,\tilde{B})\mid\sigma(l_{i_3})=1\text{ or }\sigma(l_{i_4})=1\}.
 \end{align*}
 
 \item For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is satisfied, we add block \(b(u^i,L)\) to \(\mathscr{B}_5\), and if the right half \((l_{i_3}\vee l_{i_4})\) is satisfied, we add \(b(u^i,R)\).
@@ -1027,28 +1090,28 @@ That is,
 \item For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\),
 
 \begin{enumerate}
-\item if \(l_{i_1}\) evaluates to \(0\), we add block \(b(u_{1,2}^i,\tilde{L})\) to \(\mathscr{B}_9\),
+\item if \(l_{i_1}\) evaluates to \(0\), we add block \(b(u_L^i,\tilde{L})\) to \(\mathscr{B}_9\),
 
-\item if \(l_{i_2}\) evaluates to \(0\), we add \(b(u_{1,2}^i,\tilde{R})\),
+\item if \(l_{i_2}\) evaluates to \(0\), we add \(b(u_L^i,\tilde{R})\),
 
-\item if \(l_{i_3}\) evaluates to \(0\), we add \(b(u_{3,4}^i,\tilde{L})\), and
+\item if \(l_{i_3}\) evaluates to \(0\), we add \(b(u_R^i,\tilde{L})\), and
 
-\item if \(l_{i_4}\) evaluates to \(0\), we add \(b(u_{3,4}^i,\tilde{R})\).
+\item if \(l_{i_4}\) evaluates to \(0\), we add \(b(u_R^i,\tilde{R})\).
 \end{enumerate}
 
 That is,
 \begin{align*}
-\mathscr{B}_9=&\{b(u_{1,2}^i,\tilde{L})\mid\sigma(l_{i_1})=0\}\cup
-\{b(u_{1,2}^i,\tilde{R})\mid\sigma(l_{i_2})=0\}\cup\\
-&\{b(u_{3,4}^i,\tilde{L})\mid\sigma(l_{i_3})=0\}\cup
-\{b(u_{3,4}^i,\tilde{R})\mid\sigma(l_{i_4})=0\}.
+\mathscr{B}_9=&\{b(u_L^i,\tilde{L})\mid\sigma(l_{i_1})=0\}\cup
+\{b(u_L^i,\tilde{R})\mid\sigma(l_{i_2})=0\}\cup\\
+&\{b(u_R^i,\tilde{L})\mid\sigma(l_{i_3})=0\}\cup
+\{b(u_R^i,\tilde{R})\mid\sigma(l_{i_4})=0\}.
 \end{align*}
 
-\item For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is unsatisfied, we add block \(b(\tilde{u}_{1,2}^i,\tilde{B})\) to \(\mathscr{B}_{10}\), and if the right half \((l_{i_3}\vee l_{i_4})\) is unsatisfied, we add \(b(\tilde{u}_{3,4}^i,\tilde{B})\).
+\item For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is unsatisfied, we add block \(b(\tilde{u}_L^i,\tilde{B})\) to \(\mathscr{B}_{10}\), and if the right half \((l_{i_3}\vee l_{i_4})\) is unsatisfied, we add \(b(\tilde{u}_R^i,\tilde{B})\).
 That is,
 \begin{align*}
-\mathscr{B}_{10}=&\{b(\tilde{u}_{1,2}^i,\tilde{B})\mid\sigma(l_{i_1})=0\text{ and }\sigma(l_{i_2})=0\}\cup\\
-&\{b(\tilde{u}_{3,4}^i,\tilde{B})\mid\sigma(l_{i_3})=0\text{ and }\sigma(l_{i_4})=0\}.
+\mathscr{B}_{10}=&\{b(\tilde{u}_L^i,\tilde{B})\mid\sigma(l_{i_1})=0\text{ and }\sigma(l_{i_2})=0\}\cup\\
+&\{b(\tilde{u}_R^i,\tilde{B})\mid\sigma(l_{i_3})=0\text{ and }\sigma(l_{i_4})=0\}.
 \end{align*}
 
 \item For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is unsatisfied, we add block \(b(u^i,L)\) to \(\mathscr{B}_{11}\), and if the right half \((l_{i_3}\vee l_{i_4})\) is unsatisfied, we add \(b(u^i,R)\).
@@ -1059,13 +1122,13 @@ That is,
 \end{align*}
 \end{enumerate}
 
-By Remark \ref{org50cc955}, we may ignore all other blocks.
+By Remark \ref{orgbe725f4}, we may ignore all other blocks.
 
 We now show that block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{11})\) is feasible by verifying that the capacity constraint is satisfied for every edge and every \(\ell\in[11]\).
 Since every flow pair has demand \(1\), we
 
 \begin{itemize}
-\item may use remark \ref{org32d76cc} again to argue about capacity constraints, and
+\item may use remark \ref{org14d79a1} again to argue about capacity constraints, and
 
 \item only have to consider edges with capacity less than \(10\), that is, the number of flow pairs.
 \end{itemize}
@@ -1088,7 +1151,7 @@ For every such edge \(e\), we proceed as follows.
 Let \(j\in[n]\).
 Then edge \((x^j,y^j)\) is used by flow pairs \(\bar{X},X,B\).
 
-Since \((x^j,y^j)\in E(\bar{X}^u\setminus\bar{X}^o)\), by Lemma \ref{org595ecc7},
+Since \((x^j,y^j)\in E(\bar{X}^u\setminus\bar{X}^o)\), by Lemma \ref{orgd745bbc},
 \[\alpha_{\bar{X}}((x^j,y^j),B_{\ell})=
 \begin{cases}
 \mathrm{active} & \text{if }\sigma(x_j)=1\text{ and }\ell\geq 7\\
@@ -1096,7 +1159,7 @@ Since \((x^j,y^j)\in E(\bar{X}^u\setminus\bar{X}^o)\), by Lemma \ref{org595ecc7}
 \mathrm{inactive} & \text{otherwise}.
 \end{cases}\]
 
-Since \((x^j,y^j)\in E(X^u\setminus X^o)\), by Lemma \ref{org595ecc7},
+Since \((x^j,y^j)\in E(X^u\setminus X^o)\), by Lemma \ref{orgd745bbc},
 \[\alpha_X((x^j,y^j),B_{\ell})=
 \begin{cases}
 \mathrm{active} & \text{if }\sigma(x_j)=1\text{ and }\ell\geq 1\\
@@ -1104,7 +1167,7 @@ Since \((x^j,y^j)\in E(X^u\setminus X^o)\), by Lemma \ref{org595ecc7},
 \mathrm{inactive} & \text{otherwise}.
 \end{cases}\]
 
-Since \((x^j,y^j)\in E(B^o\setminus B^u)\) and \(b(x^j,B)=b(x^1,B)\in\mathscr{B}_6\), by Lemma \ref{org595ecc7},
+Since \((x^j,y^j)\in E(B^o\setminus B^u)\) and \(b(x^j,B)=b(x^1,B)\in\mathscr{B}_6\), by Lemma \ref{orgd745bbc},
 \[\alpha_B}((x^j,y^j),B_{\ell})=
 \begin{cases}
 \mathrm{active} & \ell<6\\
@@ -1138,24 +1201,24 @@ Hence \(\lvert\mathcal{P}'((x^j,y^j),\ell)\rvert=2=c(x^j,y^j)\) for every \(\ell
 \end{proof}
 
 \chapter{Merging Flow Pairs}
-\label{sec:org3273c0d}
+\label{sec:orgccc1bb4}
 
-We now prove the \hyperref[org44b4347]{Merging Lemma}.
+We now prove the \hyperref[org7dbdd46]{Merging Lemma}.
 
-Let \(G=(V,E,\mathcal{P},s,t,c)\) be an update flow network with \(\lvert\mathcal{P}\rvert\geq 2\), and let \(F,F'\in\mathcal{P}\) and \(v_F,v_{F'}\in V\) such that they satisfy properties \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} (see Figure \ref{fig:orgc5e9c90}).
+Let \(G=(V,E,\mathcal{P},s,t,c)\) be an update flow network with \(\lvert\mathcal{P}\rvert\geq 2\), and let \(F,F'\in\mathcal{P}\) and \(v_F,v_{F'}\in V\) such that they satisfy properties \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} (see Figure \ref{fig:org550d5a4}).
 We construct an update flow network \(\tilde{G}=(\tilde{V},\tilde{E},\tilde{\mathcal{P}},s,t,\tilde{c})\) with \(\lvert\tilde{\mathcal{P}}\rvert=\lvert\mathcal{P}\rvert-1\) such that there is a feasible block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) for \(G\) iff there is a feasible block sequence \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) for \(\tilde{G}\) as follows.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-19 at 13.28.41.png}
-\caption{\label{fig:orgc5e9c90}Flow pairs \(F\) and \(F'\) in update flow network \(G\)}
+\caption{\label{fig:org550d5a4}Flow pairs \(F\) and \(F'\) in update flow network \(G\)}
 \end{figure}
 
 \section{The Construction}
-\label{sec:org1cb7f8f}
+\label{sec:org92bfb62}
 
 Intuitively, we merge flow pairs \(F\) and \(F'\) into a single flow pair \(\tilde{F}\) by concatenating \(F\) and \(F'\).
-More precisely, \(\tilde{F}\) will be the union of \(F\) and \(F'\) except that we replace edges \((v_F,t)\) and \((s,v_{F'})\) by edge \((v_F,v_{F'})\) (see Figure \ref{fig:org05382b1} for an illustration).
+More precisely, \(\tilde{F}\) will be the union of \(F\) and \(F'\) except that we replace edges \((v_F,t)\) and \((s,v_{F'})\) by edge \((v_F,v_{F'})\) (see Figure \ref{fig:orga5a5cd8} for an illustration).
 More formally, we define flow pair \(\tilde{F}\) as follows:
 
 \begin{align*}
@@ -1169,7 +1232,7 @@ More formally, we define flow pair \(\tilde{F}\) as follows:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{../assets/Screen Shot 2023-02-19 at 13.29.07.png}
-\caption{\label{fig:org05382b1}Flow pair \(\tilde{F}\) in update flow network \(\tilde{G}\)}
+\caption{\label{fig:orga5a5cd8}Flow pair \(\tilde{F}\) in update flow network \(\tilde{G}\)}
 \end{figure}
 
 Update flow network \(\tilde{G}=(\tilde{V},\tilde{E},\tilde{\mathcal{P}},s,t,\tilde{c})\) is defined as follows:
@@ -1193,12 +1256,12 @@ Now suppose \(\tilde{P}=\tilde{F}\).
 By feasibility of \(G\) and construction of \(\tilde{F}\), \(\tilde{F}^o\) (\(\tilde{F}^u\)) comprises the \((s,v_F)\)-path in \(F^o\) (\(F^u\)), edge \((v_F,v_{F'})\), and the \((v_{F'},t)\)-path in \(F'^o\) (\(F'^u\)), and hence forms an \((s,t)\)-path.
 Moreover, since, again by feasibility of \(G\), both \(F\) and \(F'\) form DAGs, and edge \((v_F,v_{F'})\) does not introduce a cycle, as \(F\) and \(F'\) have no common vertices other than \(s,t\) by assumption, \(\tilde{F}\) forms a DAG.
 
-Using Lemma \ref{orgcb7de4b}, we will show that all capacity constraits are satisfied for both the old flow network and the updated flow network in the if part of the proof of the \hyperref[org44b4347]{Merging Lemma}.
+Using Lemma \ref{org28f0752}, we will show that all capacity constraits are satisfied for both the old flow network and the updated flow network in the if part of the proof of the \hyperref[org7dbdd46]{Merging Lemma}.
 
 We denote notations such as \(b(v,P)\), \(B_i\), and \(\alpha_P(e,B)\) referring to update flow network \(\tilde{G}\) by \(\tilde{b}(v,P)\), \(\tilde{B}_i\), and \(\tilde{\alpha}_P(e,B)\).
 
 \section{The Proof}
-\label{sec:org600dfbb}
+\label{sec:org6663a2b}
 
 Our goal is to show that there is a feasible block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) for \(G\) iff there is a feasible block sequence \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) for \(\tilde{G}\).
 We will choose \(\mathcal{B},\tilde{\mathcal{B}}\), respectively, such that, for every block \(b\) contained in both \(G\) and \(\tilde{G}\), \(b\) is updated in round \(i\in[\ell]\) in \(\mathcal{B}\) iff it is updated in round \(i\) in \(\tilde{\mathcal{B}}\), that is, \(\mathcal{B}(b)=\tilde{\mathcal{B}}(b)\).
@@ -1221,8 +1284,12 @@ If \(\tilde{u}\in V(F'^o\cup F'^u)\setminus\{s\}\), then \(\tilde{b}(\tilde{u},\
 \item \label{itm:lem-p-blocks-2}
 For every \(\tilde{P}\in\tilde{\mathcal{P}}\setminus\{\tilde{F}\}\) and every \(\tilde{u}\in\tilde{V}(\tilde{P}^o\cup\tilde{P}^u)\), \(\tilde{b}(\tilde{u},\tilde{P})=b(\tilde{u},\tilde{P})\).
 \end{enumerate}
-\label{org038c672}
+\label{orgb0275d3}
 \end{lem}
+
+\begin{itemize}
+\item[{$\square$}] I'm pretty sure we have to exclude \(\tilde{u}=s\) in \ref{itm:lem-p-blocks-1-1}.
+\end{itemize}
 
 \begin{remark}
 The proof is very technical and tedious--and hence omitted for now--and I hope we can come up with a better characterization of blocks (see \url{../README.org}) which significantly simplifies the proof.
@@ -1237,25 +1304,25 @@ For every block \(\tilde{b}\in\tilde{B}(\tilde{G})\setminus\{\{v_F,v_{F'}\}\}\),
 \item \label{itm:corollary-p-blocks-2}
 For every block \(b\in B(G)\setminus\{\{v_F,t\},\{s,v_{F'}\}\}\), \(b\in\tilde{B}(\tilde{G})\).
 \end{enumerate}
-\label{org5593d3f}
+\label{org5b45dbb}
 \end{corollary}
 
 \begin{proof}
 ~
 \paragraph{\ref{itm:corollary-p-blocks-1}.}
 Let \(\tilde{b}\in\tilde{B}(\tilde{G})\setminus\{\{v_F,v_{F'}\}\}\), \(\tilde{P}=\tilde{P}(\tilde{b})\), and \(\tilde{u}=\tilde{\mathcal{S}}(\tilde{b})\).
-If \(\tilde{P}=\tilde{F}\), then, by assumption, \(\tilde{u}\neq v_F\) and hence, by construction of \(\tilde{F}\) and Lemma \ref{org038c672} \ref{itm:lem-p-blocks-1}, \(\tilde{b}=b(\tilde{u},F)\in B(G)\) or \(\tilde{b}=b(\tilde{u},F')\in B(G)\).
-If \(\tilde{P}\neq\tilde{F}\), then, by Lemma \ref{org038c672} \ref{itm:lem-p-blocks-2}, \(\tilde{b}=b(\tilde{u},\tilde{P})\in B(G)\).
+If \(\tilde{P}=\tilde{F}\), then, by assumption, \(\tilde{u}\neq v_F\) and hence, by construction of \(\tilde{F}\) and Lemma \ref{orgb0275d3} \ref{itm:lem-p-blocks-1}, \(\tilde{b}=b(\tilde{u},F)\in B(G)\) or \(\tilde{b}=b(\tilde{u},F')\in B(G)\).
+If \(\tilde{P}\neq\tilde{F}\), then, by Lemma \ref{orgb0275d3} \ref{itm:lem-p-blocks-2}, \(\tilde{b}=b(\tilde{u},\tilde{P})\in B(G)\).
 
 
 \paragraph{\ref{itm:corollary-p-blocks-2}.}
 Let \(b\in B(G)\setminus\{\{v_F,t\},\{s,v_{F'}\}\}\), \(P=P(b)\), and \(u=\mathcal{S}(b)\).
-If \(P=F\), then, by assumption, \(u\neq v_F\) and hence, by construction of \(\tilde{F}\) and Lemma \ref{org038c672} \ref{itm:lem-p-blocks-1-1}, \(b=\tilde{b}(u,\tilde{F})\in\tilde{B}(\tilde{G})\).
-If \(P=F'\), then, by assumption, \(u\notin\{v_F,s\}\) and hence, by construction of \(\tilde{F}\) and Lemma \ref{org038c672} \ref{itm:lem-p-blocks-1-2}, \(b=\tilde{b}(u,\tilde{F})\in\tilde{B}(\tilde{G})\).
-If \(P\in\mathcal{P}\setminus\{F,F'\}\), then \(P\in\tilde{\mathcal{P}}\setminus\{\tilde{F}\}\) and hence, by Lemma \ref{org038c672} \ref{itm:lem-p-blocks-2}, \(b=\tilde{b}(u,P)\in\tilde{B}(\tilde{G})\).
+If \(P=F\), then, by assumption, \(u\neq v_F\) and hence, by construction of \(\tilde{F}\) and Lemma \ref{orgb0275d3} \ref{itm:lem-p-blocks-1-1}, \(b=\tilde{b}(u,\tilde{F})\in\tilde{B}(\tilde{G})\).
+If \(P=F'\), then, by assumption, \(u\notin\{v_F,s\}\) and hence, by construction of \(\tilde{F}\) and Lemma \ref{orgb0275d3} \ref{itm:lem-p-blocks-1-2}, \(b=\tilde{b}(u,\tilde{F})\in\tilde{B}(\tilde{G})\).
+If \(P\in\mathcal{P}\setminus\{F,F'\}\), then \(P\in\tilde{\mathcal{P}}\setminus\{\tilde{F}\}\) and hence, by Lemma \ref{orgb0275d3} \ref{itm:lem-p-blocks-2}, \(b=\tilde{b}(u,P)\in\tilde{B}(\tilde{G})\).
 \end{proof}
 
-To show that block sequences \(\mathcal{B},\tilde{\mathcal{B}}\) as chosen above are feasible, we will verify that capacity constraint \ref{eq:orgcad020b} is satisfied for every edge \(e\in E\), \(\tilde{e}\in\tilde{E}\), respectively, and every \(i\in[\ell]\).
+To show that block sequences \(\mathcal{B},\tilde{\mathcal{B}}\) as chosen above are feasible, we will verify that capacity constraint \ref{eq:org56be2ad} is satisfied for every edge \(e\in E\), \(\tilde{e}\in\tilde{E}\), respectively, and every \(i\in[\ell]\).
 We now show that for every edge \(\tilde{e}\) other than \((v_F,t),(s,v_{F'}),(v_F,v_{F'})\) and every \(i\in[\ell]\), \(\tilde{e}\) is on some transient (\(s,t\))-path in \(\tilde{G}\) after updating all blocks in \(\tilde{B}_i\) iff it is on some transient (\(s,t\))-path in \(G\) after updating all blocks in \(B_i\).
 
 \begin{lem}
@@ -1271,7 +1338,7 @@ If \(\tilde{P}=\tilde{F}\), then \(\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{
 \item \label{itm:lem-alpha-2}
 If \(\tilde{P}\neq\tilde{F}\), then \(\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_i)\).
 \end{enumerate}
-\label{orgfda9dc9}
+\label{orgacb7886}
 \end{lem}
 
 \begin{proof}
@@ -1302,7 +1369,7 @@ We only consider case \((\tilde{u},\tilde{v})\in E(F^o)\); case \((\tilde{u},\ti
 Suppose \((\tilde{u},\tilde{v})\in E(F^o)\).
 Hence \((\tilde{u},\tilde{v})\in\tilde{E}(\tilde{F}^o)\).
 Hence \(\tilde{b}(\tilde{u},\tilde{F})\in\tilde{B}_i\).
-Moreover, by Lemma \ref{org038c672} \ref{itm:lem-p-blocks-1-1}, \(\tilde{b}(\tilde{u},\tilde{F})=b(\tilde{u},F)\).
+Moreover, by Lemma \ref{orgb0275d3} \ref{itm:lem-p-blocks-1-1}, \(\tilde{b}(\tilde{u},\tilde{F})=b(\tilde{u},F)\).
 Hence, by assumption, \(b(\tilde{u},F)\in B_i\).
 Thus \(\alpha_F((\tilde{u},\tilde{v}),B_i)=\mathrm{active}\).
 
@@ -1316,7 +1383,7 @@ We again only consider the former case; the latter one is similar.
 
 Suppose \((\tilde{u},\tilde{v})\in E(F^o)\).
 Hence \(b(\tilde{u},F)\in B_i\).
-Moreover, by Lemma \ref{org038c672} \ref{itm:lem-p-blocks-1-1}, \(b(\tilde{u},F)=\tilde{b}(\tilde{u},\tilde{F})\).
+Moreover, by Lemma \ref{orgb0275d3} \ref{itm:lem-p-blocks-1-1}, \(b(\tilde{u},F)=\tilde{b}(\tilde{u},\tilde{F})\).
 Hence, by assumption, \(\tilde{b}(\tilde{u},\tilde{F})\in\tilde{B}_i\).
 Moreover, \((\tilde{u},\tilde{v})\in\tilde{E}(\tilde{F}^o)\).
 Thus \(\tilde{\alpha}_{\tilde{F}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{active}\).
@@ -1325,7 +1392,7 @@ Thus \(\tilde{\alpha}_{\tilde{F}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{act
 Suppose \(\tilde{P}\neq\tilde{F}\).
 By definition of \(\tilde{G}\), \(\tilde{P}\in\mathcal{P}\setminus\{F,F'\}\) and hence both \((\tilde{u},\tilde{v})\in\tilde{E}(\tilde{P}^o)\) iff \((\tilde{u},\tilde{v})\in E(\tilde{P}^o)\) and \((\tilde{u},\tilde{v})\in\tilde{E}(\tilde{P}^u)\) iff \((\tilde{u},\tilde{v})\in E(\tilde{P}^u)\).
 Hence \(\tilde{b}(\tilde{u},\tilde{P})\in\tilde{B}(\tilde{G})\) and \(\tilde{b}(\tilde{u},\tilde{P})\in B(G)\).
-Hence, by assumption, \(\tilde{b}(\tilde{u},\tilde{P})\in\tilde{B}_i\) iff \(\tilde{b}(\tilde{u},\tilde{P})\in B_i\), and, by Lemma \ref{org038c672} \ref{itm:lem-p-blocks-2}, \(\tilde{b}(\tilde{u},\tilde{P})=b(\tilde{u},\tilde{P})\).
+Hence, by assumption, \(\tilde{b}(\tilde{u},\tilde{P})\in\tilde{B}_i\) iff \(\tilde{b}(\tilde{u},\tilde{P})\in B_i\), and, by Lemma \ref{orgb0275d3} \ref{itm:lem-p-blocks-2}, \(\tilde{b}(\tilde{u},\tilde{P})=b(\tilde{u},\tilde{P})\).
 Hence \(\tilde{b}(\tilde{u},\tilde{P})\in\tilde{B}_i\) iff \(b(\tilde{u},\tilde{P})\in B_i\).
 The claim now follows by definitions of \(\tilde{\alpha}_{\tilde{P}},\alpha_{\tilde{P}}\).
 \end{proof}
@@ -1339,7 +1406,7 @@ Then
 \sum_{\tilde{P}\in\tilde{\mathcal{P}}:\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_{i-1})=\mathrm{active}\text{ or }\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{active}}\tilde{d}_{\tilde{P}}&=\\
 \sum_{\tilde{P}\in\mathcal{P}:\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_{i-1})=\mathrm{active}\text{ or }\alpha_{\tilde{P}}((\tilde{u},\tilde{v}),B_i)=\mathrm{active}}d_{\tilde{P}}&.
 \end{align*}
-\label{org0297036}
+\label{orgccdfb83}
 \end{lem}
 
 \begin{proof}
@@ -1347,7 +1414,7 @@ Let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a block sequence
 Let \((\tilde{u},\tilde{v})\in\tilde{E}\setminus\{(v_F,t),(s,v_{F'}),(v_F,v_{F'})\}\) and \(i\in[\ell]\).
 By definition of \(\tilde{G}\), \(\tilde{\mathcal{P}}=\mathcal{P}\setminus\{F,F'\}\cup\{\tilde{F}\}\), \(\tilde{d}_{\tilde{F}}=d_F\), and \(\tilde{d}_{\tilde{P}}=d_{\tilde{P}}\) for every \(\tilde{P}\in\tilde{\mathcal{P}}\setminus\{\tilde{F}\}\).
 Moreover, by assumption, \(d_F=d_{F'}\).
-Hence, by Lemma \ref{orgfda9dc9}, we have
+Hence, by Lemma \ref{orgacb7886}, we have
 
 \begin{align*}
 \sum_{\tilde{P}\in\tilde{\mathcal{P}}:\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_{i-1})=\mathrm{active}\text{ or }\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{active}}\tilde{d}_{\tilde{P}}&=\\
@@ -1359,7 +1426,7 @@ Hence, by Lemma \ref{orgfda9dc9}, we have
 \end{align*}
 \end{proof}
 
-We are now ready to prove the \hyperref[org44b4347]{Merging Lemma}.
+We are now ready to prove the \hyperref[org7dbdd46]{Merging Lemma}.
 
 \begin{proof}[Proof of Lemma [[lem:merging-flow-pairs]]]
 We show that there is a feasible block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) for \(G\) iff there is a feasible block sequence \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) for \(\tilde{G}\).
@@ -1367,9 +1434,9 @@ We show that there is a feasible block sequence \(\mathcal{B}=(\mathscr{B}_1,\do
 \paragraph{If part.}
 Let \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) be a feasible block sequence for \(G\).
 We define block sequence \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) for \(\tilde{G}\) as follows.
-By Remark \ref{org50cc955}, we may ignore block \(\{v_F,v_{F'}\}\).
+By Remark \ref{orgbe725f4}, we may ignore block \(\{v_F,v_{F'}\}\).
 For every other block \(\tilde{b}\in\tilde{B}(\tilde{G})\setminus\{\{v_F,v_{F'}\}\}\), we define \(\tilde{\mathcal{B}}(\tilde{b})=\mathcal{B}(\tilde{b})\).
-Notice that if \(\tilde{b}\in\tilde{B}(\tilde{G})\setminus\{\{v_F,v_{F'}\}\}\), then, by Lemma \ref{org5593d3f} \ref{itm:corollary-p-blocks-1}, \(\tilde{b}\in B(G)\) and hence \(\mathcal{B}(\tilde{b})\) is defined.
+Notice that if \(\tilde{b}\in\tilde{B}(\tilde{G})\setminus\{\{v_F,v_{F'}\}\}\), then, by Lemma \ref{org5b45dbb} \ref{itm:corollary-p-blocks-1}, \(\tilde{b}\in B(G)\) and hence \(\mathcal{B}(\tilde{b})\) is defined.
 
 We now show that \(\tilde{\mathcal{B}}\) is feasible.
 Let \((\tilde{u},\tilde{v})\in\tilde{E}\) and \(i\in[\ell]\).
@@ -1386,7 +1453,7 @@ Hence, by definition of \(\tilde{G}\), \((\tilde{u},\tilde{v})\in E\) and \(\til
 If \((\tilde{u},\tilde{v})\in\{(v_F,t),(s,v_{F'})\}\), then by assumption \ref{itm:lem-merging-flow-pairs-property-3-3}, the capacity constraint is satisfied.
 
 Now suppose \((\tilde{u},\tilde{v})\notin\{(v_F,t),(s,v_{F'}),(v_F,v_{F'})\}\).
-Hence, by Lemma \ref{org0297036} and since block sequence \(\mathcal{B}\) is feasible, we have
+Hence, by Lemma \ref{orgccdfb83} and since block sequence \(\mathcal{B}\) is feasible, we have
 
 \begin{align*}
 \sum_{\tilde{P}\in\tilde{\mathcal{P}}:\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_{i-1})=\mathrm{active}\text{ or }\tilde{\alpha}_{\tilde{P}}((\tilde{u},\tilde{v}),\tilde{B}_i)=\mathrm{active}}\tilde{d}_{\tilde{P}}&=\\
@@ -1398,9 +1465,9 @@ c(\tilde{u},\tilde{v})&=
 \paragraph{Only-if part.}
 Let \(\tilde{\mathcal{B}}=(\tilde{\mathscr{B}}_1,\dots,\tilde{\mathscr{B}}_{\ell})\) be a feasible block sequence for \(\tilde{G}\).
 We define block sequence \(\mathcal{B}=(\mathscr{B}_1,\dots,\mathscr{B}_{\ell})\) for \(G\) as follows.
-By Remark \ref{org50cc955}, we may ignore blocks \(\{v_F,t\},\{s,v_{F'}\}\).
+By Remark \ref{orgbe725f4}, we may ignore blocks \(\{v_F,t\},\{s,v_{F'}\}\).
 For every other block \(b\in B(G)\setminus\{\{v_F,t\},\{s,v_{F'}\}\}\), we define \(\mathcal{B}(b)=\tilde{\mathcal{B}}(b)\).
-Notice that if \(b\in B(G)\setminus\{\{v_F,t\},\{s,v_{F'}\}\}\), then, by Lemma \ref{org5593d3f} \ref{itm:corollary-p-blocks-2}, \(b\in\tilde{B}(\tilde{G})\) and hence \(\tilde{\mathcal{B}}(b)\) is defined.
+Notice that if \(b\in B(G)\setminus\{\{v_F,t\},\{s,v_{F'}\}\}\), then, by Lemma \ref{org5b45dbb} \ref{itm:corollary-p-blocks-2}, \(b\in\tilde{B}(\tilde{G})\) and hence \(\tilde{\mathcal{B}}(b)\) is defined.
 
 We now show that \(\mathcal{B}\) is feasible.
 Let \((u,v)\in E\) and \(i\in[\ell]\).
@@ -1411,7 +1478,7 @@ If \((u,v)\in\{(v_F,t),(s,v_{F'})\}\), then, by assumption \ref{itm:lem-merging-
 Now suppose \((u,v)\notin\{(v_F,t),(s,v_{F'})\}\).
 Hence, by assumption \ref{itm:lem-merging-flow-pairs-property-3-1}, \((u,v)\notin\{(v_F,t),(s,v_{F'}),(v_F,v_{F'})\}\).
 Hence, by definition of \(\tilde{G}\), \((u,v)\in\tilde{E}\) and \(c(u,v)=\tilde{c}(u,v)\).
-Hence, by Lemma \ref{org0297036} and since block sequence \(\tilde{\mathcal{B}}\) is feasible, we have
+Hence, by Lemma \ref{orgccdfb83} and since block sequence \(\tilde{\mathcal{B}}\) is feasible, we have
 
 \begin{align*}
 \sum_{P\in\mathcal{P}:\alpha_P((u,v),B_{i-1})=\mathrm{active}\text{ or }\alpha_P((u,v),B_i)=\mathrm{active}}d_P&=\\
@@ -1422,7 +1489,7 @@ c(u,v).
 \end{proof}
 
 \begin{remark}
-Let \(G,F,F'\) and \(\tilde{G},\tilde{F}\) be as specified in the proof of the \hyperref[org44b4347]{Merging Lemma}.
+Let \(G,F,F'\) and \(\tilde{G},\tilde{F}\) be as specified in the proof of the \hyperref[org7dbdd46]{Merging Lemma}.
 Then notice that:
 
 \begin{enumerate}
@@ -1432,38 +1499,38 @@ For every flow pair \(P\in\mathcal{P}\setminus\{F,F'\}\), if properties \ref{itm
 \item \label{itm:remark-merging-flow-pairs-2}
 For every two flow pairs \(P,P'\in\mathcal{P}\setminus\{F,F'\}\), if properties \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} are satisfied for \(P,P'\) in \(G\), then they are also satisfied for \(P,P'\) in \(\tilde{G}\).
 \end{enumerate}
-\label{org0c6c514}
+\label{orga6e2e8a}
 \end{remark}
 
 \chapter{\(\textbf{NP}\)-Hardness for the General Case}
-\label{sec:orgc2ef077}
+\label{sec:org294c743}
 
-We are finally ready to prove Theorem \ref{org4deb635}.
+We are finally ready to prove Theorem \ref{org1e51ebf}.
 
 \begin{proof}[Proof of Theorem [[thm:np-hardness-k-eq-3]]]
-Let \(C\) be a 4CNF formula and \(G\) be the corresponding update flow network as specified in the proof of Theorem \ref{org9a7f867}.
+Let \(C\) be a 4CNF formula and \(G\) be the corresponding update flow network as specified in the proof of Theorem \ref{org8c43346}.
 Then \(G\) comprises \(10\) flow pairs \(\bar{X},L,\tilde{L},X,R,\tilde{R},B,\tilde{B},B_0,B_1\), each with demand \(1\).
 
-By definition, flow pairs \(\bar{X},L,\tilde{L}\) pairwise satisfy assumptions \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} of the \hyperref[org44b4347]{Merging Lemma} (confirm Table \ref{tab:org03cdb3d}).
-Hence, by Remark \ref{org0c6c514} \ref{itm:remark-merging-flow-pairs-1}, we may apply the Merging Lemma twice to obtain from \(G\) an update flow network \(G_8\) with \(8\) flow pairs.
+By definition, flow pairs \(\bar{X},L,\tilde{L}\) pairwise satisfy assumptions \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} of the \hyperref[org7dbdd46]{Merging Lemma} (confirm Table \ref{tab:orgd4311f5}).
+Hence, by Remark \ref{orga6e2e8a} \ref{itm:remark-merging-flow-pairs-1}, we may apply the Merging Lemma twice to obtain from \(G\) an update flow network \(G_8\) with \(8\) flow pairs.
 
 Similarly, flow pairs \(X,R,\tilde{R}\) pairwise satisfy assumptions \ref{itm:lem-merging-flow-pairs-property-1}, \ref{itm:lem-merging-flow-pairs-property-2}, and \ref{itm:lem-merging-flow-pairs-property-3} of the Merging Lemma in \(G\).
-By Remark \ref{org0c6c514} \ref{itm:remark-merging-flow-pairs-2}, they also satisfy these assumptions in \(G_8\).
-Hence, again by Remark \ref{org0c6c514} \ref{itm:remark-merging-flow-pairs-1}, we may apply the Merging Lemma twice to obtain from \(G_8\) an update flow network \(G_6\) with \(6\) flow pairs.
+By Remark \ref{orga6e2e8a} \ref{itm:remark-merging-flow-pairs-2}, they also satisfy these assumptions in \(G_8\).
+Hence, again by Remark \ref{orga6e2e8a} \ref{itm:remark-merging-flow-pairs-1}, we may apply the Merging Lemma twice to obtain from \(G_8\) an update flow network \(G_6\) with \(6\) flow pairs.
 
 Finally, as flow pairs \(B,\tilde{B},B_0,B_1\) again pairwise satisfy all three assumptions, we apply the Merging Lemma three times to obtain from \(G_6\) an update flow network \(G_3\) with \(3\) flow pairs.
 
-Putting everything together, we have that there is a satisfying assignment for 4CNF formula \(C\) iff there is a feasible block sequence for update flow network \(G\) iff there is a feasible block sequence for \(G_8\) iff there is a feasible block sequence for \(G_6\) iff there is a feasible block sequence for \(G_3\), which, by Corollary \ref{orgc26c90e}, is the case iff there is a feasible update sequence for \(G_3\).
+Putting everything together, we have that there is a satisfying assignment for 4CNF formula \(C\) iff there is a feasible block sequence for update flow network \(G\) iff there is a feasible block sequence for \(G_8\) iff there is a feasible block sequence for \(G_6\) iff there is a feasible block sequence for \(G_3\), which, by Corollary \ref{org1eb86ee}, is the case iff there is a feasible update sequence for \(G_3\).
 \end{proof}
 
 \part{Bounded Treewidth}
-\label{sec:org4230b92}
+\label{sec:org4cbf782}
 
 The goal of this section is to prove the following theorem.
 
 \begin{thm}
 There is an algorithm that, given an update flow network \(G\) with \(k\) flow pairs and a nice tree decomposition of \(G\) with \(O(n)\) nodes and width \(\ell-1\), either determines that there is no feasible block sequence for \(G\) or finds such a sequence in time \(O((k\ell)!k\ell n^2)\).
-\label{org803541e}
+\label{orge6b5d5e}
 \end{thm}
 
 \begin{itemize}
@@ -1474,24 +1541,38 @@ There is an algorithm that, given an update flow network \(G\) with \(k\) flow p
 Before we will prove how to find a feasible block sequence in section \_, we will show how to decide if there is such a sequence in section \_.
 
 \chapter{Decision Problem}
-\label{sec:org5bd35f9}
+\label{sec:org1a64ab1}
 
 \begin{thm}
 There is an algorithm that, given an update flow network \(G\) with \(k\) flow pairs and a nice tree decomposition of \(G\) with \(O(n)\) nodes and width \(\ell-1\), decides whether there is a feasible block sequence for \(G\) in time \(O((k\ell)!k\ell n^2)\).
-\label{orgc7898ff}
+\label{org24f621a}
 \end{thm}
 
-Let \(G\) be an update flow network with \(k\) flow pairs and \((T,\mathcal{X}=\{X_x\}_{x\in V(T)})\) be a nice tree decomposition of \(G\) with \(O(n)\) nodes and width \(\ell-1\).
+Let \(G\) be an update flow network with \(k\) flow pairs and \((T,\{X_x\mid x\in V(T)\})\) be a nice tree decomposition of \(G\) with \(O(n)\) nodes and width \(\ell-1\).
 For a node \(x\in V(T)\), we denote by \(V_x\) the union of all bags \(X_y\) with \(y=x\) or \(y\) is a descendant of \(x\) in \(T\), and by \(G_x=(V_x,E(V_x))\) the subgraph of \(G\) induced by \(V_x\).
 
 \begin{itemize}
-\item[{$\square$}] Extract notation?
+\item[{$\square$}] Remove \(G_x\)?
 \end{itemize}
 
 
-For every node \(x\in V(T)\), we compute a table \(D_x\) which contains a value \(D_x[\pi]\) for every \(X_x\)-permutation \(\pi\), that is, for every permutation of the blocks \(\bigcup_{P\in\mathcal{P},v\in X_x}\{b(v,P)\}\) induced by \(X_x\).
-Hence \(D_x\) contains at most \((k\lvert X_x\rvert)!\leq(k\ell)!\) values.
-Every value \(D_x[\pi]\) is a bit indicating whether \(X_x\)-permutation \(\pi\) can be extended to a \(V_x\)-feasible permutation.
+The dynamic programming algorithm proceeds as follows.
+For every node \(x\in V(T)\), the algorithm computes a table \(D_x\) which contains an entry \(D_x[\pi]\) for every \(X_x\)-permutation \(\pi\).
+Every entry \(D_x[\pi]\) is a single bit indicating whether \(X_x\)-permutation \(\pi\) can be extended to a \(V_x\)-feasible permutation.
+This is done in bottom-up order, that is, the table of node \(x\) is computed after the tables of all descendants of \(x\) have been computed.
+In particular, to compute the table of node \(x\), the algorithm uses the tables of the children of \(x\).
+After all tables have been computed, the algorithm can decide if there is a feasible block sequence for update flow network \(G\) as follows.
+
+\begin{lem}
+Let \(r\) be the root of tree \(T\). Then there is a feasible block sequence for update flow network \(G\) iff \(D_r[\pi]=1\) for some \(X_r\)-permutation \(\pi\).
+\label{org8934066}
+\end{lem}
+
+\begin{proof}
+The lemma follows immediately from \(V_r=V(G)\).
+\end{proof}
+
+In Sections \_, \_, \_, and \_, we show how to compute the table of a node in \(O((k\ell)!k\ell n)\) time for each of the four node types leaf, introduce, forget, join, before we prove Theorem \ref{org24f621a} in Section \_.
 
 \begin{itemize}
 \item[{$\square$}] What about empty permutations, that is, if \(X_x\subseteq\{t\}\)?
@@ -1499,32 +1580,45 @@ Every value \(D_x[\pi]\) is a bit indicating whether \(X_x\)-permutation \(\pi\)
 \item[{$\square$}] Argue somewhere that every vertex is contained in at most \(k\) blocks.
 \end{itemize}
 
-
-The algorithm computes for every node \(x\in V(T)\) the table \(D_x\).
-This is done in bottom-up order, that is, the table for node \(x\) is computed after the tables for all descendants of \(x\) have been computed.
-In particular, to compute the table for node \(x\), we use the tables for the children of \(x\).
-
 \section{Leaf Nodes}
-\label{sec:orge62eb32}
+\label{sec:orgadf9869}
 
+\begin{lem}
+Let \(x\in V(T)\) be a leaf node and \(\pi\) be an \(X_x\)-permutation.
+Then \(D_x[\pi]=1\).
+\label{orgd32a1f2}
+\end{lem}
+
+\begin{proof}
 Let \(x\in V(T)\) be a leaf node.
 Then bag \(X_x\) contains a single vertex and \(V_x=X_x\).
 Hence \(V_x\) does not induce any edges.
 Hence every \(X_x\)-permutation is \(V_x\)-feasible.
-Thus we can set \(D_x[\pi]=1\) for every \(X_x\)-permutation \(\pi\).
+Thus \(D_x[\pi]=1\) for every \(X_x\)-permutation \(\pi\).
+\end{proof}
 
-Hence each of the at most \((k\lvert X_x\rvert)!=k!\) entries of table \(D_x\) can be computed in \(O(1)\) time.
-Thus the entire table for a leaf node can be computed in \(O(k!)\) time.
+\begin{lem}
+Let \(x\in V(T)\) be a leaf node.
+Then the table of \(x\) can be computed in time \(O(k!)\).
+\label{orgda685e3}
+\end{lem}
+
+\begin{proof}
+Let \(x\in V(T)\) be a leaf node.
+Then bag \(X_x\) contains a single vertex.
+Hence, by Lemma \ref{orgd32a1f2}, each of the at most \((k\lvert X_x\rvert)!=k!\) entries of table \(D_x\) can be computed in \(O(1)\) time.
+Thus the entire table \(D_x\) can be computed in \(O(k!)\) time.
+\end{proof}
 
 \section{Introduce Nodes}
-\label{sec:org70e49f4}
+\label{sec:orgfb509dc}
 
 Let \(x\in V(T)\) be an introduce node with child \(y\).
 Then \(X_x\supseteq X_y\) and \(V_x=X_x\cup V_y\).
 
 \begin{lem}
 Blocks induce subtrees.
-\label{org49525b5}
+\label{org9dded06}
 \end{lem}
 
 \begin{itemize}
@@ -1533,7 +1627,7 @@ Blocks induce subtrees.
 
 \begin{lem}
 \(E(V_x)=E(X_x)\cup E(V_y)\).
-\label{orgd0a2d03}
+\label{org7d1c39f}
 \end{lem}
 
 \begin{itemize}
@@ -1546,7 +1640,7 @@ Blocks induce subtrees.
 \begin{lem}
 Let \(X\subseteq V(G)\) be a set of vertices, \(Y\subseteq X\), \(\pi\) be an \(X\)-permutation, and \(\pi'\) be the \(Y\)-restriction of \(\pi\).
 If \(\pi\) is \(X\)-feasible, then \(\pi'\) is \(Y\)-feasible.
-\label{orgc13b2e5}
+\label{org02cd503}
 \end{lem}
 
 \begin{itemize}
@@ -1564,7 +1658,7 @@ We first show the following claim.
 \begin{claim}
 Let \(P\in\mathcal{P}\).
 If \(\alpha_P(e,B'_i)=\mathrm{active}\), then \(\alpha_P(e,B_{\pi(\pi'_i)})=\mathrm{active}\).
-\label{org0f245e5}
+\label{org33a90fe}
 \end{claim}
 
 \begin{proof2}
@@ -1581,7 +1675,7 @@ But since \(b(u,P)\notin B'_i\), \(\pi'(b(u,P))>i=\pi'(\pi'_i)\).
 Hence \(\pi\) and \(\pi'\) are not consistent which contradicts that \(\pi'\) is a restriction of \(\pi\).
 \end{proof2}
 
-Since \(\pi\) is \(X\)-feasible and \(e\in E(Y)\subseteq E(X)\), by Claim \ref{org0f245e5}, we have
+Since \(\pi\) is \(X\)-feasible and \(e\in E(Y)\subseteq E(X)\), by Claim \ref{org33a90fe}, we have
 \[
 \sum_{P\in\mathcal{P}:\alpha_P(e,B'_i)=\mathrm{active}}d_P\leq\sum_{P\in\mathcal{P}:\alpha_P(e,B_{\pi(\pi'_i)})=\mathrm{active}}d_P\leq c(e).
 \]
@@ -1596,7 +1690,7 @@ Since \(\pi\) is \(X\)-feasible and \(e\in E(Y)\subseteq E(X)\), by Claim \ref{o
 \begin{lem}
 Let \(X,Y\subseteq V(G)\) be two sets of vertices, \(\pi\) be an \(X\)-feasible permutation, and \(\pi'\) be a \(Y\)-feasible permutation.
 If \(\pi\) and \(\pi'\) are consistent, then every union of \(\pi\) and \(\pi'\) is congestion free w.r.t. \(E(X)\cup E(Y)\).
-\label{orga3bba9e}
+\label{org199dc38}
 \end{lem}
 
 \begin{itemize}
@@ -1618,7 +1712,7 @@ We first show the following claim.
 \begin{claim}
 Let \(P\in\mathcal{P}\).
 If \(\alpha_P(e,\tilde{B}_i)=\mathrm{active}\), then \(\alpha_P(e,B_j)=\mathrm{active}\).
-\label{org0ea954a}
+\label{orga31d519}
 \end{claim}
 
 \begin{proof2}
@@ -1635,7 +1729,7 @@ But since \(b(u,P)\in\tilde{B}_i\) and by the choice of index \(j\), \(\tilde{\p
 Hence \(\pi\) and \(\tilde{\pi}\) are not consistent which contradicts that \(\tilde{\pi}\) is a union of \(\pi\) and \(\pi'\).
 \end{proof2}
 
-Since \(\pi\) is \(X\)-feasible and \(e\in E(X)\), by Claim \ref{org0ea954a}, we have
+Since \(\pi\) is \(X\)-feasible and \(e\in E(X)\), by Claim \ref{orga31d519}, we have
 \[
 \sum_{P\in\mathcal{P}:\alpha_P(e,\tilde{B}_i)=\mathrm{active}}d_P\leq\sum_{P\in\mathcal{P}:\alpha_P(e,B_j)=\mathrm{active}}d_P\leq c(e).
 \]
@@ -1649,68 +1743,79 @@ Since \(\pi\) is \(X\)-feasible and \(e\in E(X)\), by Claim \ref{org0ea954a}, we
 \begin{lem}[[cite:@amiri2016congestionfree; Lemma 4.3]]
 Let \(X\subseteq V(G)\) be a set of vertices and \(\pi\) be an \(X\)-permutation.
 Whether \(\pi\) is \(X\)-feasible can be determined in time \(O(\lvert\pi\rvert\cdot\lvert G\rvert)\).
-\label{orgbd9556e}
+\label{org8df618c}
 \end{lem}
 
 \begin{itemize}
 \item[{$\square$}] Do we have to change the running time of the algorithm to use \(\lvert G\rvert\) instead of \(n\)?
 \end{itemize}
 
-\begin{lem}[Introduce nodes]
-Let \(\pi\) be an \(X_x\)-permutation and \(\pi'\) be the \(X_y\)-restriction of \(\pi\).
+\begin{lem}
+Let \(x\in V(T)\) be an introduce node with child \(y\), \(\pi\) be an \(X_x\)-permutation, and \(\pi'\) be the \(X_y\)-restriction of \(\pi\).
 Then \(D_x[\pi]=1\) iff \(\pi\) is \(X_x\)-feasible and \(D_y[\pi']=1\).
-\label{org85ce86c}
+\label{org383b9a9}
 \end{lem}
 
 \begin{proof}
-Let \(\pi_{X_x}\) be an \(X_x\)-permutation and \(\pi_{X_y}\) be the \(X_y\)-restriction of \(\pi_{X_x}\).
+Let \(x\in V(T)\) be an introduce node with child \(y\).
+Then \(X_x\supseteq X_y\) and \(V_x=X_x\cup V_y\).
+Moreover, let \(\pi_{X_x}\) be an \(X_x\)-permutation and \(\pi_{X_y}\) be the \(X_y\)-restriction of \(\pi_{X_x}\).
 
 \paragraph{If part.}
 Suppose \(D_x[\pi_{X_x}]=1\).
 Then let \(\pi_{V_x}\) be a \(V_x\)-feasible extension of \(\pi_{X_x}\).
-Hence, by Lemma \ref{orgc13b2e5}, \(\pi_{X_x}\) is \(X_x\)-feasible.
+Hence, by Lemma \ref{org02cd503}, \(\pi_{X_x}\) is \(X_x\)-feasible.
 To show \(D_y[\pi_{X_y}]=1\), consider the \(V_y\)-restriction \(\pi_{V_y}\) of \(\pi_{V_x}\).
-Since \(V_y\subseteq V_x\) and \(\pi_{V_x}\) is \(V_x\)-feasible, by Lemma \ref{orgc13b2e5}, \(\pi_{V_y}\) is \(V_y\)-feasible.
-Moreover, since \(X_y\subseteq X_x\subseteq V_x\), by Lemma \ref{orgff8a5ac} \ref{itm:lem-three-permutations-2-1}, \(\pi_{V_x}\) is a \(V_x\)-extension of \(\pi_{X_y}\).
-Since \(X_y\subseteq V_y\subseteq V_x\), by Lemma \ref{orgff8a5ac} \ref{itm:lem-three-permutations-2-2}, \(\pi_{V_y}\) is a \(V_y\)-extension of \(\pi_{X_y}\).
+Since \(V_y\subseteq V_x\) and \(\pi_{V_x}\) is \(V_x\)-feasible, by Lemma \ref{org02cd503}, \(\pi_{V_y}\) is \(V_y\)-feasible.
+Moreover, since \(X_y\subseteq X_x\subseteq V_x\), by Lemma \ref{org7b57a33} \ref{itm:lem-three-permutations-2-1}, \(\pi_{V_x}\) is a \(V_x\)-extension of \(\pi_{X_y}\).
+Since \(X_y\subseteq V_y\subseteq V_x\), by Lemma \ref{org7b57a33} \ref{itm:lem-three-permutations-2-2}, \(\pi_{V_y}\) is a \(V_y\)-extension of \(\pi_{X_y}\).
 Thus \(D_y[\pi_{X_y}]=1\).
 
 \paragraph{Only-if part.}
 Suppose \(\pi_{X_x}\) is \(X_x\)-feasible and \(D_y[\pi_{X_y}]=1\).
 Then let \(\pi_{V_y}\) be a \(V_y\)-feasible extension of \(\pi_{X_y}\).
 We show that \(\pi_{X_x}\) and \(\pi_{V_y}\) are consistent.
-Then, by Lemma \ref{orga3bba9e}, every union of \(\pi_{X_x}\) and \(\pi_{V_y}\) is congestion free w.r.t. \(E(X_x)\cup E(V_y)\), which, by Lemma \ref{orgd0a2d03}, equals \(E(V_x)\).
+Then, by Lemma \ref{org199dc38}, every union of \(\pi_{X_x}\) and \(\pi_{V_y}\) is congestion free w.r.t. \(E(X_x)\cup E(V_y)\), which, by Lemma \ref{org7d1c39f}, equals \(E(V_x)\).
 Thus, since every union of \(\pi_{X_x}\) and \(\pi_{V_y}\) is an extension of \(\pi_{X_x}\) to blocks induced by \(X_x\cup V_y=V_x\), \(D_x[\pi_{X_x}]=1\).
 
 Suppose not.
 Then obtain blocks \(b,b'\) such that \(\pi_{X_x}(b)<\pi_{X_x}(b')\) and \(\pi_{V_y}(b)>\pi_{V_y}(b')\).
-By Lemma \ref{org49525b5}, both \(b\) and \(b'\) are induced by \(X_y\).
+By Lemma \ref{org9dded06}, both \(b\) and \(b'\) are induced by \(X_y\).
 If \(\pi_{X_y}(b)<\pi_{X_y}(b')\), then \(\pi_{V_y}\) is not an extension of \(\pi_{X_y}\).
 If \(\pi_{X_y}(b)>\pi_{X_y}(b')\), then \(\pi_{X_y}\) is not a restriction of \(\pi_{X_x}\).
 \end{proof}
 
-Lemma \ref{org85ce86c} shows how to compute the table for an introduce node \(x\) when we have the table for its child.
-By Lemma \ref{orgbd9556e}, we can determine whether permutation \(\pi\) is feasible in \(O(\lvert\pi\rvert\cdot\lvert G\rvert)\) time.
-Moreover, we can compute any restriction of \(\pi\) in \(O(\lvert\pi\rvert)\) time.
-Hence each of the at most \((k\lvert X_x\rvert)!\) entries of table \(D_x\) can be computed in \(O(k\lvert X_x\rvert\cdot\lvert G\rvert)\) time.
-Thus we can compute the entire table for an introduce node \(x\) in \(O((k\lvert X_x\rvert)!k\lvert X_x\rvert\cdot\lvert G\rvert)\) time.
+\begin{lem}
+Let \(x\in V(T)\) be an introduce node with child \(y\).
+Given the table of \(y\), the table of \(x\) can be computed in time \(O((k\lvert X_x\rvert)!k\lvert X_x\rvert n)\).
+\label{orgb3879bd}
+\end{lem}
+
+\begin{proof}
+Let \(x\in V(T)\) be an introduce node with child \(y\).
+Lemma \ref{org383b9a9} shows how to compute table \(D_x\) given \(D_y\).
+We can compute any restriction of a permutation \(\pi\) in \(O(\lvert\pi\rvert)\) time.
+Moreover, by Lemma \ref{org8df618c}, we can determine whether a permutation \(\pi\) is feasible in \(O(\lvert\pi\rvert n)\) time.
+Hence each of the at most \((k\lvert X_x\rvert)!\) entries of table \(D_x\) can be computed in \(O(k\lvert X_x\rvert n)\) time.
+Thus the entire table \(D_x\) can be computed in \(O((k\lvert X_x\rvert)!k\lvert X_x\rvert n)\) time.
+\end{proof}
 
 \begin{itemize}
 \item[{$\square$}] Do we have to argue that any restriction of permutation \(\pi\) can be computed in \(O(\lvert\pi\rvert)\) time?
 \end{itemize}
 
 \section{Forget nodes}
-\label{sec:orgf59f6de}
+\label{sec:org679fcf9}
 
-Let \(x\in V(T)\) be a forget node with child \(y\). Then \(X_x\subseteq X_y\) and hence \(V_x=V_y\).
-
-\begin{lem}[Forget nodes]
-Let \(\pi\) be an \(X_x\)-permutation. Then \(D_x[\pi]=1\) iff \(D_y[\pi']=1\) for some \(X_y\)-extension \(\pi'\) of \(\pi\).
-\label{org68cbdd9}
+\begin{lem}
+Let \(x\in V(T)\) be a forget node with child \(y\) and \(\pi\) be an \(X_x\)-permutation. Then \(D_x[\pi]=1\) iff \(D_y[\pi']=1\) for some \(X_y\)-extension \(\pi'\) of \(\pi\).
+\label{org5a7aa88}
 \end{lem}
 
 \begin{proof}
-Let \(\pi_{X_x}\) be an \(X_x\)-permutation.
+Let \(x\in V(T)\) be a forget node with child \(y\).
+Then \(X_x\subseteq X_y\) and hence \(V_x=V_y\).
+Moreover, let \(\pi_{X_x}\) be an \(X_x\)-permutation.
 The lemma follows from the following observation:
 Since \(X_x\subseteq X_y\subseteq V_y=V_x\), every \(V_x\)-extension of \(\pi_{X_x}\) is the \(V_y\)-extension of some \(X_y\)-extension of \(\pi_{X_x}\).
 
@@ -1718,13 +1823,13 @@ Since \(X_x\subseteq X_y\subseteq V_y=V_x\), every \(V_x\)-extension of \(\pi_{X
 Suppose \(D_x[\pi_{X_x}]=1\).
 Then let \(\pi_{V_x}\) be a \(V_x\)-feasible extension of \(\pi_{X_x}\).
 Consider the \(X_y\)-restriction \(\pi_{X_y}\) of \(\pi_{V_x}\).
-Since \(X_x\subseteq X_y\subseteq V_x\), by Lemma \ref{orgff8a5ac} \ref{itm:lem-three-permutations-2-2}, \(\pi_{X_y}\) is an \(X_y\)-extension of \(\pi_{X_x}\).
+Since \(X_x\subseteq X_y\subseteq V_x\), by Lemma \ref{org7b57a33} \ref{itm:lem-three-permutations-2-2}, \(\pi_{X_y}\) is an \(X_y\)-extension of \(\pi_{X_x}\).
 Moreover, since \(V_x=V_y\), \(\pi_{V_x}\) is a \(V_y\)-feasible extension of \(\pi_{X_y}\) and thus \(D_y[\pi_{X_y}]=1\).
 
 \paragraph{Only-if part.}
 Suppose \(D_y[\pi_{X_y}]=1\) for some \(X_y\)-extension \(\pi_{X_y}\) of \(\pi_{X_x}\).
 Then let \(\pi_{V_y}\) be a \(V_y\)-feasible extension of \(\pi_{X_y}\).
-Since \(X_x\subseteq X_y\subseteq V_y\), by Lemma \ref{orgff8a5ac} \ref{itm:lem-three-permutations-2-1}, \(\pi_{V_y}\) is a \(V_y\)-extension of \(\pi_{X_x}\).
+Since \(X_x\subseteq X_y\subseteq V_y\), by Lemma \ref{org7b57a33} \ref{itm:lem-three-permutations-2-1}, \(\pi_{V_y}\) is a \(V_y\)-extension of \(\pi_{X_x}\).
 Moreover, since \(V_x=V_y\), \(\pi_{V_y}\) is a \(V_x\)-feasible extension of \(\pi_{X_x}\) and thus \(D_x[\pi_{X_x}]=1\).
 \end{proof}
 
@@ -1734,7 +1839,7 @@ Moreover, since \(V_x=V_y\), \(\pi_{V_y}\) is a \(V_x\)-feasible extension of \(
 \ForEach{\(X_y\)-permutation \(\pi'\)}\{
 \If{\(D_y[\pi']=1\)}\{Compute the \(X_x\)-restriction \(\pi\) of \(\pi'\)$\backslash$;\label{line:alg-forget-nodes-1}\(D_x[\pi]\gets 1\)$\backslash$;\}
 \}
-\label{orgc380ea1}
+\label{org5a81387}
 \end{algorithm}
 
 \begin{itemize}
@@ -1742,24 +1847,33 @@ Moreover, since \(V_x=V_y\), \(\pi_{V_y}\) is a \(V_x\)-feasible extension of \(
 \end{itemize}
 
 
-Rather than computing the table for a forget node \(x\) given the table for its child \(y\) in the obvious way suggested by Lemma \ref{org68cbdd9}, we use the fact that permutation \(\pi'\) is an \(X_y\)-extension of \(X_x\)-permutation \(\pi\) iff \(\pi\) is the \(X_x\)-restriction of \(\pi'\) and compute the table for \(x\) using Algorithm \ref{orgc380ea1}.
+\begin{lem}
+Let \(x\in V(T)\) be a forget node with child \(y\).
+Given the table of \(y\), the table of \(x\) can be computed in time \(O((k\lvert X_y\rvert)!k\lvert X_y\rvert)\).
+\label{org1e5c064}
+\end{lem}
 
-Let us quickly argue that, given a forget node \(x\) and the table for its child \(y\), the output \(D_x\) of Algorithm \ref{orgc380ea1} satisfies Lemma \ref{org68cbdd9}.
+\begin{proof}
+Let \(x\in V(T)\) be a forget node with child \(y\).
+Then \(X_x\subseteq X_y\).
+Lemma \ref{org5a7aa88} shows how to compute table \(D_x\) given \(D_y\).
+Notice, however, that an \(X_x\)-permutation may have many \(X_y\)-extensions, whereas an \(X_y\)-permutation has a unique \(X_x\)-restriction.
+Hence we use the fact that permutation \(\pi'\) is an \(X_y\)-extension of \(X_x\)-permutation \(\pi\) iff \(\pi\) is the \(X_x\)-restriction of \(\pi'\) and compute table \(D_x\) using Algorithm \ref{org5a81387}.
+
+We show that, given forget node \(x\) and table \(D_y\), the output \(D_x\) of Algorithm \ref{org5a81387} satisfies Lemma \ref{org5a7aa88}.
 Let \(\pi\) be an \(X_x\)-permutation.
 If \(D_x[\pi]=0\), then \(D_x[\pi]\) was not set to \(1\) in Line \ref{line:alg-forget-nodes-1} and hence \(\pi\) is not the \(X_x\)-restriction of any \(X_y\)-permutation \(\pi'\) with \(D_y[\pi']=1\), which is the case iff there is no \(X_y\)-extension \(\pi'\) of \(\pi\) with \(D_y[\pi']=1\).
 If, on the other hand, \(D_x[\pi]=1\), then there is an \(X_y\)-permutation \(\pi'\) with \(D_y[\pi']=1\) such that \(\pi\) is the \(X_x\)-restriction of \(\pi'\), which is the case iff there is an \(X_y\)-extension \(\pi'\) of \(\pi\) with \(D_y[\pi']=1\).
 
-Since we can compute any restriction of permutation \(\pi'\) in \(O(\lvert\pi'\rvert)\) time, Algorithm \ref{orgc380ea1} computes the table for a forget node \(x\) given the table for its child \(y\) in \(O((k\lvert X_x\rvert)!+(k\lvert X_y\rvert)!k\lvert X_y\rvert)=O((k\lvert X_y\rvert)!k\lvert X_y\rvert)\) time.
+Since we can compute any restriction of a permutation \(\pi'\) in \(O(\lvert\pi'\rvert)\) time, Algorithm \ref{org5a81387} computes the table for forget node \(x\) given the table for its child \(y\) in \(O((k\lvert X_x\rvert)!+(k\lvert X_y\rvert)!k\lvert X_y\rvert)=O((k\lvert X_y\rvert)!k\lvert X_y\rvert)\) time.
+\end{proof}
 
 \section{Join nodes}
-\label{sec:org4c5bd4d}
-
-Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\).
-Then \(X_{y_1}=X_x=X_{y_2}\) and hence \(V_x=X_x\cup V_{y_1}\cup V_{y_2}=V_{y_1}\cup V_{y_2}\).
+\label{sec:org0329da4}
 
 \begin{lem}
 \(E(V_x)=E(V_{y_1})\cup E(V_{y_2})\).
-\label{org2ad19c9}
+\label{orga0b1a3a}
 \end{lem}
 
 \begin{itemize}
@@ -1769,21 +1883,23 @@ Then \(X_{y_1}=X_x=X_{y_2}\) and hence \(V_x=X_x\cup V_{y_1}\cup V_{y_2}=V_{y_1}
 \begin{proof}
 \end{proof}
 
-\begin{lem}[Join nodes]
-Let \(\pi\) be an \(X_x\)-permutation.
+\begin{lem}
+Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\) and \(\pi\) be an \(X_x\)-permutation.
 Then \(D_x[\pi]=1\) iff both \(D_{y_1}[\pi]=1\) and \(D_{y_2}[\pi]=1\).
-\label{orgc1a8591}
+\label{org7bff781}
 \end{lem}
 
 \begin{proof}
-Let \(\pi_{X_x}\) be an \(X_x\)-permutation.
+Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\).
+Then \(X_{y_1}=X_x=X_{y_2}\) and hence \(V_x=X_x\cup V_{y_1}\cup V_{y_2}=V_{y_1}\cup V_{y_2}\).
+Moreover, let \(\pi_{X_x}\) be an \(X_x\)-permutation.
 
 \paragraph{If part.}
 Suppose \(D_x[\pi_{X_x}]=1\).
 Then let \(\pi_{V_x}\) be a \(V_x\)-feasible extension of \(\pi_{X_x}\).
 Consider the \(V_{y_1}\)-restriction \(\pi_{V_{y_1}}\) of \(\pi_{V_x}\).
-Since \(V_{y_1}\subseteq V_x\) and \(\pi_{V_x}\) is \(V_x\)-feasible, by Lemma \ref{orgc13b2e5}, \(\pi_{V_{y_1}}\) is \(V_{y_1}\)-feasible.
-Moreover, since \(X_x=X_{y_1}\subseteq V_{y_1}\subseteq V_x\), by Lemma \ref{orgff8a5ac} \ref{itm:lem-three-permutations-2-2}, \(\pi_{V_{y_1}}\) is a \(V_{y_1}\)-extension of \(\pi_{X_x}\).
+Since \(V_{y_1}\subseteq V_x\) and \(\pi_{V_x}\) is \(V_x\)-feasible, by Lemma \ref{org02cd503}, \(\pi_{V_{y_1}}\) is \(V_{y_1}\)-feasible.
+Moreover, since \(X_x=X_{y_1}\subseteq V_{y_1}\subseteq V_x\), by Lemma \ref{org7b57a33} \ref{itm:lem-three-permutations-2-2}, \(\pi_{V_{y_1}}\) is a \(V_{y_1}\)-extension of \(\pi_{X_x}\).
 Thus \(D_{y_1}[\pi_{X_x}]=1\).
 Analogously, \(D_{y_2}[\pi_{X_x}]=1\).
 
@@ -1791,24 +1907,33 @@ Analogously, \(D_{y_2}[\pi_{X_x}]=1\).
 Suppose both \(D_{y_1}[\pi_{X_x}]=1\) and \(D_{y_2}[\pi_{X_x}]=1\).
 Then let \(\pi_{V_{y_1}}\) (\(\pi_{V_{y_2}}\)) be a \(V_{y_1}\)-feasible (\(V_{y_2}\)-feasible) extension of \(\pi_{X_x}\).
 We show that \(\pi_{V_{y_1}}\) and \(\pi_{V_{y_2}}\) are consistent.
-Then, by Lemma \ref{orga3bba9e}, every union of \(\pi_{V_{y_1}}\) and \(\pi_{V_{y_2}}\) is congestion free w.r.t. \(E(V_{y_1})\cup E(V_{y_2})\), which, by Lemma \ref{org2ad19c9} equals \(E(V_x)\).
+Then, by Lemma \ref{org199dc38}, every union of \(\pi_{V_{y_1}}\) and \(\pi_{V_{y_2}}\) is congestion free w.r.t. \(E(V_{y_1})\cup E(V_{y_2})\), which, by Lemma \ref{orga0b1a3a} equals \(E(V_x)\).
 Moreover, since every union \(\pi_{V_{y_1}\cup V_{y_2}}\) of \(\pi_{V_{y_1}}\) and \(\pi_{V_{y_2}}\) is an extension of \(\pi_{V_{y_1}}\) to blocks induced by \(V_{y_1}\cup V_{y_2}=V_x\), \(\pi_{V_{y_1}\cup V_{y_2}}\) is a \(V_x\)-extension of \(\pi_{V_{y_1}}\).
-Hence, since \(X_x=X_{y_1}\subseteq V_{y_1}\subseteq V_x\), by Lemma \ref{orgff8a5ac} \ref{itm:lem-three-permutations-2-1}, \(\pi_{V_{y_1}\cup V_{y_2}}\) is a \(V_x\)-extension of \(\pi_{X_x}\).
+Hence, since \(X_x=X_{y_1}\subseteq V_{y_1}\subseteq V_x\), by Lemma \ref{org7b57a33} \ref{itm:lem-three-permutations-2-1}, \(\pi_{V_{y_1}\cup V_{y_2}}\) is a \(V_x\)-extension of \(\pi_{X_x}\).
 Thus \(D_x[\pi_{X_x}]=1\).
 
 Suppose \(\pi_{V_{y_1}}\) and \(\pi_{V_{y_2}}\) are not consistent.
 Then obtain blocks \(b,b'\) such that \(\pi_{V_{y_1}}(b)<\pi_{V_{y_1}}(b')\) and \(\pi_{V_{y_2}}(b)>\pi_{V_{y_2}}(b')\).
-By Lemma \ref{org49525b5}, both \(b\) and \(b'\) are induced by \(X_x\).
+By Lemma \ref{org9dded06}, both \(b\) and \(b'\) are induced by \(X_x\).
 If \(\pi_{X_x}(b)<\pi_{X_x}(b')\), then \(\pi_{V_{y_2}}\) is not an extension of \(\pi_{X_x}\).
 If \(\pi_{X_x}(b)>\pi_{X_x}(b')\), then \(\pi_{V_{y_1}}\) is not an extension of \(\pi_{X_x}\).
 \end{proof}
 
-Lemma \ref{orgc1a8591} shows how to compute the table for a join node \(x\) when we have the tables for both its children \(y_1\) and \(y_2\).
+\begin{lem}
+Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\).
+Given the tables of \(y_1,y_2\), the table of \(x\) can be computed in time \(O((k\lvert X_x\rvert)!)\).
+\label{org83633f8}
+\end{lem}
+
+\begin{proof}
+Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\).
+Lemma \ref{org7bff781} shows how to compute table \(D_x\) given \(D_{y_1}\) and \(D_{y_2}\).
 Hence each of the at most \((k\lvert X_x\rvert)!\) entries of table \(D_x\) can be computed in \(O(1)\) time.
-Thus we can compute the entire table for a join node \(x\) in \(O((k\lvert X_x\rvert)!)\) time.
+Thus the entire table \(D_x\) can be computed in \(O((k\lvert X_x\rvert)!)\) time.
+\end{proof}
 
 \section{Putting everything together}
-\label{sec:orgca9bea6}
+\label{sec:orgca26e40}
 
 A \emph{postorder tree walk} is an ordering of the nodes of a tree such that every node is later in the ordering than any of its descendants.
 There are simple and well-known algorithms to find a postorder tree walk of a given tree in linear time.
@@ -1826,7 +1951,7 @@ Given this table, we can decide if there is a feasible block sequence for update
 
 \begin{lem}
 There is a feasible block sequence for update flow network \(G\) iff \(D_r[\pi]=1\) for some \(X_r\)-permutation \(\pi\).
-\label{org1b0fd90}
+\label{orgcbffb0f}
 \end{lem}
 
 \begin{proof}
@@ -1836,7 +1961,7 @@ The lemma follows immediately from \(V_r=V(G)\).
 \begin{proof}[[[thm:algorithm-bounded-treewidth-decision]]]
 Since tree decomposition \((T,\mathcal{X})\) has width \(\ell-1\), for every node \(x\in V(T)\), we can compute table \(D_x\) in \(O((k\ell)!k\ell n)\) time.
 Since \((T,\mathcal{X})\) has \(O(n)\) nodes, we can compute the tables for all nodes in \(O((k\ell)!k\ell n^2)\) time.
-Moreover, by Lemma \ref{org1b0fd90}, given the table for the root, we can decide if there is a feasible block sequence for update flow network \(G\) in \(O((k\ell)!)\) time.
+Moreover, by Lemma \ref{orgcbffb0f}, given the table for the root, we can decide if there is a feasible block sequence for update flow network \(G\) in \(O((k\ell)!)\) time.
 Thus the algorithm decides if there is a feasible block sequence for \(G\) in \(O((k\ell)!k\ell n^2)\) time.
 \end{proof}
 
@@ -1845,5 +1970,5 @@ Thus the algorithm decides if there is a feasible block sequence for \(G\) in \(
 \end{itemize}
 
 \chapter{Search Problem}
-\label{sec:orgfa1c62a}
+\label{sec:org94a7f20}
 \end{document}

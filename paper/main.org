@@ -448,94 +448,151 @@ We construct the corresponding update flow network \(G\) as follows.
 
 *** The Reduction
 
-First, we introduce a /clause gadget/ for each clause and a /variable gadget/ for each variable.
-Then, we connect the variable and clause gadgets.
-Finally, we take the remaining steps necessary to ensure that \(G\) is indeed a feasible update flow network.
+We will need to transform a solution for formula \(C\), that is, a satisfying assignment, into a solution for update flow network \(G\), that is, a feasible block sequence, and vice versa.
+We will do this by mapping the choice of assigning either \(1\) or \(0\) to variable \(x_j\) to the choice of updating a corresponding block, say \(b^j\), after a dedicated reference block \(b\) or not, and vice versa.
+For this purpose, we construct a /variable gadget/ \(X^j\) for every variable \(x_j\) such that, in particular, block \(b^j\) is specific to \(X^j\), whereas reference block \(b\) is not.
+Moreover, in particular to guarantee that an assignment obtained from a feasible block sequence as indicated above indeed satisfies every clause, we additionally construct a /clause gadget/ for every clause.
+We first describe the variable gadgets.
+
+- [ ] Mention that all flow pairs have unit demand.
+
+#+latex: \paragraph{Variable gadgets.}
+For every variable \(x_j\), we construct the corresponding variable gadget \(X^j\) as follows (see Figure [[fig:variable-gadget]]).
+As indicated above, the idea is that \(X^j\) contains a block \(b^j\) such that:
+
+#+attr_latex: :options [label=(V\arabic*)]
+#+begin_enumerate
+\item\label{itm:v1}
+Variable \(x_j\) is assigned \(1\) iff block \(b^j\) is updated after reference block \(b\).
+#+end_enumerate
+
+Therefore, we introduce a /variable vertex/ \(x^j\) which is used by three flow pairs \(X,\bar{X},B\) such that \(b^j=b(x^j,\bar{X})\) and \(b=b(x^j,B)\).
+Intuitively, updating flow pair \(X\) (\(\bar{X}\)) before \(B\) for \(x^j\) corresponds to assigning \(1\) (\(0\)) to variable \(x_j\).
+More precisely, the idea is to guarantee the following:
+
+#+attr_latex: :options [label=(V\arabic*),start=2]
+#+begin_enumerate
+\item\label{itm:v2}
+If block \(b(x^j,X)\) is updated before \(b(x^j,B)\), then variable \(x_j\) is assigned \(1\).
+\item\label{itm:v3}
+If \(b(x^j,\bar{X})\) is updated before \(b(x^j,B)\), then \(x_j\) is assigned \(0\).
+\item\label{itm:v4}
+Not both \(b(x^j,X)\) and \(b(x^j,\bar{X})\) can be updated before \(b(x^j,B)\).
+#+end_enumerate
+
+Notice that \ref{itm:v1} and \ref{itm:v4} imply both \ref{itm:v2} and \ref{itm:v3}.
+To guarantee \ref{itm:v4}, we introduce a vertex \(y^j\) and add an edge \((x^j,y^j)\) with capacity \(2\) to flows \(X^u,\bar{X}^u,B^o\).
+
+Moreover, we introduce auxiliary vertices \(x_0^j,y_0^j,x_1^j,y_1^j\) and add edge \((x_0^j,y_0^j)\) with capacity \(1\) to flow \(\bar{X}^o\) and \((x_1^j,y_1^j)\) with capacity \(1\) to \(X^o\).
+These will be used to connect variable with clause gadgets.
+More precisely, \(x_0^j\) (\(x_1^j\)) will be connected to clause gadgets corresponding to clauses in which variable \(x_j\) occurs negatively (positively).
+
+As mentioned above, block \(b^j\) should be completely contained in variable gadget \(X^j\).
+Therefore, we add edges \((x^j,x_0^j),(y_0^j,y^j)\) with capacity \(10\) to flow \(\bar{X}^o\) and \((x^j,x_1^j),(y_1^j,y^j)\) with capacity \(10\) to \(X^o\).
+
+- [ ] Either use capacity \(\infty\) or argue why we use capacity \(10\).
+
+#+caption: Variable gadget \(X^j\)
+#+name: fig:variable-gadget
+[[file:../assets/Screen Shot 2023-02-14 at 15.06.35.png]]
 
 #+latex: \paragraph{Clause gadgets.}
 Let \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\) be a clause.
-We construct the corresponding clause gadget \(C^i\) as follows.
+We construct the corresponding clause gadget \(C^i\) as follows (see Figure [[fig:clause-gadget-3]]).
 The idea is to model the syntax tree for \(C_i\) depicted in Figure [[fig:syntax-tree]].
 
 #+caption: A syntax tree for clause \((l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\)
 #+name: fig:syntax-tree
 [[file:../assets/Screen Shot 2023-02-14 at 15.05.37.png]]
 
-For the root operator node, we introduce a /clause vertex/ \(u^i\) which is used by three flow pairs \(L,R,B\).
-The idea is to guarantee that clause \(C_i\) is satisfied iff block \(b(u^i,L)\) is updated before block \(b(u^i,B)\) or block \(b(u^i,R)\) is updated before \(b(u^i,B)\).
-Equivalently, \(b(u^i,B)\) cannot be updated unless at least one of \(b(u^i,L),b(u^i,R)\) has been updated.
-Intuitively, if \(b(u^i,L)\) (\(b(u^i,R)\)) is updated before \(b(u^i,B)\), then the \(\textbf{L}\)eft half \((l_{i_1}\vee l_{i_2})\) (\(\textbf{R}\)ight half \((l_{i_3}\vee l_{i_4})\)) of \(C_i\) is satisfied.
-
-Similarly, for the intermediate operator nodes of the syntax tree, we introduce clause vertices \(u_{1,2}^i,u_{3,4}^i\), where \(u_{1,2}^i\) corresponds to \((l_{i_1}\vee l_{i_2})\) and \(u_{3,4}^i\) corresponds to \((l_{i_3}\vee l_{i_4})\).
-Both clause vertices are used by flow pairs \(\tilde{L},\tilde{R},\tilde{B}\) such that if \(b(u_{1,2}^i,\tilde{L})\) (\(b(u_{1,2}^i,\tilde{R})\)) is updated before \(b(u_{1,2},\tilde{B})\), then the left half \(l_{i_1}\) (right half \(l_{i_2}\)) of \((l_{i_1}\vee l_{i_2})\) is satisfied, and analogously for \(u_{3,4}^i\).
-
-Moreover, for the operand nodes of the syntax tree, we introduce /literal vertices/ \(u_1^i,u_2^i,u_3^i,u_4^i\).
-
-Finally, for every branch from a parent node to its left (right) child node, we add an edge to either \(L\) (\(R\)) (if the parent node is \(u^i\)) or \(\tilde{L}\) (\(\tilde{R}\)) (if the parent node is \(u_{1,2}^i\) or \(u_{3,4}^i\)).
-
-We now proceed with the detailed specification of clause gadget \(C^i\) (see Figure [[fig:clause-gadget]]).
-
-#+caption: Clause gadget \(C^i\)
-#+name: fig:clause-gadget
-[[file:../assets/Screen Shot 2023-02-14 at 15.07.03.png]]
-
-We introduce six flow pairs \(L,R,B,\tilde{L},\tilde{R},\tilde{B}\), each with demand \(1\).
-
-For the clause vertices, we introduce two vertices \(u^i,v^i\) and add edge \((u^i,v^i)\) to flows \(L^o,R^o,B^u\).
-Similarly, we introduce vertices \(u_{1,2}^i,v_{1,2}^i,u_{3,4}^i,v_{3,4}^i\) and add edges \((u_{1,2}^i,v_{1,2}^i),(u_{3,4}^i,v_{3,4}^i)\) to flows \(\tilde{L}^o,\tilde{R}^o,\tilde{B}^u\).
-
-For the literal vertices, we introduce vertices \(u_1^i,v_1^i,u_2^i,v_2^i,u_3^i,v_3^i,u_4^i,v_4^i\) and add edges \((u_1^i,v_1^i),(u_3^i,v_3^i)\) to flow \(\tilde{L}^u\) and \((u_2^i,v_2^i),(u_4^i,v_4^i)\) to \(\tilde{R}^u\).
-
-Moreover, we introduce auxiliary vertices \(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i,\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i\) and add edge \((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)\) to flows \(\tilde{L}^u,\tilde{B}^o\) and \((\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i)\) to \(\tilde{R}^u,\tilde{B}^o\).
-
-Finally, we add the following edges to connect clause gadget \(C^i\):
-
-- \((u^i,\tilde{u}_{1,2}^i),(\tilde{v}_{1,2}^i,v^i)\) to \(L^u\)
-- \((u^i,\tilde{u}_{3,4}^i),(\tilde{v}_{3,4}^i,v^i)\) to \(R^u\)
-- \((v_{1,2}^i,u_{3,4}^i)\) to \(\tilde{L}^o,\tilde{L}^u,\tilde{R}^o,\tilde{R}^u\)
-- \((u_{1,2}^i,u_1^i),(v_1^i,v_{1,2}^i),(u_{3,4}^i,u_3^i),(v_3^i,v_{3,4}^i)\) to \(\tilde{L}^u\)
-- \((u_{1,2}^i,u_2^i),(v_2^i,v_{1,2}^i),(u_{3,4}^i,u_4^i),(v_4^i,v_{3,4}^i)\) to \(\tilde{R}^u\)
-- \((\tilde{v}_{1,2}^i,\tilde{u}_{3,4}^i)\) to \(\tilde{B}^o,\tilde{B}^u\)
-- \((\tilde{u}_{1,2}^i,u_{1,2}^i),(v_{1,2}^i,\tilde{v}_{1,2}^i),(\tilde{u}_{3,4}^i,u_{3,4}^i),(v_{3,4}^i,\tilde{v}_{3,4}^i)\) to \(\tilde{B}^u\)
-
-#+latex: \paragraph{Variable gadgets.}
-For every variable \(x_j\), we construct the corresponding variable gadget \(X^j\) as follows.
-We introduce a /variable vertex/ \(x^j\) which is used by three flow pairs \(X,\bar{X},B\).
+For the root operator node, we introduce a /clause vertex/ \(u^i\) which is used by three flow pairs \(L,R,B\) such that block \(b(u^i,B)\) equals the reference block \(b\).
 The idea is to guarantee the following:
 
-1. If block \(b(x^j,X)\) is updated before block \(b(x^j,B)\), then variable \(x_j\) is assigned \(1\).
-2. If block \(b(x^j,\bar{X})\) is updated before \(b(x^j,B)\), then \(x_j\) is assigned \(0\).
-3. Not both \(b(x^j,X)\) and \(b(x^j,\bar{X})\) can be updated before \(b(x^j,B)\).
+#+attr_latex: :options [label=(C\arabic*)]
+#+begin_enumerate
+\item\label{itm:c1}
+Clause \(C_i\) is satisfied iff block \(b(u^i,L)\) is updated before \(b\) or \(b(u^i,R)\) is updated before \(b\).
+#+end_enumerate
 
-We now proceed with the detailed specification of variable gadget \(X^j\) (see Figure [[fig:variable-gadget]]).
+Intuitively, if \(b(u^i,L)\) (\(b(u^i,R)\)) is updated before \(b\), then the \(\textbf{L}\)eft half \((l_{i_1}\vee l_{i_2})\) (\(\textbf{R}\)ight half \((l_{i_3}\vee l_{i_4})\)) of \(C_i\) is satisfied.
+Similarly, for the intermediate operator nodes of the syntax tree, we introduce clause vertices \(u_L^i,u_R^i\), where \(u_L^i\) corresponds to the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) and \(u_R^i\) corresponds to the right half \((l_{i_3}\vee l_{i_4})\).
+Both vertices are used by flow pairs \(\tilde{L},\tilde{R},\tilde{B}\) such that:
 
-#+caption: Variable gadget \(X^j\)
-#+name: fig:variable-gadget
-[[file:../assets/Screen Shot 2023-02-14 at 15.06.35.png]]
+#+attr_latex: :options [label=(C\arabic*),start=2]
+#+begin_enumerate
+\item\label{itm:c2}
+Suppose block \(b(u^i,L)\) is updated before \(b\).
+Then clause \((l_{i_1}\vee l_{i_2})\) is satisfied if \(b(u_L^i,\tilde{L})\) is updated before \(b(u_L^i,\tilde{B})\) or \(b(u_L^i,\tilde{R})\) is updated before \(b(u_L^i,\tilde{B})\).
+\item\label{itm:c3}
+Suppose block \(b(u^i,R)\) is updated before \(b\).
+Then clause \((l_{i_3}\vee l_{i_4})\) is satisfied if \(b(u_R^i,\tilde{L})\) is updated before \(b(u_R^i,\tilde{B})\) or \(b(u_R^i,\tilde{R})\) is updated before \(b(u_R^i,\tilde{B})\).
+#+end_enumerate
 
-We introduce two flow pairs \(X,\bar{X}\), each with demand \(1\).
-For the variable vertices, we introduce vertices \(x^j,y^j\) and add edge \((x^j,y^j)\) to flows \(X^u,\bar{X}^u,B^o\).
-Moreover, we introduce auxiliary vertices \(x_0^j,y_0^j,x_1^j,y_1^j\) and add edge \((x_0^j,y_0^j)\) to flow \(\bar{X}^o\) and \((x_1^j,y_1^j)\) to \(X^o\).
-Finally, to connect variable gadget \(X^j\), we add edges \((x^j,x_0^j),(y_0^j,y^j)\) to flow \(\bar{X}^o\) and \((x^j,x_1^j),(y_1^j,y^j)\) to \(X^o\).
+Again, intuitively, if \(b(u_L^i,\tilde{L})\) (\(b(u_L^i,\tilde{R})\)) is updated before \(b(u_L^i,\tilde{B})\), then the left half \(l_{i_1}\) (right half \(l_{i_2}\)) of \((l_{i_1}\vee l_{i_2})\) is satisfied, and analogously for \(u_R^i\).
+
+Moreover, for the operand nodes of the syntax tree, we introduce /literal vertices/ \(u_1^i,u_2^i,u_3^i,u_4^i\).
+Finally, for every branch from a parent node to its left (right) child node, we add an edge to either \(L^u\) (\(R^u\)) (if the parent node is \(u^i\)) or \(\tilde{L}^u\) (\(\tilde{R}^u\)) (if the parent node is \(u_L^i\) or \(u_R^i\)).
+See Figure [[fig:clause-gadget-1]] for an illustration.
+
+#+caption: Clause gadget \(C^i\)
+#+name: fig:clause-gadget-1
+[[file:../assets/Screen Shot 2023-05-27 at 14.31.00.png]]
+
+To guarantee \ref{itm:c1}, we introduce a vertex \(v^i\) and add an edge \((u^i,v^i)\) with capacity \(2\) to flows \(L^o,R^o,B^u\).
+Similarly, to guarantee \ref{itm:c2} and \ref{itm:c3}, we introduce vertices \(v_L^i,v_R^i\) and add edges \((u_L^i,v_L^i),(u_R^i,v_R^i)\) with capacity \(2\) to flows \(\tilde{L}^o,\tilde{R}^o,\tilde{B}^u\).
+See Figure [[fig:clause-gadget-2]] for an illustration.
+
+#+caption: Clause gadget \(C^i\)
+#+name: fig:clause-gadget-2
+[[file:../assets/Screen Shot 2023-05-27 at 14.31.31.png]]
+
+Moreover, we introduce vertices \(v_1^i,v_2^i,v_3^i,v_4^i\) and add edges \((u_1^i,v_1^i),(u_3^i,v_3^i)\) with capacity \(1\) to flow \(\tilde{L}^u\) and \((u_2^i,v_2^i),(u_4^i,v_4^i)\) with capacity \(1\) to \(\tilde{R}^u\).
+These will be used to connect variable with clause gadgets.
+
+Finally, we introduce auxiliary vertices \(\tilde{u}_L^i,\tilde{v}_L^i,\tilde{u}_R^i,\tilde{v}_R^i\) and add edge \((\tilde{u}_L^i,\tilde{v}_L^i)\) with capacity \(1\) to flows \(L^u,\tilde{B}^o\) and \((\tilde{u}_R^i,\tilde{v}_R^i)\) with capacity \(1\) to \(R^u,\tilde{B}^o\).
+We remark that these vertices, as well as flow pair \(\tilde{B}\), are not necessary for this proof.
+Instead, we could directly connect clause vertices \(u^i,u_L^i\) via flow pair \(L\) and \(u^i,u_R^i\) via \(R\).
+They are necessary, however, for the proof of Theorem [[thm:np-hardness-k-eq-3]].
+
+Since we want to guarantee \ref{itm:c1}, \ref{itm:c2}, and \ref{itm:c3} for each clause independently, blocks \(b(u^i,L),b(u^i,R),b(u_L^i,\tilde{L}),b(u_L^i,\tilde{R}),b(u_R^i,\tilde{L}),b(u_R^i,\tilde{R})\) should be completely contained in clause gadget \(C^i\).
+Moreover, since we want to guarantee \ref{itm:c2} and \ref{itm:c3} independently, blocks \(b(u_L^i,\tilde{L}),b(u_R^i,\tilde{L})\), \(b(u_L^i,\tilde{R}),b(u_R^i,\tilde{R})\), and \(b(u_L^i,\tilde{B}),b(u_R^i,\tilde{B})\) should be distinct.
+Therefore, we add the following edges, each with capacity \(10\):
+
+- \((u^i,\tilde{u}_L^i),(\tilde{v}_L^i,v^i)\) to \(L^u\)
+- \((u^i,\tilde{u}_R^i),(\tilde{v}_R^i,v^i)\) to \(R^u\)
+- \((u_L^i,u_1^i),(v_1^i,v_L^i),(u_R^i,u_3^i),(v_3^i,v_R^i)\) to \(\tilde{L}^u\)
+- \((u_L^i,u_2^i),(v_2^i,v_L^i),(u_R^i,u_4^i),(v_4^i,v_R^i)\) to \(\tilde{R}^u\)
+- \((\tilde{u}_L^i,u_L^i),(v_L^i,\tilde{v}_L^i),(\tilde{u}_R^i,u_R^i),(v_R^i,\tilde{v}_R^i)\) to \(\tilde{B}^u\)
+
+
+Finally, to obtain \((s,t)\)-paths in the end, we add the following edges, each with capacity \(10\):
+
+- \((v_L^i,u_R^i)\) to \(\tilde{L}^o,\tilde{L}^u,\tilde{R}^o,\tilde{R}^u\)
+- \((\tilde{v}_L^i,\tilde{u}_R^i)\) to \(\tilde{B}^o,\tilde{B}^u\)
+
+#+caption: Clause gadget \(C^i\)
+#+name: fig:clause-gadget-3
+[[file:../assets/Screen Shot 2023-02-14 at 15.07.03.png]]
+
+- [ ] Merge clause gadget figures.
 
 #+latex: \paragraph{Connecting variable with clause gadgets.}
 For every \(j\in[n]\) and every \(i\in[m]\), we connect variable gadget \(X^j\) to clause gadget \(C^i\) if variable \(x_j\) occurs in clause \(C_i\).
-More precisely, we introduce two flow pairs \(B_0,B_1\), each with demand \(1\), such that \(B_0\) (\(B_1\)) connects vertex \(x_0^j\) (\(x_1^j\)) to all literal vertices corresponding to literal \(\bar{x}_j\) (\(x_j\)).
-
-More formally, for every \(j\in[n]\), let \(P_j=\{p_1^j,\dots,p_{\ell_j}^j\}\) denote the set of indices of the clauses containing literal \(x_j\) and \(\bar{P}_j=\{\bar{p}_1^j,\dots,p_{\ell'_j}^j\}\) denote the set of indices of the clauses containing literal \(\bar{x}_j\).
+More precisely, we introduce two flow pairs \(B_0,B_1\) such that \(B_0\) (\(B_1\)) connects vertex \(x_0^j\) (\(x_1^j\)) to all literal vertices corresponding to literal \(\bar{x}_j\) (\(x_j\)).
+More formally, for every \(j\in[n]\), let \(P_j=\{p_1^j,\dots,p_{\ell_j}^j\}\) denote the set of indices of the clauses containing literal \(x_j\) and \(\bar{P}_j=\{\bar{p}_1^j,\dots,\bar{p}_{\ell'_j}^j\}\) denote the set of indices of the clauses containing literal \(\bar{x}_j\).
 Moreover, for every \(j\in[n]\) and every \(i\in[m]\), let \(\pi(i,j)\) denote the position of literal \(x_j\) in clause \(C_i\) and \(\bar{\pi}(i,j)\) denote the position of literal \(\bar{x}_j\) in \(C_i\).
 For every \(j\in[n]\), we add the following edges:
 
-- \((x_0^j,u_{\bar{\pi}(\bar{p}_1^j,j)}^{\bar{p}_1^j})\), \((u_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j},v_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j})\) for every \(\ell\in[\ell'_j]\), \((v_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j},u_{\bar{\pi}(\bar{p}_{\ell+1}^j,j)}^{\bar{p}_{\ell+1}^j})\) for every \(\ell\in[\ell'_j-1]\), and \((v_{\bar{\pi}(\bar{p}_{\ell'_j}^j,j)}^{\bar{p}_{\ell'_j}^j},y_0^j)\) to \(B_0^o\)
-- \((x_1^j,u_{\pi(p_1^j,j)}^{p_1^j})\), \((u_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j},v_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j})\) for every \(\ell\in[\ell_j]\), \((v_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j},u_{\pi(p_{\ell+1}^j,j)}^{p_{\ell+1}^j})\) for every \(\ell\in[\ell_j-1]\), and \((v_{\pi(p_{\ell_j}^j,j)}^{p_{\ell_j}^j},y_1^j)\) to \(B_1^o\)
+- \((x_0^j,u_{\bar{\pi}(\bar{p}_1^j,j)}^{\bar{p}_1^j})\) with capacity \(10\), \((u_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j},v_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j})\) for every \(\ell\in[\ell'_j]\), \((v_{\bar{\pi}(\bar{p}_{\ell}^j,j)}^{\bar{p}_{\ell}^j},u_{\bar{\pi}(\bar{p}_{\ell+1}^j,j)}^{\bar{p}_{\ell+1}^j})\) with capacity \(10\) for every \(\ell\in[\ell'_j-1]\), and \((v_{\bar{\pi}(\bar{p}_{\ell'_j}^j,j)}^{\bar{p}_{\ell'_j}^j},y_0^j)\) with capacity \(10\) to \(B_0^o\)
+- \((x_1^j,u_{\pi(p_1^j,j)}^{p_1^j})\) with capacity \(10\), \((u_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j},v_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j})\) for every \(\ell\in[\ell_j]\), \((v_{\pi(p_{\ell}^j,j)}^{p_{\ell}^j},u_{\pi(p_{\ell+1}^j,j)}^{p_{\ell+1}^j})\) with capacity \(10\) for every \(\ell\in[\ell_j-1]\), and \((v_{\pi(p_{\ell_j}^j,j)}^{p_{\ell_j}^j},y_1^j)\) with capacity \(10\) to \(B_1^o\)
 
-#+latex: \paragraph{Completing the update flow network.}
+#+latex: \paragraph{Putting everything together.}
 We introduce vertices \(s,t\) and create (\(s,t\))-paths for all flows by adding the following edges:
 
 - \((s,u^1),(v^m,t)\) to \(L^o,L^u,R^o,R^u\)
 - \((v^i,u^{i+1})\) for every \(i\in[m-1]\) to \(L^o,L^u,R^o,R^u,B^u\)
-- \((s,u_{1,2}^1)\), \((v_{3,4}^i,u_{1,2}^{i+1})\) for every \(i\in[m-1]\), and \((v_{3,4}^m,t)\) to \(\tilde{L}^o,\tilde{L}^u,\tilde{R}^o,\tilde{R}^u\)
-- \((s,\tilde{u}_{1,2}^1)\), \((\tilde{v}_{3,4}^i,\tilde{u}_{1,2}^{i+1})\) for every \(i\in[m-1]\), and \((\tilde{v}_{3,4}^m,t)\) to \(\tilde{B}^o,\tilde{B}^u\)
+- \((s,u_L^1)\), \((v_R^i,u_L^{i+1})\) for every \(i\in[m-1]\), and \((v_R^m,t)\) to \(\tilde{L}^o,\tilde{L}^u,\tilde{R}^o,\tilde{R}^u\)
+- \((s,\tilde{u}_L^1)\), \((\tilde{v}_R^i,\tilde{u}_L^{i+1})\) for every \(i\in[m-1]\), and \((\tilde{v}_R^m,t)\) to \(\tilde{B}^o,\tilde{B}^u\)
 - \((s,x^1),(y^n,t)\) to \(X^o,X^u,\bar{X}^o,\bar{X}^u,B^o,B^u\)
 - \((y^j,x^{j+1})\) for every \(j\in[n-1]\) to \(X^o,X^u,\bar{X}^o,\bar{X}^u,B^o\)
 - \((x^1,u^1),(v^m,y^n)\) to \(B^u\)
@@ -556,25 +613,25 @@ See Figure [[fig:update-flow-network]] for the complete update flow network and 
 | \(\bar{X}^u\)   | \(s,x^1,y^1,x^2,\dots,y^n,t\)                                                                                                                                                          |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | \(L^o\)         | \(s,u^1,v^1,u^2,\dots,v^m,t\)                                                                                                                                                          |
-| \(L^u\)         | \(s,u^1,\tilde{u}_{1,2}^1,\tilde{v}_{1,2}^1,v^1,u^2,\dots,v^m,t\)                                                                                                                      |
+| \(L^u\)         | \(s,u^1,\tilde{u}_L^1,\tilde{v}_L^1,v^1,u^2,\dots,v^m,t\)                                                                                                                      |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| \(\tilde{L}^o\) | \(s,u_{1,2}^1,v_{1,2}^1,u_{3,4}^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\)                                                                                                              |
-| \(\tilde{L}^u\) | \(s,u_{1,2}^1,u_1^1,v_1^1,v_{1,2}^1,u_{3,4}^1,u_3^1,v_3^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\)                                                                                      |
+| \(\tilde{L}^o\) | \(s,u_L^1,v_L^1,u_R^1,v_R^1,u_L^2,\dots,v_R^m,t\)                                                                                                              |
+| \(\tilde{L}^u\) | \(s,u_L^1,u_1^1,v_1^1,v_L^1,u_R^1,u_3^1,v_3^1,v_R^1,u_L^2,\dots,v_R^m,t\)                                                                                      |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | \(X^o\)         | \(s,x^1,x_1^1,y_1^1,y^1,x^2,\dots,y^n,t\)                                                                                                                                              |
 | \(X^u\)         | \(s,x^1,y^1,x^2,\dots,y^n,t\)                                                                                                                                                          |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | \(R^o\)         | \(s,u^1,v^1,u^2,\dots,v^m,t\)                                                                                                                                                          |
-| \(R^u\)         | \(s,u^1,\tilde{u}_{3,4}^1,\tilde{v}_{3,4}^1,v^1,u^2,\dots,v^m,t\)                                                                                                                      |
+| \(R^u\)         | \(s,u^1,\tilde{u}_R^1,\tilde{v}_R^1,v^1,u^2,\dots,v^m,t\)                                                                                                                      |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| \(\tilde{R}^o\) | \(s,u_{1,2}^1,v_{1,2}^1,u_{3,4}^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\)                                                                                                              |
-| \(\tilde{R}^u\) | \(s,u_{1,2}^1,u_2^1,v_2^1,v_{1,2}^1,u_{3,4}^1,u_4^1,v_4^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\)                                                                                      |
+| \(\tilde{R}^o\) | \(s,u_L^1,v_L^1,u_R^1,v_R^1,u_L^2,\dots,v_R^m,t\)                                                                                                              |
+| \(\tilde{R}^u\) | \(s,u_L^1,u_2^1,v_2^1,v_L^1,u_R^1,u_4^1,v_4^1,v_R^1,u_L^2,\dots,v_R^m,t\)                                                                                      |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | \(B^o\)         | \(s,x^1,y^1,x^2,\dots,y^n,t\)                                                                                                                                                          |
 | \(B^u\)         | \(s,x^1,u^1,v^1,u^2,\dots,v^m,y^n,t\)                                                                                                                                                  |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| \(\tilde{B}^o\) | \(s,\tilde{u}_{1,2}^1,\tilde{v}_{1,2}^1,\tilde{u}_{3,4}^1,\tilde{v}_{3,4}^1,\tilde{u}_{1,2}^2,\dots,\tilde{v}_{3,4}^m,t\)                                                              |
-| \(\tilde{B}^u\) | \(s,\tilde{u}_{1,2}^1,u_{1,2}^1,v_{1,2}^1,\tilde{v}_{1,2}^1,\tilde{u}_{3,4}^1,u_{3,4}^1,v_{3,4}^1,\tilde{v}_{3,4}^1,\tilde{u}_{1,2}^2,\dots,\tilde{v}_{3,4}^m,t^\)                     |
+| \(\tilde{B}^o\) | \(s,\tilde{u}_L^1,\tilde{v}_L^1,\tilde{u}_R^1,\tilde{v}_R^1,\tilde{u}_L^2,\dots,\tilde{v}_R^m,t\)                                                              |
+| \(\tilde{B}^u\) | \(s,\tilde{u}_L^1,u_L^1,v_L^1,\tilde{v}_L^1,\tilde{u}_R^1,u_R^1,v_R^1,\tilde{v}_R^1,\tilde{u}_L^2,\dots,\tilde{v}_R^m,t^\)                     |
 |-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | \(B_0^o\)       | \(s,x_0^1,u_{\bar{\pi}(\bar{p}_1^1,1)}^{\bar{p}_1^1},v_{\bar{\pi}(\bar{p}_1^1,1)}^{\bar{p}_1^1},u_{\bar{\pi}(\bar{p}_2^1,1)}^{\bar{p}_2^1},\dots,v_{\bar{\pi}(\bar{p}_{l'_1}^1,1)}^{\bar{p}_{l'_1}^1},y_0^1,x_0^2,\dots,y_0^n,t\) |
 | \(B_0^u\)       | \(s,x_0^1,y_0^1,x_0^2,\dots,y_0^n,t\)                                                                                                                                                  |
@@ -585,12 +642,12 @@ See Figure [[fig:update-flow-network]] for the complete update flow network and 
 
 Edge capacities are defined as follows.
 
-- We set the capacity to \(2\) for edges \((u^i,v^i),(u_{1,2}^i,v_{1,2}^i),(u_{3,4}^i,v_{3,4}^i),(x^j,y^j)\) for every \(i\in[m]\) and every \(j\in[n]\).
-- We set the capacity to \(1\) for edges \((u_1^i,v_1^i),(u_2^i,v_2^i),(u_3^i,v_3^i),(u_4^i,v_4^i),(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),(\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i),(x_0^j,y_0^j),(x_1^j,y_1^j)\) for every \(i\in[m]\) and every \(j\in[n]\).
+- We set the capacity to \(2\) for edges \((u^i,v^i),(u_L^i,v_L^i),(u_R^i,v_R^i),(x^j,y^j)\) for every \(i\in[m]\) and every \(j\in[n]\).
+- We set the capacity to \(1\) for edges \((u_1^i,v_1^i),(u_2^i,v_2^i),(u_3^i,v_3^i),(u_4^i,v_4^i),(\tilde{u}_L^i,\tilde{v}_L^i),(\tilde{u}_R^i,\tilde{v}_R^i),(x_0^j,y_0^j),(x_1^j,y_1^j)\) for every \(i\in[m]\) and every \(j\in[n]\).
 - All remaining edge capacities are set to \(10\), that is, the number of flow pairs, which equals the sum of all demands.
 
-We remark that vertices \(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i,\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i\) are not necessary for this proof.
-Instead, we could directly connect clause vertices \(u^i,u_{1,2}^i\) via flow pair \(L\) and \(u^i,u_{3,4}^i\) via \(R\).
+We remark that vertices \(\tilde{u}_L^i,\tilde{v}_L^i,\tilde{u}_R^i,\tilde{v}_R^i\) are not necessary for this proof.
+Instead, we could directly connect clause vertices \(u^i,u_L^i\) via flow pair \(L\) and \(u^i,u_R^i\) via \(R\).
 Similarly, vertices \(x_0^j,y_0^j,x_1^j,y_1^j\) as well as flow pairs \(B_0,B_1\) are not necessary.
 We could instead directly connect variable vertex \(x^j\) to literal vertex, say \(u_1^i\), via \(X\) (\(\bar{X}\)) if \(l_{i_1}=x_j\) (\(l_{i_1}=\bar{x}_j\)).
 The vertices and flow pairs are necessary, however, for the proof of Theorem [[thm:np-hardness-k-eq-3]].
@@ -616,16 +673,16 @@ Using Lemma [[lem:update-flow-network-feasible-if]], we will show that all capac
 |               |                                                                                                                           | \(\{y^n,t\}\)                                                                              |
 |---------------+---------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------|
 | \(L\)         | \(s,u^1,v^1,u^2,\dots,v^m,t\)                                                                                             | \(\{s,u^1\}\),                                                                             |
-|               |                                                                                                                           | \(\{u^i,\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i,v^i\},i\in[m]\),                               |
+|               |                                                                                                                           | \(\{u^i,\tilde{u}_L^i,\tilde{v}_L^i,v^i\},i\in[m]\),                               |
 |               |                                                                                                                           | \(\{v^i,u^{i+1}\},i\in[m-1]\),                                                             |
 |               |                                                                                                                           | \(\{v^m,t\}\)                                                                              |
 |---------------+---------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------|
-| \(\tilde{L}\) | \(s,u_{1,2}^1,v_{1,2}^1,u_{3,4}^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\)                                                 | \(\{s,u_{1,2}^1\}\),                                                                       |
-|               |                                                                                                                           | \(\{u_{1,2}^i,u_1^i,v_1^i,v_{1,2}^i\},i\in[m]\),                                           |
-|               |                                                                                                                           | \(\{v_{1,2}^i,u_{3,4}^i\},i\in[m]\),                                                       |
-|               |                                                                                                                           | \(\{u_{3,4}^i,u_3^i,v_3^i,v_{3,4}^i\},i\in[m]\),                                           |
-|               |                                                                                                                           | \(\{v_{3,4}^i,u_{1,2}^{i+1}\},i\in[m-1]\),                                                 |
-|               |                                                                                                                           | \(\{v_{3,4}^m,t\}\)                                                                        |
+| \(\tilde{L}\) | \(s,u_L^1,v_L^1,u_R^1,v_R^1,u_L^2,\dots,v_R^m,t\)                                                 | \(\{s,u_L^1\}\),                                                                       |
+|               |                                                                                                                           | \(\{u_L^i,u_1^i,v_1^i,v_L^i\},i\in[m]\),                                           |
+|               |                                                                                                                           | \(\{v_L^i,u_R^i\},i\in[m]\),                                                       |
+|               |                                                                                                                           | \(\{u_R^i,u_3^i,v_3^i,v_R^i\},i\in[m]\),                                           |
+|               |                                                                                                                           | \(\{v_R^i,u_L^{i+1}\},i\in[m-1]\),                                                 |
+|               |                                                                                                                           | \(\{v_R^m,t\}\)                                                                        |
 |---------------+---------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------|
 | \(X\)         | \(s,x^1,y^1,x^2,\dots,y^n,t\)                                                                                             | \(\{s,x^1\}\),                                                                             |
 |               |                                                                                                                           | \(\{x^j,x_1^j,y_1^j,y^j\},j\in[n]\),                                                       |
@@ -633,25 +690,25 @@ Using Lemma [[lem:update-flow-network-feasible-if]], we will show that all capac
 |               |                                                                                                                           | \(\{y^n,t\}\)                                                                              |
 |---------------+---------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------|
 | \(R\)         | \(s,u^1,v^1,u^2,\dots,v^m,t\)                                                                                             | \(\{s,u^1\}\),                                                                             |
-|               |                                                                                                                           | \(\{u^i,\tilde{u}_{3,4}^i,\tilde{v}_{3,4}^i,v^i\},i\in[m]\),                               |
+|               |                                                                                                                           | \(\{u^i,\tilde{u}_R^i,\tilde{v}_R^i,v^i\},i\in[m]\),                               |
 |               |                                                                                                                           | \(\{v^i,u^{i+1}\},i\in[m-1]\),                                                             |
 |               |                                                                                                                           | \(\{v^m,t\}\)                                                                              |
 |---------------+---------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------|
-| \(\tilde{R}\) | \(s,u_{1,2}^1,v_{1,2}^1,u_{3,4}^1,v_{3,4}^1,u_{1,2}^2,\dots,v_{3,4}^m,t\)                                                 | \(\{s,u_{1,2}^1\}\),                                                                       |
-|               |                                                                                                                           | \(\{u_{1,2}^i,u_2^i,v_2^i,v_{1,2}^i\},i\in[m]\),                                           |
-|               |                                                                                                                           | \(\{v_{1,2}^i,u_{3,4}^i\},i\in[m]\),                                                       |
-|               |                                                                                                                           | \(\{u_{3,4}^i,u_4^i,v_4^i,v_{3,4}^i\},i\in[m]\),                                           |
-|               |                                                                                                                           | \(\{v_{3,4}^i,u_{1,2}^{i+1}\},i\in[m-1]\),                                                 |
-|               |                                                                                                                           | \(\{v_{3,4}^m,t\}\)                                                                        |
+| \(\tilde{R}\) | \(s,u_L^1,v_L^1,u_R^1,v_R^1,u_L^2,\dots,v_R^m,t\)                                                 | \(\{s,u_L^1\}\),                                                                       |
+|               |                                                                                                                           | \(\{u_L^i,u_2^i,v_2^i,v_L^i\},i\in[m]\),                                           |
+|               |                                                                                                                           | \(\{v_L^i,u_R^i\},i\in[m]\),                                                       |
+|               |                                                                                                                           | \(\{u_R^i,u_4^i,v_4^i,v_R^i\},i\in[m]\),                                           |
+|               |                                                                                                                           | \(\{v_R^i,u_L^{i+1}\},i\in[m-1]\),                                                 |
+|               |                                                                                                                           | \(\{v_R^m,t\}\)                                                                        |
 |---------------+---------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------|
 | \(B\)         | \(s,x^1,y^n,t\)                                                                                                           | \(\{s,x^1\}\), \(\{x^j,y^j,u^i,v^i\mid j\in[n],i\in[m]\}\), \(\{y^n,t\}\)                  |
 |---------------+---------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------|
-| \(\tilde{B}\) | \(s,\tilde{u}_{1,2}^1,\tilde{v}_{1,2}^1,\tilde{u}_{3,4}^1,\tilde{v}_{3,4}^1,\tilde{u}_{1,2}^2,\dots,\tilde{v}_{3,4}^m,t\) | \(\{s,\tilde{u}_{1,2}^1\}\),                                                               |
-|               |                                                                                                                           | \(\{\tilde{u}_{1,2}^i,u_{1,2}^i,v_{1,2}^i,\tilde{v}_{1,2}^i\},i\in[m]\),                   |
-|               |                                                                                                                           | \(\{\tilde{v}_{1,2}^i,\tilde{u}_{3,4}^i\},i\in[m]\),                                       |
-|               |                                                                                                                           | \(\{\tilde{u}_{3,4}^i,u_{3,4}^i,v_{3,4}^i,\tilde{v}_{3,4}^i\},i\in[m]\),                   |
-|               |                                                                                                                           | \(\{\tilde{v}_{3,4}^i,\tilde{u}_{1,2}^{i+1}\},i\in[m-1]\),                                 |
-|               |                                                                                                                           | \(\{\tilde{v}_{3,4}^m,t\}\)                                                                |
+| \(\tilde{B}\) | \(s,\tilde{u}_L^1,\tilde{v}_L^1,\tilde{u}_R^1,\tilde{v}_R^1,\tilde{u}_L^2,\dots,\tilde{v}_R^m,t\) | \(\{s,\tilde{u}_L^1\}\),                                                               |
+|               |                                                                                                                           | \(\{\tilde{u}_L^i,u_L^i,v_L^i,\tilde{v}_L^i\},i\in[m]\),                   |
+|               |                                                                                                                           | \(\{\tilde{v}_L^i,\tilde{u}_R^i\},i\in[m]\),                                       |
+|               |                                                                                                                           | \(\{\tilde{u}_R^i,u_R^i,v_R^i,\tilde{v}_R^i\},i\in[m]\),                   |
+|               |                                                                                                                           | \(\{\tilde{v}_R^i,\tilde{u}_L^{i+1}\},i\in[m-1]\),                                 |
+|               |                                                                                                                           | \(\{\tilde{v}_R^m,t\}\)                                                                |
 |---------------+---------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------|
 | \(B_0\)       | \(s,x_0^1,y_0^1,x_0^2,\dots,y_0^n,t\)                                                                                     | \(\{s,x_0^1\}\),                                                                           |
 |               |                                                                                                                           | \(\{x_0^j,u_{\bar{\pi}(i,j)}^i},v_{\bar{\pi}(i,j)}^i},y_0^j\mid i\in\bar{P}_j\},j\in[n]\), |
@@ -678,19 +735,19 @@ Then:
    For every \(i\in[m]\),
 
    1) @@latex:\label{itm:lem-feasible-block-sequence-properties-2-1}@@
-      \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})<\mathcal{B}(u^i,L)\), and
+      \(\mathcal{B}(\tilde{u}_L^i,\tilde{B})<\mathcal{B}(u^i,L)\), and
    
    2) @@latex:\label{itm:lem-feasible-block-sequence-properties-2-2}@@
-      \(\mathcal{B}(\tilde{u}_{3,4}^i,\tilde{B})<\mathcal{B}(u^i,R)\).
+      \(\mathcal{B}(\tilde{u}_R^i,\tilde{B})<\mathcal{B}(u^i,R)\).
 
 3. @@latex:\label{itm:lem-feasible-block-sequence-properties-3}@@
    For every \(i\in[m]\),
 
    1) @@latex:\label{itm:lem-feasible-block-sequence-properties-3-1}@@
-      \(\mathcal{B}(u_{1,2}^i,\tilde{L})<\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})\) or \(\mathcal{B}(u_{1,2}^i,\tilde{R})<\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})\), and
+      \(\mathcal{B}(u_L^i,\tilde{L})<\mathcal{B}(\tilde{u}_L^i,\tilde{B})\) or \(\mathcal{B}(u_L^i,\tilde{R})<\mathcal{B}(\tilde{u}_L^i,\tilde{B})\), and
 
    2) @@latex:\label{itm:lem-feasible-block-sequence-properties-3-2}@@
-      \(\mathcal{B}(u_{3,4}^i,\tilde{L})<\mathcal{B}(\tilde{u}_{3,4}^i,\tilde{B})\) or \(\mathcal{B}(u_{3,4}^i,\tilde{R})<\mathcal{B}(\tilde{u}_{3,4}^i,\tilde{B})\).
+      \(\mathcal{B}(u_R^i,\tilde{L})<\mathcal{B}(\tilde{u}_R^i,\tilde{B})\) or \(\mathcal{B}(u_R^i,\tilde{R})<\mathcal{B}(\tilde{u}_R^i,\tilde{B})\).
 
 4. @@latex:\label{itm:lem-feasible-block-sequence-properties-4}@@
    For every \(j\in[n]\), \(\mathcal{B}(x^1,B)<\mathcal{B}(x^j,\bar{X})\) or \(\mathcal{B}(x^1,B)<\mathcal{B}(x^j,X)\).
@@ -699,16 +756,16 @@ Then:
    For every \(i\in[m]\) and every \(j\in[n]\),
 
    1) @@latex:\label{itm:lem-feasible-block-sequence-properties-5-1}@@
-      if \(l_{i_1}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_{1,2}^i,\tilde{L})\), and if \(l_{i_1}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_{1,2}^i,\tilde{L})\),
+      if \(l_{i_1}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_L^i,\tilde{L})\), and if \(l_{i_1}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_L^i,\tilde{L})\),
 
    2) @@latex:\label{itm:lem-feasible-block-sequence-properties-5-2}@@
-      if \(l_{i_2}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_{1,2}^i,\tilde{R})\), and if \(l_{i_2}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_{1,2}^i,\tilde{R})\),
+      if \(l_{i_2}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_L^i,\tilde{R})\), and if \(l_{i_2}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_L^i,\tilde{R})\),
 
    3) @@latex:\label{itm:lem-feasible-block-sequence-properties-5-3}@@
-      if \(l_{i_3}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_{3,4}^i,\tilde{L})\), and if \(l_{i_3}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_{3,4}^i,\tilde{L})\),
+      if \(l_{i_3}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_R^i,\tilde{L})\), and if \(l_{i_3}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_R^i,\tilde{L})\),
 
    4) @@latex:\label{itm:lem-feasible-block-sequence-properties-5-4}@@
-      if \(l_{i_4}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_{3,4}^i,\tilde{R})\), and if \(l_{i_4}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_{3,4}^i,\tilde{R})\).
+      if \(l_{i_4}=\bar{x}_j\), then \(\mathcal{B}(x_0^j,B_0)<\mathcal{B}(u_R^i,\tilde{R})\), and if \(l_{i_4}=x_j\), then \(\mathcal{B}(x_1^j,B_1)<\mathcal{B}(u_R^i,\tilde{R})\).
 
 6. @@latex:\label{itm:lem-feasible-block-sequence-properties-6}@@
    For every \(j\in[n]\),
@@ -749,19 +806,19 @@ Hence
 #+latex: \paragraph{\ref{itm:lem-feasible-block-sequence-properties-2}, \ref{itm:lem-feasible-block-sequence-properties-5}, \ref{itm:lem-feasible-block-sequence-properties-6}.}
 We only show \ref{itm:lem-feasible-block-sequence-properties-2-1}; the proofs for \ref{itm:lem-feasible-block-sequence-properties-2-2}, \ref{itm:lem-feasible-block-sequence-properties-5-1}, \ref{itm:lem-feasible-block-sequence-properties-5-2}, \ref{itm:lem-feasible-block-sequence-properties-5-3}, \ref{itm:lem-feasible-block-sequence-properties-5-4}, \ref{itm:lem-feasible-block-sequence-properties-6-1}, and \ref{itm:lem-feasible-block-sequence-properties-6-2} are similar.
 Suppose not.
-Then obtain \(i\in[m]\) such that \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})\geq\mathcal{B}(u^i,L)\).
-We show that the capacity constraint for edge \((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)\) is violated for round \(\mathcal{B}(u^i,L)\).
+Then obtain \(i\in[m]\) such that \(\mathcal{B}(\tilde{u}_L^i,\tilde{B})\geq\mathcal{B}(u^i,L)\).
+We show that the capacity constraint for edge \((\tilde{u}_L^i,\tilde{v}_L^i)\) is violated for round \(\mathcal{B}(u^i,L)\).
 
 We have that
 
-1. \(\alpha_{\tilde{B}}((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)-1})=\mathrm{active}\), since \(b(\tilde{u}_{1,2}^i,\tilde{B})\notin B_{\mathcal{B}(u^i,L)-1}\) and \((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)\in E(\tilde{B}^o)\), and
+1. \(\alpha_{\tilde{B}}((\tilde{u}_L^i,\tilde{v}_L^i),B_{\mathcal{B}(u^i,L)-1})=\mathrm{active}\), since \(b(\tilde{u}_L^i,\tilde{B})\notin B_{\mathcal{B}(u^i,L)-1}\) and \((\tilde{u}_L^i,\tilde{v}_L^i)\in E(\tilde{B}^o)\), and
 
-2. \(\alpha_L((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)})=\mathrm{active}\), since \(b(\tilde{u}_{1,2}^i,L)=b(u^i,L)\in B_{\mathcal{B}(u^i,L)}\) and \((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)\in E(L^u)\).
+2. \(\alpha_L((\tilde{u}_L^i,\tilde{v}_L^i),B_{\mathcal{B}(u^i,L)})=\mathrm{active}\), since \(b(\tilde{u}_L^i,L)=b(u^i,L)\in B_{\mathcal{B}(u^i,L)}\) and \((\tilde{u}_L^i,\tilde{v}_L^i)\in E(L^u)\).
 
 Hence
 \begin{align*}
-\lvert\{P\in\mathcal{P}\mid&\alpha_P((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)-1})=\mathrm{active}\text{ or }\\
-&\alpha_P((\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i),B_{\mathcal{B}(u^i,L)})=\mathrm{active}\}\rvert\geq\lvert\{\tilde{B},L\}\rvert=2>1=c(\tilde{u}_{1,2}^i,\tilde{v}_{1,2}^i)
+\lvert\{P\in\mathcal{P}\mid&\alpha_P((\tilde{u}_L^i,\tilde{v}_L^i),B_{\mathcal{B}(u^i,L)-1})=\mathrm{active}\text{ or }\\
+&\alpha_P((\tilde{u}_L^i,\tilde{v}_L^i),B_{\mathcal{B}(u^i,L)})=\mathrm{active}\}\rvert\geq\lvert\{\tilde{B},L\}\rvert=2>1=c(\tilde{u}_L^i,\tilde{v}_L^i)
 \end{align*}
 
 #+latex: \paragraph{\ref{itm:lem-feasible-block-sequence-properties-4}.}
@@ -804,22 +861,22 @@ Consider round \(\mathcal{B}(x^1,B)\).
 By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-1}, \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,L)\) or \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,R)\).
 We only consider the former case \(\mathcal{B}(x^1,B)>\mathcal{B}(u^i,L)\); the latter one is analogous.
 
-By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-2-1}, \(\mathcal{B}(u^i,L)>\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})\).
-By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-3-1}, \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{L})\) or \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{R})\).
-We only consider the latter case \(\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>\mathcal{B}(u_{1,2}^i,\tilde{R})\); the former one is analogous.
+By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-2-1}, \(\mathcal{B}(u^i,L)>\mathcal{B}(\tilde{u}_L^i,\tilde{B})\).
+By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-3-1}, \(\mathcal{B}(\tilde{u}_L^i,\tilde{B})>\mathcal{B}(u_L^i,\tilde{L})\) or \(\mathcal{B}(\tilde{u}_L^i,\tilde{B})>\mathcal{B}(u_L^i,\tilde{R})\).
+We only consider the latter case \(\mathcal{B}(\tilde{u}_L^i,\tilde{B})>\mathcal{B}(u_L^i,\tilde{R})\); the former one is analogous.
 
 Let \(x_j\) be the variable corresponding to literal \(l_{i_2}\).
 We consider the cases \(l_{i_2}=\bar{x}_j\) and \(l_{i_2}=x_j\) separately.
 
 Case \(l_{i_2}=\bar{x}_j\).
-By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_{1,2}^i,\tilde{R})>\mathcal{B}(x_0^j,B_0)\).
+By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_L^i,\tilde{R})>\mathcal{B}(x_0^j,B_0)\).
 By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-6-1}, \(\mathcal{B}(x_0^j,B_0)>\mathcal{B}(x^j,\bar{X})\).
 Putting everything together yields the following chain of inequalities:
 \[
 \mathcal{B}(x^1,B)>
 \mathcal{B}(u^i,L)>
-\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>
-\mathcal{B}(u_{1,2}^i,\tilde{R})>
+\mathcal{B}(\tilde{u}_L^i,\tilde{B})>
+\mathcal{B}(u_L^i,\tilde{R})>
 \mathcal{B}(x_0^j,B_0)>
 \mathcal{B}(x^j,\bar{X})
 \]
@@ -827,14 +884,14 @@ Hence, by definition of our assignment, variable \(x_j\) is assigned \(0\).
 Hence literal \(l_{i_2}=\bar{x}_j\) evaluates to \(1\).
 
 Case \(l_{i_2}=x_j\).
-By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_{1,2}^i,\tilde{R})>\mathcal{B}(x_1^j,B_1)\).
+By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-5-2}, \(\mathcal{B}(u_L^i,\tilde{R})>\mathcal{B}(x_1^j,B_1)\).
 By Lemma [[lem:feasible-block-sequence-properties]] \ref{itm:lem-feasible-block-sequence-properties-6-2}, \(\mathcal{B}(x_1^j,B_1)>\mathcal{B}(x^j,X)\).
 Putting everything together yields the following chain of inequalities:
 \[
 \mathcal{B}(x^1,B)>
 \mathcal{B}(u^i,L)>
-\mathcal{B}(\tilde{u}_{1,2}^i,\tilde{B})>
-\mathcal{B}(u_{1,2}^i,\tilde{R})>
+\mathcal{B}(\tilde{u}_L^i,\tilde{B})>
+\mathcal{B}(u_L^i,\tilde{R})>
 \mathcal{B}(x_1^j,B_1)>
 \mathcal{B}(x^j,X)
 \]
@@ -869,27 +926,27 @@ We now specify \(\mathscr{B}_1,\dots,\mathscr{B}_{11}\) in detail.
 
 3. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\),
 
-   1) if \(l_{i_1}\) evaluates to \(1\), we add block \(b(u_{1,2}^i,\tilde{L})\) to \(\mathscr{B}_3\),
+   1) if \(l_{i_1}\) evaluates to \(1\), we add block \(b(u_L^i,\tilde{L})\) to \(\mathscr{B}_3\),
 
-   2) if \(l_{i_2}\) evaluates to \(1\), we add \(b(u_{1,2}^i,\tilde{R})\),
+   2) if \(l_{i_2}\) evaluates to \(1\), we add \(b(u_L^i,\tilde{R})\),
 
-   3) if \(l_{i_3}\) evaluates to \(1\), we add \(b(u_{3,4}^i,\tilde{L})\), and
+   3) if \(l_{i_3}\) evaluates to \(1\), we add \(b(u_R^i,\tilde{L})\), and
 
-   4) if \(l_{i_4}\) evaluates to \(1\), we add \(b(u_{3,4}^i,\tilde{R})\).
+   4) if \(l_{i_4}\) evaluates to \(1\), we add \(b(u_R^i,\tilde{R})\).
 
    That is,
    \begin{align*}
-   \mathscr{B}_3=&\{b(u_{1,2}^i,\tilde{L})\mid\sigma(l_{i_1})=1\}\cup
-   \{b(u_{1,2}^i,\tilde{R})\mid\sigma(l_{i_2})=1\}\cup\\
-   &\{b(u_{3,4}^i,\tilde{L})\mid\sigma(l_{i_3})=1\}\cup
-   \{b(u_{3,4}^i,\tilde{R})\mid\sigma(l_{i_4})=1\}.
+   \mathscr{B}_3=&\{b(u_L^i,\tilde{L})\mid\sigma(l_{i_1})=1\}\cup
+   \{b(u_L^i,\tilde{R})\mid\sigma(l_{i_2})=1\}\cup\\
+   &\{b(u_R^i,\tilde{L})\mid\sigma(l_{i_3})=1\}\cup
+   \{b(u_R^i,\tilde{R})\mid\sigma(l_{i_4})=1\}.
    \end{align*}
    
-4. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is satisfied, we add block \(b(\tilde{u}_{1,2}^i,\tilde{B})\) to \(\mathscr{B}_4\), and if the right half \((l_{i_3}\vee l_{i_4})\) is satisfied, we add \(b(\tilde{u}_{3,4}^i,\tilde{B})\).
+4. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is satisfied, we add block \(b(\tilde{u}_L^i,\tilde{B})\) to \(\mathscr{B}_4\), and if the right half \((l_{i_3}\vee l_{i_4})\) is satisfied, we add \(b(\tilde{u}_R^i,\tilde{B})\).
    That is,
    \begin{align*}
-   \mathscr{B}_4=&\{b(\tilde{u}_{1,2}^i,\tilde{B})\mid\sigma(l_{i_1})=1\text{ or }\sigma(l_{i_2})=1\}\cup\\
-   &\{b(\tilde{u}_{3,4}^i,\tilde{B})\mid\sigma(l_{i_3})=1\text{ or }\sigma(l_{i_4})=1\}.
+   \mathscr{B}_4=&\{b(\tilde{u}_L^i,\tilde{B})\mid\sigma(l_{i_1})=1\text{ or }\sigma(l_{i_2})=1\}\cup\\
+   &\{b(\tilde{u}_R^i,\tilde{B})\mid\sigma(l_{i_3})=1\text{ or }\sigma(l_{i_4})=1\}.
    \end{align*}
    
 5. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is satisfied, we add block \(b(u^i,L)\) to \(\mathscr{B}_5\), and if the right half \((l_{i_3}\vee l_{i_4})\) is satisfied, we add \(b(u^i,R)\).
@@ -915,27 +972,27 @@ We now specify \(\mathscr{B}_1,\dots,\mathscr{B}_{11}\) in detail.
 
 9. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\),
 
-   1) if \(l_{i_1}\) evaluates to \(0\), we add block \(b(u_{1,2}^i,\tilde{L})\) to \(\mathscr{B}_9\),
+   1) if \(l_{i_1}\) evaluates to \(0\), we add block \(b(u_L^i,\tilde{L})\) to \(\mathscr{B}_9\),
 
-   2) if \(l_{i_2}\) evaluates to \(0\), we add \(b(u_{1,2}^i,\tilde{R})\),
+   2) if \(l_{i_2}\) evaluates to \(0\), we add \(b(u_L^i,\tilde{R})\),
 
-   3) if \(l_{i_3}\) evaluates to \(0\), we add \(b(u_{3,4}^i,\tilde{L})\), and
+   3) if \(l_{i_3}\) evaluates to \(0\), we add \(b(u_R^i,\tilde{L})\), and
 
-   4) if \(l_{i_4}\) evaluates to \(0\), we add \(b(u_{3,4}^i,\tilde{R})\).
+   4) if \(l_{i_4}\) evaluates to \(0\), we add \(b(u_R^i,\tilde{R})\).
 
    That is,
    \begin{align*}
-   \mathscr{B}_9=&\{b(u_{1,2}^i,\tilde{L})\mid\sigma(l_{i_1})=0\}\cup
-   \{b(u_{1,2}^i,\tilde{R})\mid\sigma(l_{i_2})=0\}\cup\\
-   &\{b(u_{3,4}^i,\tilde{L})\mid\sigma(l_{i_3})=0\}\cup
-   \{b(u_{3,4}^i,\tilde{R})\mid\sigma(l_{i_4})=0\}.
+   \mathscr{B}_9=&\{b(u_L^i,\tilde{L})\mid\sigma(l_{i_1})=0\}\cup
+   \{b(u_L^i,\tilde{R})\mid\sigma(l_{i_2})=0\}\cup\\
+   &\{b(u_R^i,\tilde{L})\mid\sigma(l_{i_3})=0\}\cup
+   \{b(u_R^i,\tilde{R})\mid\sigma(l_{i_4})=0\}.
    \end{align*}
 
-1. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is unsatisfied, we add block \(b(\tilde{u}_{1,2}^i,\tilde{B})\) to \(\mathscr{B}_{10}\), and if the right half \((l_{i_3}\vee l_{i_4})\) is unsatisfied, we add \(b(\tilde{u}_{3,4}^i,\tilde{B})\).
+1. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is unsatisfied, we add block \(b(\tilde{u}_L^i,\tilde{B})\) to \(\mathscr{B}_{10}\), and if the right half \((l_{i_3}\vee l_{i_4})\) is unsatisfied, we add \(b(\tilde{u}_R^i,\tilde{B})\).
    That is,
    \begin{align*}
-   \mathscr{B}_{10}=&\{b(\tilde{u}_{1,2}^i,\tilde{B})\mid\sigma(l_{i_1})=0\text{ and }\sigma(l_{i_2})=0\}\cup\\
-   &\{b(\tilde{u}_{3,4}^i,\tilde{B})\mid\sigma(l_{i_3})=0\text{ and }\sigma(l_{i_4})=0\}.
+   \mathscr{B}_{10}=&\{b(\tilde{u}_L^i,\tilde{B})\mid\sigma(l_{i_1})=0\text{ and }\sigma(l_{i_2})=0\}\cup\\
+   &\{b(\tilde{u}_R^i,\tilde{B})\mid\sigma(l_{i_3})=0\text{ and }\sigma(l_{i_4})=0\}.
    \end{align*}
 
 1. For every clause \(C_i=(l_{i_1}\vee l_{i_2}\vee l_{i_3}\vee l_{i_4})\), if the left half \((l_{i_1}\vee l_{i_2})\) of \(C_i\) is unsatisfied, we add block \(b(u^i,L)\) to \(\mathscr{B}_{11}\), and if the right half \((l_{i_3}\vee l_{i_4})\) is unsatisfied, we add \(b(u^i,R)\).
@@ -1092,6 +1149,8 @@ The key insight is that it is indeed sufficient to consider such blocks.
 2. @@latex:\label{itm:lem-p-blocks-2}@@
    For every \(\tilde{P}\in\tilde{\mathcal{P}}\setminus\{\tilde{F}\}\) and every \(\tilde{u}\in\tilde{V}(\tilde{P}^o\cup\tilde{P}^u)\), \(\tilde{b}(\tilde{u},\tilde{P})=b(\tilde{u},\tilde{P})\).
 #+end_lem
+
+- [ ] I'm pretty sure we have to exclude \(\tilde{u}=s\) in \ref{itm:lem-p-blocks-1-1}.
 
 #+begin_remark
 The proof is very technical and tedious--and hence omitted for now--and I hope we can come up with a better characterization of blocks (see [[file:../README.org::*Open problems]]) which significantly simplifies the proof.
@@ -1339,40 +1398,64 @@ Before we will prove how to find a feasible block sequence in section _, we will
 There is an algorithm that, given an update flow network \(G\) with \(k\) flow pairs and a nice tree decomposition of \(G\) with \(O(n)\) nodes and width \(\ell-1\), decides whether there is a feasible block sequence for \(G\) in time \(O((k\ell)!k\ell n^2)\).
 #+end_thm
 
-Let \(G\) be an update flow network with \(k\) flow pairs and \((T,\mathcal{X}=\{X_x\}_{x\in V(T)})\) be a nice tree decomposition of \(G\) with \(O(n)\) nodes and width \(\ell-1\).
+Let \(G\) be an update flow network with \(k\) flow pairs and \((T,\{X_x\mid x\in V(T)\})\) be a nice tree decomposition of \(G\) with \(O(n)\) nodes and width \(\ell-1\).
 For a node \(x\in V(T)\), we denote by \(V_x\) the union of all bags \(X_y\) with \(y=x\) or \(y\) is a descendant of \(x\) in \(T\), and by \(G_x=(V_x,E(V_x))\) the subgraph of \(G\) induced by \(V_x\).
 
-- [ ] Extract notation?
+- [ ] Remove \(G_x\)?
 
 
-For every node \(x\in V(T)\), we compute a table \(D_x\) which contains a value \(D_x[\pi]\) for every \(X_x\)-permutation \(\pi\), that is, for every permutation of the blocks \(\bigcup_{P\in\mathcal{P},v\in X_x}\{b(v,P)\}\) induced by \(X_x\).
-Hence \(D_x\) contains at most \((k\lvert X_x\rvert)!\leq(k\ell)!\) values.
-Every value \(D_x[\pi]\) is a bit indicating whether \(X_x\)-permutation \(\pi\) can be extended to a \(V_x\)-feasible permutation.
+The dynamic programming algorithm proceeds as follows.
+For every node \(x\in V(T)\), the algorithm computes a table \(D_x\) which contains an entry \(D_x[\pi]\) for every \(X_x\)-permutation \(\pi\).
+Every entry \(D_x[\pi]\) is a single bit indicating whether \(X_x\)-permutation \(\pi\) can be extended to a \(V_x\)-feasible permutation.
+This is done in bottom-up order, that is, the table of node \(x\) is computed after the tables of all descendants of \(x\) have been computed.
+In particular, to compute the table of node \(x\), the algorithm uses the tables of the children of \(x\).
+After all tables have been computed, the algorithm can decide if there is a feasible block sequence for update flow network \(G\) as follows.
+
+#+name: lem:root
+#+begin_lem
+Let \(r\) be the root of tree \(T\). Then there is a feasible block sequence for update flow network \(G\) iff \(D_r[\pi]=1\) for some \(X_r\)-permutation \(\pi\).
+#+end_lem
+
+#+begin_proof
+The lemma follows immediately from \(V_r=V(G)\).
+#+end_proof
+
+In Sections _, _, _, and _, we show how to compute the table of a node in \(O((k\ell)!k\ell n)\) time for each of the four node types leaf, introduce, forget, join, before we prove Theorem [[thm:algorithm-bounded-treewidth-decision]] in Section _.
 
 - [ ] What about empty permutations, that is, if \(X_x\subseteq\{t\}\)?
 
 - [ ] Argue somewhere that every vertex is contained in at most \(k\) blocks.
-  
-
-The algorithm computes for every node \(x\in V(T)\) the table \(D_x\).
-This is done in bottom-up order, that is, the table for node \(x\) is computed after the tables for all descendants of \(x\) have been computed.
-In particular, to compute the table for node \(x\), we use the tables for the children of \(x\).
 
 *** Leaf Nodes
 
+#+name: lem:leaf-nodes
+#+begin_lem
+Let \(x\in V(T)\) be a leaf node and \(\pi\) be an \(X_x\)-permutation.
+Then \(D_x[\pi]=1\).
+#+end_lem
+
+#+begin_proof
 Let \(x\in V(T)\) be a leaf node.
 Then bag \(X_x\) contains a single vertex and \(V_x=X_x\).
 Hence \(V_x\) does not induce any edges.
 Hence every \(X_x\)-permutation is \(V_x\)-feasible.
-Thus we can set \(D_x[\pi]=1\) for every \(X_x\)-permutation \(\pi\).
+Thus \(D_x[\pi]=1\) for every \(X_x\)-permutation \(\pi\).
+#+end_proof
 
-Hence each of the at most \((k\lvert X_x\rvert)!=k!\) entries of table \(D_x\) can be computed in \(O(1)\) time.
-Thus the entire table for a leaf node can be computed in \(O(k!)\) time.
+#+name: lem:leaf-nodes-running-time
+#+begin_lem
+Let \(x\in V(T)\) be a leaf node.
+Then the table of \(x\) can be computed in time \(O(k!)\).
+#+end_lem
+
+#+begin_proof
+Let \(x\in V(T)\) be a leaf node.
+Then bag \(X_x\) contains a single vertex.
+Hence, by Lemma [[lem:leaf-nodes]], each of the at most \((k\lvert X_x\rvert)!=k!\) entries of the table of \(x\) can be computed in \(O(1)\) time.
+Thus the entire table of \(x\) can be computed in \(O(k!)\) time.
+#+end_proof
 
 *** Introduce Nodes
-
-Let \(x\in V(T)\) be an introduce node with child \(y\).
-Then \(X_x\supseteq X_y\) and \(V_x=X_x\cup V_y\).
 
 #+name: lem:blocks-induce-subtrees
 #+begin_lem
@@ -1495,15 +1578,17 @@ Whether \(\pi\) is \(X\)-feasible can be determined in time \(O(\lvert\pi\rvert\
 
 - [ ] Do we have to change the running time of the algorithm to use \(\lvert G\rvert\) instead of \(n\)?
 
-#+attr_latex: :options [Introduce nodes]
+#+attr_latex: :options
 #+name: lem:introduce-nodes
 #+begin_lem
-Let \(\pi\) be an \(X_x\)-permutation and \(\pi'\) be the \(X_y\)-restriction of \(\pi\).
+Let \(x\in V(T)\) be an introduce node with child \(y\), \(\pi\) be an \(X_x\)-permutation, and \(\pi'\) be the \(X_y\)-restriction of \(\pi\).
 Then \(D_x[\pi]=1\) iff \(\pi\) is \(X_x\)-feasible and \(D_y[\pi']=1\).
 #+end_lem
 
 #+begin_proof
-Let \(\pi_{X_x}\) be an \(X_x\)-permutation and \(\pi_{X_y}\) be the \(X_y\)-restriction of \(\pi_{X_x}\).
+Let \(x\in V(T)\) be an introduce node with child \(y\).
+Then \(X_x\supseteq X_y\) and \(V_x=X_x\cup V_y\).
+Moreover, let \(\pi_{X_x}\) be an \(X_x\)-permutation and \(\pi_{X_y}\) be the \(X_y\)-restriction of \(\pi_{X_x}\).
 
 #+latex: \paragraph{If part.}
 Suppose \(D_x[\pi_{X_x}]=1\).
@@ -1529,26 +1614,34 @@ If \(\pi_{X_y}(b)<\pi_{X_y}(b')\), then \(\pi_{V_y}\) is not an extension of \(\
 If \(\pi_{X_y}(b)>\pi_{X_y}(b')\), then \(\pi_{X_y}\) is not a restriction of \(\pi_{X_x}\).
 #+end_proof
 
-Lemma [[lem:introduce-nodes]] shows how to compute the table for an introduce node \(x\) when we have the table for its child.
-By Lemma [[lem:algorithm-x-feasible-permutation]], we can determine whether permutation \(\pi\) is feasible in \(O(\lvert\pi\rvert\cdot\lvert G\rvert)\) time.
-Moreover, we can compute any restriction of \(\pi\) in \(O(\lvert\pi\rvert)\) time.
-Hence each of the at most \((k\lvert X_x\rvert)!\) entries of table \(D_x\) can be computed in \(O(k\lvert X_x\rvert\cdot\lvert G\rvert)\) time.
-Thus we can compute the entire table for an introduce node \(x\) in \(O((k\lvert X_x\rvert)!k\lvert X_x\rvert\cdot\lvert G\rvert)\) time.
+#+name: lem:introduce-nodes-running-time
+#+begin_lem
+Let \(x\in V(T)\) be an introduce node with child \(y\).
+Given the table of \(y\), the table of \(x\) can be computed in time \(O((k\lvert X_x\rvert)!k\lvert X_x\rvert n)\).
+#+end_lem
+
+#+begin_proof
+Let \(x\in V(T)\) be an introduce node with child \(y\).
+Lemma [[lem:introduce-nodes]] shows how to compute the table of \(x\) given the table of \(y\).
+By Lemma [[lem:algorithm-x-feasible-permutation]], we can determine whether a permutation \(\pi\) is feasible in \(O(\lvert\pi\rvert n)\) time.
+Moreover, we can compute any restriction of a permutation \(\pi\) in \(O(\lvert\pi\rvert)\) time.
+Hence each of the at most \((k\lvert X_x\rvert)!\) entries of the table of introduce node \(x\) can be computed in \(O(k\lvert X_x\rvert n)\) time.
+Thus the entire table of \(x\) can be computed in \(O((k\lvert X_x\rvert)!k\lvert X_x\rvert n)\) time.
+#+end_proof
 
 - [ ] Do we have to argue that any restriction of permutation \(\pi\) can be computed in \(O(\lvert\pi\rvert)\) time?
 
 *** Forget nodes
 
-Let \(x\in V(T)\) be a forget node with child \(y\). Then \(X_x\subseteq X_y\) and hence \(V_x=V_y\).
-
-#+attr_latex: :options [Forget nodes]
 #+name: lem:forget-nodes
 #+begin_lem
-Let \(\pi\) be an \(X_x\)-permutation. Then \(D_x[\pi]=1\) iff \(D_y[\pi']=1\) for some \(X_y\)-extension \(\pi'\) of \(\pi\).
+Let \(x\in V(T)\) be a forget node with child \(y\) and \(\pi\) be an \(X_x\)-permutation. Then \(D_x[\pi]=1\) iff \(D_y[\pi']=1\) for some \(X_y\)-extension \(\pi'\) of \(\pi\).
 #+end_lem
 
 #+begin_proof
-Let \(\pi_{X_x}\) be an \(X_x\)-permutation.
+Let \(x\in V(T)\) be a forget node with child \(y\).
+Then \(X_x\subseteq X_y\) and hence \(V_x=V_y\).
+Moreover, let \(\pi_{X_x}\) be an \(X_x\)-permutation.
 The lemma follows from the following observation:
 Since \(X_x\subseteq X_y\subseteq V_y=V_x\), every \(V_x\)-extension of \(\pi_{X_x}\) is the \(V_y\)-extension of some \(X_y\)-extension of \(\pi_{X_x}\).
 
@@ -1578,19 +1671,28 @@ Moreover, since \(V_x=V_y\), \(\pi_{V_y}\) is a \(V_x\)-feasible extension of \(
 - [ ] Fix rendering.
 
 
-Rather than computing the table for a forget node \(x\) given the table for its child \(y\) in the obvious way suggested by Lemma [[lem:forget-nodes]], we use the fact that permutation \(\pi'\) is an \(X_y\)-extension of \(X_x\)-permutation \(\pi\) iff \(\pi\) is the \(X_x\)-restriction of \(\pi'\) and compute the table for \(x\) using Algorithm [[alg:forget-nodes]].
+#+name: lem:forget-nodes-running-time
+#+begin_lem
+Let \(x\in V(T)\) be a forget node with child \(y\).
+Given the table of \(y\), the table of \(x\) can be computed in time \(O((k\lvert X_y\rvert)!k\lvert X_y\rvert)\).
+#+end_lem
 
-Let us quickly argue that, given a forget node \(x\) and the table for its child \(y\), the output \(D_x\) of Algorithm [[alg:forget-nodes]] satisfies Lemma [[lem:forget-nodes]].
+#+begin_proof
+Let \(x\in V(T)\) be a forget node with child \(y\).
+Then \(X_x\subseteq X_y\).
+Lemma [[lem:forget-nodes]] shows how to compute table \(D_x\) given \(D_y\).
+Notice, however, that an \(X_x\)-permutation may have many \(X_y\)-extensions, whereas an \(X_y\)-permutation has a unique \(X_x\)-restriction.
+Hence we use the fact that permutation \(\pi'\) is an \(X_y\)-extension of \(X_x\)-permutation \(\pi\) iff \(\pi\) is the \(X_x\)-restriction of \(\pi'\) and compute table \(D_x\) using Algorithm [[alg:forget-nodes]].
+
+We show that, given forget node \(x\) and table \(D_y\), the output \(D_x\) of Algorithm [[alg:forget-nodes]] satisfies Lemma [[lem:forget-nodes]].
 Let \(\pi\) be an \(X_x\)-permutation.
 If \(D_x[\pi]=0\), then \(D_x[\pi]\) was not set to \(1\) in Line \ref{line:alg-forget-nodes-1} and hence \(\pi\) is not the \(X_x\)-restriction of any \(X_y\)-permutation \(\pi'\) with \(D_y[\pi']=1\), which is the case iff there is no \(X_y\)-extension \(\pi'\) of \(\pi\) with \(D_y[\pi']=1\).
 If, on the other hand, \(D_x[\pi]=1\), then there is an \(X_y\)-permutation \(\pi'\) with \(D_y[\pi']=1\) such that \(\pi\) is the \(X_x\)-restriction of \(\pi'\), which is the case iff there is an \(X_y\)-extension \(\pi'\) of \(\pi\) with \(D_y[\pi']=1\).
 
-Since we can compute any restriction of permutation \(\pi'\) in \(O(\lvert\pi'\rvert)\) time, Algorithm [[alg:forget-nodes]] computes the table for a forget node \(x\) given the table for its child \(y\) in \(O((k\lvert X_x\rvert)!+(k\lvert X_y\rvert)!k\lvert X_y\rvert)=O((k\lvert X_y\rvert)!k\lvert X_y\rvert)\) time.
+Since we can compute any restriction of a permutation \(\pi'\) in \(O(\lvert\pi'\rvert)\) time, Algorithm [[alg:forget-nodes]] computes the table of forget node \(x\) given the table of its child \(y\) in \(O((k\lvert X_x\rvert)!+(k\lvert X_y\rvert)!k\lvert X_y\rvert)=O((k\lvert X_y\rvert)!k\lvert X_y\rvert)\) time.
+#+end_proof
 
 *** Join nodes
-
-Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\).
-Then \(X_{y_1}=X_x=X_{y_2}\) and hence \(V_x=X_x\cup V_{y_1}\cup V_{y_2}=V_{y_1}\cup V_{y_2}\).
 
 #+name: lem:join-nodes-edges-v-x
 #+begin_lem
@@ -1602,15 +1704,16 @@ Then \(X_{y_1}=X_x=X_{y_2}\) and hence \(V_x=X_x\cup V_{y_1}\cup V_{y_2}=V_{y_1}
 #+begin_proof
 #+end_proof
 
-#+attr_latex: :options [Join nodes]
 #+name: lem:join-nodes
 #+begin_lem
-Let \(\pi\) be an \(X_x\)-permutation.
+Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\) and \(\pi\) be an \(X_x\)-permutation.
 Then \(D_x[\pi]=1\) iff both \(D_{y_1}[\pi]=1\) and \(D_{y_2}[\pi]=1\).
 #+end_lem
 
 #+begin_proof
-Let \(\pi_{X_x}\) be an \(X_x\)-permutation.
+Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\).
+Then \(X_{y_1}=X_x=X_{y_2}\) and hence \(V_x=X_x\cup V_{y_1}\cup V_{y_2}=V_{y_1}\cup V_{y_2}\).
+Moreover, let \(\pi_{X_x}\) be an \(X_x\)-permutation.
 
 #+latex: \paragraph{If part.}
 Suppose \(D_x[\pi_{X_x}]=1\).
@@ -1637,9 +1740,18 @@ If \(\pi_{X_x}(b)<\pi_{X_x}(b')\), then \(\pi_{V_{y_2}}\) is not an extension of
 If \(\pi_{X_x}(b)>\pi_{X_x}(b')\), then \(\pi_{V_{y_1}}\) is not an extension of \(\pi_{X_x}\).
 #+end_proof
 
-Lemma [[lem:join-nodes]] shows how to compute the table for a join node \(x\) when we have the tables for both its children \(y_1\) and \(y_2\).
-Hence each of the at most \((k\lvert X_x\rvert)!\) entries of table \(D_x\) can be computed in \(O(1)\) time.
-Thus we can compute the entire table for a join node \(x\) in \(O((k\lvert X_x\rvert)!)\) time.
+#+name: lem:join-nodes-running-time
+#+begin_lem
+Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\).
+Given the tables of \(y_1,y_2\), the table of \(x\) can be computed in time \(O((k\lvert X_x\rvert)!)\).
+#+end_lem
+
+#+begin_proof
+Let \(x\in V(T)\) be a join node with children \(y_1\) and \(y_2\).
+Lemma [[lem:join-nodes]] shows how to compute the table of \(x\) given the tables of both \(y_1\) and \(y_2\).
+Hence each of the at most \((k\lvert X_x\rvert)!\) entries of the table of \(x\) can be computed in \(O(1)\) time.
+Thus the entire table of \(x\) can be computed in \(O((k\lvert X_x\rvert)!)\) time.
+#+end_proof
 
 *** Putting everything together
 
